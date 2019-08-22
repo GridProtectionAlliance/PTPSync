@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="ConfigurationSetupUtility.Screens.ApplyConfigurationChangesScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=FrameworkElement, AncestorLevel=1}, Path=ActualWidth}">
+    <DockPanel>
+        <Label Content="Apply configuration changes" DockPanel.Dock="Top" Margin="10" HorizontalContentAlignment="Center" FontSize="16" FontWeight="Bold" />
+        <StackPanel DockPanel.Dock="Bottom">
+            <TextBlock Height="23" Text="Apply configuration changes to:" Margin="10" TextWrapping="Wrap" TextAlignment="Center" />
+            <StackPanel HorizontalAlignment="Center" Width="220">
+                <CheckBox Content="PTPSync Windows service" Height="16" IsChecked="True" HorizontalAlignment="Left" Checked="PTPSyncServiceCheckBox_Checked" Unchecked="PTPSyncServiceCheckBox_Unchecked" Name="m_PTPSyncServiceCheckBox" />
+                <CheckBox Content="PTPSync Manager (local application)" Height="16" IsChecked="True" HorizontalAlignment="Left" Checked="PTPSyncManagerLocalCheckBox_Checked" Unchecked="PTPSyncManagerLocalCheckBox_Unchecked" Name="m_PTPSyncManagerLocalCheckBox" />
+                <CheckBox Content="PTPSync Manager (web application)" Height="16" IsChecked="True" HorizontalAlignment="Left" Checked="PTPSyncManagerWebCheckBox_Checked" Unchecked="PTPSyncManagerWebCheckBox_Unchecked" Name="m_PTPSyncManagerWebCheckBox" />
+                <Line Stretch="Fill"  Stroke="DarkGray" X2="1" Margin="0,10" Name="m_horizontalRule" />
+                <CheckBox Content="Setup / change primary historian" Height="16" HorizontalAlignment="Left" Checked="SetupHistorianCheckBox_Checked" Unchecked="SetupHistorianCheckBox_Unchecked" Name="m_setupHistorianCheckBox" />
+            </StackPanel>
+        </StackPanel>
+    </DockPanel>
+</UserControl>

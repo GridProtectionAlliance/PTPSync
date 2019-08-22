@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ptpd-codeblocks" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\ptpd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DPTPD_DBGV" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\ptpd" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+			<Target title="WinPCAP Debug">
+				<Option output="bin\WPcapDebug\ptpd-wpcap" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\WPcapDebug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DPTPD_DBGV" />
+					<Add option="-DPCAP" />
+					<Add directory="$(#wpcap.include)" />
+				</Compiler>
+				<Linker>
+					<Add library="wpcap" />
+					<Add directory="$(#wpcap.lib)" />
+				</Linker>
+			</Target>
+			<Target title="WinPCAP Release">
+				<Option output="bin\WPcapRelease\ptpd-wpcap" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\WPcapRelease\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DPCAP" />
+					<Add directory="$(#wpcap.include)" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="wpcap" />
+					<Add directory="$(#wpcap.lib)" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add library="ws2_32" />
+			<Add library="iphlpapi" />
+		</Linker>
+		<Unit filename="..\..\src\arith.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\bmc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\constants.h" />
+		<Unit filename="..\..\src\datatypes.h" />
+		<Unit filename="..\..\src\dep\constants_dep.h" />
+		<Unit filename="..\..\src\dep\constants_win32.h" />
+		<Unit filename="..\..\src\dep\datatypes_dep.h" />
+		<Unit filename="..\..\src\dep\msg.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\net.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\net_win32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\ptpd_dep.h" />
+		<Unit filename="..\..\src\dep\servo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\startup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\sys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\sys_win32.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\dep\timer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\display.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\protocol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\ptpd.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="..\..\src\ptpd.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

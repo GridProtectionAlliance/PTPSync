@@ -1,0 +1,71 @@
+BLUE:
+            <GradientStop Color="#FF032236" Offset="0"/>
+            <GradientStop Color="#FF095188" Offset="0.20"/>
+            <GradientStop Color="#FF032236" Offset="0.35"/>
+            <GradientStop Color="#FF095188" Offset="0.50"/>
+            <GradientStop Color="#FF032236" Offset="0.65"/>
+            <GradientStop Color="#FF095188" Offset="0.80"/>
+            <GradientStop Color="#FF032236" Offset="1"/>
+
+GREEN:
+            <GradientStop Color="#FF082211" Offset="0"/>
+            <GradientStop Color="#FF105533" Offset="0.20"/>
+            <GradientStop Color="#FF082211" Offset="0.35"/>
+            <GradientStop Color="#FF105533" Offset="0.50"/>
+            <GradientStop Color="#FF082211" Offset="0.65"/>
+            <GradientStop Color="#FF105533" Offset="0.80"/>
+            <GradientStop Color="#FF082211" Offset="1"/>
+
+BROWN:
+            <GradientStop Color="#FF551010" Offset="0"/>
+            <GradientStop Color="#FF881818" Offset="0.20"/>
+            <GradientStop Color="#FF551010" Offset="0.35"/>
+            <GradientStop Color="#FF881818" Offset="0.50"/>
+            <GradientStop Color="#FF551010" Offset="0.65"/>
+            <GradientStop Color="#FF881818" Offset="0.80"/>
+            <GradientStop Color="#FF551010" Offset="1"/>
+
+ORANGE:
+            <GradientStop Color="#FFDB5700" Offset="0"/>
+            <GradientStop Color="#FFFF6100" Offset="0.20"/>
+            <GradientStop Color="#FFDB5700" Offset="0.35"/>
+            <GradientStop Color="#FFFF6100" Offset="0.50"/>
+            <GradientStop Color="#FFDB5700" Offset="0.65"/>
+            <GradientStop Color="#FFFF6100" Offset="0.80"/>
+            <GradientStop Color="#FFDB5700" Offset="1"/>
+
+PURPLE:
+            <GradientStop Color="#FF220822" Offset="0"/>
+            <GradientStop Color="#FF551055" Offset="0.20"/>
+            <GradientStop Color="#FF220822" Offset="0.35"/>
+            <GradientStop Color="#FF551055" Offset="0.50"/>
+            <GradientStop Color="#FF220822" Offset="0.65"/>
+            <GradientStop Color="#FF551055" Offset="0.80"/>
+            <GradientStop Color="#FF220822" Offset="1"/>
+            
+VIOLET:
+            <GradientStop Color="#FF160822" Offset="0"/>
+            <GradientStop Color="#FF331060" Offset="0.20"/>
+            <GradientStop Color="#FF160822" Offset="0.35"/>
+            <GradientStop Color="#FF331060" Offset="0.50"/>
+            <GradientStop Color="#FF160822" Offset="0.65"/>
+            <GradientStop Color="#FF331060" Offset="0.80"/>
+            <GradientStop Color="#FF160822" Offset="1"/>
+
+BLACK:
+            <GradientStop Color="#FF000000" Offset="0"/>
+            <GradientStop Color="#FF444444" Offset="0.20"/>
+            <GradientStop Color="#FF000000" Offset="0.35"/>
+            <GradientStop Color="#FF444444" Offset="0.50"/>
+            <GradientStop Color="#FF000000" Offset="0.65"/>
+            <GradientStop Color="#FF444444" Offset="0.80"/>
+            <GradientStop Color="#FF000000" Offset="1"/>
+
+GRAY:
+            <GradientStop Color="#FF222222" Offset="0"/>
+            <GradientStop Color="#FF555555" Offset="0.20"/>
+            <GradientStop Color="#FF222222" Offset="0.35"/>
+            <GradientStop Color="#FF555555" Offset="0.50"/>
+            <GradientStop Color="#FF222222" Offset="0.65"/>
+            <GradientStop Color="#FF555555" Offset="0.80"/>
+            <GradientStop Color="#FF222222" Offset="1"/>

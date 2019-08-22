@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\Dependencies\NuGet Packages\WiX.3.11.1\build\wix.props" Condition="Exists('..\..\..\Dependencies\NuGet Packages\WiX.3.11.1\build\wix.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProductVersion>3.6</ProductVersion>
+    <ProjectGuid>6858b393-77b4-4f28-a4b1-14b484c10fb2</ProjectGuid>
+    <SchemaVersion>2.0</SchemaVersion>
+    <OutputName>PTPSyncSetup</OutputName>
+    <OutputType>Package</OutputType>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' AND '$(MSBuildExtensionsPath32)' != '' ">$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <WixTargetsPath Condition=" '$(WixTargetsPath)' == '' ">$(MSBuildExtensionsPath)\Microsoft\WiX\v3.x\Wix.targets</WixTargetsPath>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>..\..\..\..\Build\Output\Release\Setup\</OutputPath>
+    <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CustomExitDialog.wxs" />
+    <Compile Include="CustomFeatureTree.wxs" />
+    <Compile Include="PTPSyncSetup.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixNetFxExtension">
+      <HintPath>..\..\..\Dependencies\WiX\WixNetFxExtension.dll</HintPath>
+      <Name>WixNetFxExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>..\..\..\Dependencies\WiX\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUIExtension">
+      <HintPath>..\..\..\Dependencies\WiX\WixUIExtension.dll</HintPath>
+      <Name>WixUIExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Tools\ConfigurationSetupUtility\ConfigurationSetupUtility.csproj">
+      <Name>ConfigurationSetupUtility</Name>
+      <Project>{2a74eacf-8291-47c7-a2ed-0d58771f24e2}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ptpd\projects\ptpd-msvc\ptpd-msvc.vcxproj">
+      <Name>ptpd</Name>
+      <Project>{7bc42b12-e2a2-474f-a5b2-d058e4a712ac}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PTPSyncManager\PTPSyncManager\PTPSyncManager.csproj">
+      <Name>PTPSyncManager</Name>
+      <Project>{6903507c-c289-4f8f-887c-c2d94c72ba99}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\PTPSyncConsole\PTPSyncConsole.csproj">
+      <Name>PTPSyncConsole</Name>
+      <Project>{449f2cb1-89bf-4e75-8e6c-c42feb1ab087}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\PTPSyncServices\PTPSyncServices.csproj">
+      <Name>PTPSyncServices</Name>
+      <Project>{17c0e07e-646f-4d20-9394-0cc34ad6d5b1}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\PTPSync\PTPSync.csproj">
+      <Name>PTPSync</Name>
+      <Project>{0bf2447e-252d-4712-b154-e350af463081}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConfigCrypter.exe" />
+    <Content Include="ConfigCrypter.exe.config" />
+    <Content Include="ConfigurationEditor.exe" />
+    <Content Include="ConfigurationEditor.exe.Config" />
+    <Content Include="DataMigrationUtility.exe" />
+    <Content Include="DataMigrationUtility.exe.config" />
+    <Content Include="DNP3ConfigGenerator.exe" />
+    <Content Include="HistorianPlaybackUtility.exe" />
+    <Content Include="HistorianPlaybackUtility.exe.config" />
+    <Content Include="HistorianView.exe" />
+    <Content Include="HistorianView.exe.config" />
+    <Content Include="INSTALL_LICENSE.rtf" />
+    <Content Include="LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogFileViewer.exe" />
+    <Content Include="makecert.exe" />
+    <Content Include="NoInetFixUtil.exe" />
+    <Content Include="packages.config" />
+    <Content Include="PTPSyncSetupBanner.bmp" />
+    <Content Include="PTPSyncSetupDialog.bmp" />
+    <Content Include="PTPSyncSetupLogo.jpg" />
+    <Content Include="README.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="StatHistorianReportGenerator.exe" />
+    <Content Include="StatHistorianReportGenerator.exe.config" />
+  </ItemGroup>
+  <PropertyGroup>
+    <WixInstallPath>$(SolutionDir)Dependencies\NuGet Packages\WiX.3.11.1\tools\</WixInstallPath>
+    <WixToolPath>$(SolutionDir)Dependencies\NuGet Packages\WiX.3.11.1\tools\</WixToolPath>
+    <WixTargetsPath>$(WixToolPath)wix.targets</WixTargetsPath>
+    <WixTasksPath>$(WixToolPath)WixTasks.dll</WixTasksPath>
+  </PropertyGroup>
+  <Import Project="$(WixTargetsPath)" Condition="Exists($(WixTargetsPath))" />
+  <Target Name="Build" DependsOnTargets="$(BuildDependsOn)" Outputs="$(TargetPath)">
+    <OnError ExecuteTargets="RestoreBitmap" />
+  </Target>
+  <PropertyGroup>
+    <BeforeBuildDependsOn>
+      VersionBitmap
+    </BeforeBuildDependsOn>
+  </PropertyGroup>
+  <Target Name="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+  </Target>
+  <PropertyGroup>
+    <AfterBuildDependsOn>
+      RestoreBitmap;
+      CopyLicenseAndReadme;
+      SignBuild
+	</AfterBuildDependsOn>
+  </PropertyGroup>
+  <Target Name="AfterBuild" DependsOnTargets="$(AfterBuildDependsOn)">
+  </Target>
+  <Target Name="CopyLicenseAndReadme">
+    <ItemGroup>
+      <CopyFiles Include="LICENSE.txt" />
+      <CopyFiles Include="README.txt" />
+    </ItemGroup>
+    <Copy SourceFiles="@(CopyFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
+  <Target Name="SignBuild" Condition="'$(SIGNTOOL)' != ''">
+    <PropertyGroup>
+      <SignToolNameArg Condition="'$(SIGNTOOLNAMEFLAG)' != ''">$(SIGNTOOLNAMEFLAG) $(TargetFileName)</SignToolNameArg>
+    </PropertyGroup>
+    <Exec Command="$(SIGNTOOL) $(SignToolNameArg) $(TargetPath)" />
+  </Target>
+  <Target Name="VersionBitmap">
+    <PropertyGroup>
+      <VersionFile>$(SolutionDir)\..\Build\Scripts\PTPSync.version</VersionFile>
+    </PropertyGroup>
+    <ReadLinesFromFile File="$(VersionFile)">
+      <Output TaskParameter="Lines" ItemName="VersionNumber" />
+    </ReadLinesFromFile>
+    <Exec Command="Powershell -ExecutionPolicy ByPass -File &quot;$(ProjectDir)\VersionBitmap.ps1&quot; &quot;$(ProjectDir)\PTPSyncSetupDialog.bmp&quot; &quot;@(VersionNumber)&quot;" />
+  </Target>
+  <Target Name="RestoreBitmap">
+    <Exec Command="Powershell -ExecutionPolicy ByPass -File &quot;$(ProjectDir)\RestoreBitmap.ps1&quot; &quot;$(ProjectDir)\PTPSyncSetupDialog.bmp&quot;" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\Dependencies\NuGet Packages\WiX.3.11.1\build\wix.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\Dependencies\NuGet Packages\WiX.3.11.1\build\wix.props'))" />
+  </Target>
+  <!--
+	To modify your build process, add your task inside one of the targets below and uncomment it.
+	Other similar extension points exist, see Wix.targets.
+	-->
+</Project>

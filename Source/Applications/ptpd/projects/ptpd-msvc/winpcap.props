@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <WinPCAPDir>d:\Development\lib\WpdPack\</WinPCAPDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <IncludePath>$(WinPCAPDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(WinPCAPDir)\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>PCAP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>wpcap.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="WinPCAPDir">
+      <Value>$(WinPCAPDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

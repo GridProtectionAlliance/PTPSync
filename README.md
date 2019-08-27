@@ -53,11 +53,11 @@ Windows socket options do not currently support [SO_TIMESTAMPING](https://www.ke
  
 To configure PTP, run the PTPSync Manager application, which can be found in the Windows start menu. When the application starts, click the `Configure PTP` button on the home page:
  
-![PTPSync Manager Home Screen](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/PTPSyncMananger_Home.PNG)
+![PTPSync Manager Home Screen](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSyncManager_Home.PNG)
 
 On the configuration screen, make sure `PTPD!PROCESS` is selection in the adapter list, then click on the `Arguments` parameter:
  
-![PTPSync Manager Config Screen](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/PTPSyncMananger_Config.PNG)
+![PTPSync Manager Config Screen](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSyncManager_Config.PNG)
 
 TODO: Finish setup instructions (reference auto-created `NetworkInterfaces.txt` files)
 

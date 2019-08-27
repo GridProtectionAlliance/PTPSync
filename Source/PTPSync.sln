@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencie
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{E0BCE54D-F114-4ECD-B688-3C79BD0BE97A}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\Near GPS Quality NTP Settings.reg = Documentation\Near GPS Quality NTP Settings.reg
+		Documentation\High Frequency NTP Update Settings.reg = Documentation\High Frequency NTP Update Settings.reg
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{9EEDE95F-8333-4957-B270-02D3CD4629B5}"
@@ -79,34 +79,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{B1E85C83-F93D-4C3C-BB90-905B93D7C8AD}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Images\Data Structure Relationship Diagram.png = Documentation\Images\Data Structure Relationship Diagram.png
-		Documentation\Images\HMC - Allow Preemptive Publishing.png = Documentation\Images\HMC - Allow Preemptive Publishing.png
-		Documentation\Images\HMC - Allow Sorts By Arrival.png = Documentation\Images\HMC - Allow Sorts By Arrival.png
-		Documentation\Images\HMC - Auto Publish Config Frame.png = Documentation\Images\HMC - Auto Publish Config Frame.png
-		Documentation\Images\HMC - Auto Start Data Channel.png = Documentation\Images\HMC - Auto Start Data Channel.png
-		Documentation\Images\HMC - Downsampling Method.png = Documentation\Images\HMC - Downsampling Method.png
-		Documentation\Images\HMC - Ignore Bad Timestamps.png = Documentation\Images\HMC - Ignore Bad Timestamps.png
-		Documentation\Images\HMC - Lag Time.png = Documentation\Images\HMC - Lag Time.png
-		Documentation\Images\HMC - Lead Time.png = Documentation\Images\HMC - Lead Time.png
-		Documentation\Images\HMC - Time Resolution.png = Documentation\Images\HMC - Time Resolution.png
-		Documentation\Images\HMC - Use Local Clock as RealTime.png = Documentation\Images\HMC - Use Local Clock as RealTime.png
 		Documentation\Images\IaonAdapters.png = Documentation\Images\IaonAdapters.png
 		Documentation\Images\PTPSync Icon Baseline.pdn = Documentation\Images\PTPSync Icon Baseline.pdn
 		Documentation\Images\PTPSyncLogo_basefigure.png = Documentation\Images\PTPSyncLogo_basefigure.png
+		Documentation\Images\PTPSyncManager_Config.PNG = Documentation\Images\PTPSyncManager_Config.PNG
+		Documentation\Images\PTPSyncManager_Home.PNG = Documentation\Images\PTPSyncManager_Home.PNG
 		Documentation\Images\TVA Phasor Data Concentrator.png = Documentation\Images\TVA Phasor Data Concentrator.png
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Help Me Choose Diagrams", "Help Me Choose Diagrams", "{060A349D-E92D-4F13-A857-01609631D3BE}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\Help Me Choose Diagrams\HMC - Allow Preemptive Publishing.vsd = Documentation\Help Me Choose Diagrams\HMC - Allow Preemptive Publishing.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Allow Sorts By Arrival.vsd = Documentation\Help Me Choose Diagrams\HMC - Allow Sorts By Arrival.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Auto Publish Config Frame.vsd = Documentation\Help Me Choose Diagrams\HMC - Auto Publish Config Frame.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Auto Start Data Channel.vsd = Documentation\Help Me Choose Diagrams\HMC - Auto Start Data Channel.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Downsampling Method.vsd = Documentation\Help Me Choose Diagrams\HMC - Downsampling Method.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Ignore Bad Timestamps.vsd = Documentation\Help Me Choose Diagrams\HMC - Ignore Bad Timestamps.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Lag Time.vsd = Documentation\Help Me Choose Diagrams\HMC - Lag Time.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Lead Time.vsd = Documentation\Help Me Choose Diagrams\HMC - Lead Time.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Time Resolution.vsd = Documentation\Help Me Choose Diagrams\HMC - Time Resolution.vsd
-		Documentation\Help Me Choose Diagrams\HMC - Use Local Clock as RealTime.vsd = Documentation\Help Me Choose Diagrams\HMC - Use Local Clock as RealTime.vsd
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite", "SQLite", "{53255BB7-2046-4606-BF76-7B5C13F49819}"
@@ -490,7 +468,6 @@ Global
 		{83A90AB9-3DC7-4FB6-9AF3-79AB2F6EB0C6} = {89F8C302-E1C2-4C61-9CFB-CB4879B04B38}
 		{9597F7EC-CCCD-4CC5-A5B4-440C4204752B} = {89F8C302-E1C2-4C61-9CFB-CB4879B04B38}
 		{B1E85C83-F93D-4C3C-BB90-905B93D7C8AD} = {E0BCE54D-F114-4ECD-B688-3C79BD0BE97A}
-		{060A349D-E92D-4F13-A857-01609631D3BE} = {E0BCE54D-F114-4ECD-B688-3C79BD0BE97A}
 		{53255BB7-2046-4606-BF76-7B5C13F49819} = {E7006E3E-A430-4AB2-A6CA-7653D7F62D4B}
 		{44A76C31-308D-4D46-B263-734DD9FA3570} = {A19659A8-EA00-4D5E-90C5-E8ABE7F4FB1C}
 		{AD1920D4-64C4-43C9-903D-3C78981C8850} = {44A76C31-308D-4D46-B263-734DD9FA3570}

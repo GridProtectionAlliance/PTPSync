@@ -168,7 +168,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Sample1344.PmuCapture" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

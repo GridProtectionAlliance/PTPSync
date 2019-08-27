@@ -443,18 +443,23 @@ namespace ConfigurationSetupUtility.Screens
 
         private void ManageEnableAuditLogCheckBox()
         {
-            bool existing = Convert.ToBoolean(m_state["existing"]);
-            bool migrate = existing && Convert.ToBoolean(m_state["updateConfiguration"]);
+            //bool existing = Convert.ToBoolean(m_state["existing"]);
+            //bool migrate = existing && Convert.ToBoolean(m_state["updateConfiguration"]);
 
-            if (!existing || migrate)
-            {
-                m_enableAuditLogCheckBox.Visibility = Visibility.Visible;
+            //if (!existing || migrate)
+            //{
+            //    m_enableAuditLogCheckBox.Visibility = Visibility.Visible;
 
-                if (m_state.ContainsKey("newDatabaseType") && (m_state["newDatabaseType"].ToString() == "SQLite" || m_state["newDatabaseType"].ToString() == "PostgreSQL"))
-                    m_enableAuditLogCheckBox.Visibility = Visibility.Collapsed;
-            }
-            else
-                m_enableAuditLogCheckBox.Visibility = Visibility.Collapsed;
+            //    if (m_state.ContainsKey("newDatabaseType") && (m_state["newDatabaseType"].ToString() == "SQLite" || m_state["newDatabaseType"].ToString() == "PostgreSQL"))
+            //        m_enableAuditLogCheckBox.Visibility = Visibility.Collapsed;
+            //}
+            //else
+            
+            m_enableAuditLogCheckBox.IsChecked = false;
+            m_sampleDataScriptCheckBox.Visibility = Visibility.Collapsed;
+            
+            m_enableAuditLogCheckBox.IsChecked = false;
+            m_enableAuditLogCheckBox.Visibility = Visibility.Collapsed;
         }
 
         // Attempts to load old connection string parameters

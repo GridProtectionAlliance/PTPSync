@@ -10,7 +10,7 @@
         <StackPanel DockPanel.Dock="Bottom">
             <TextBlock Name="textBlock1" Text="The configuration setup is complete. Click Finish to exit the Configuration Setup Utility." TextAlignment="Center" TextWrapping="Wrap" Margin="20,0,20,10" />
             <StackPanel HorizontalAlignment="Center">
-                <CheckBox Content="Start the PTPSync" Height="18" IsChecked="True" Name="m_serviceStartCheckBox" />
+                <CheckBox Content="Start the PTPSync Service" Height="18" IsChecked="True" Name="m_serviceStartCheckBox" />
                 <CheckBox Content="Start the PTPSync Manager" Height="18" IsChecked="True" Name="m_managerStartCheckBox" />
             </StackPanel>
         </StackPanel>

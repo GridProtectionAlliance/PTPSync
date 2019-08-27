@@ -251,7 +251,7 @@
     <ComponentGroup Id="PTPSyncComponents" Directory="INSTALLFOLDER">
       <Component Id="PTPSync">
         <File Id="PTPSync.exe" Name="$(var.PTPSync.TargetFileName)" Source="$(var.PTPSync.TargetPath)" />
-        <ServiceInstall Id="PTPSyncService" Name="PTPSync" Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" Type="ownProcess" Start="auto" ErrorControl="normal" Description="Provides processing for streaming time-series data in real-time including phasor data concentration services for synchrophasor applications." />
+        <ServiceInstall Id="PTPSyncService" Name="PTPSync" Account="[SERVICEACCOUNT]" Password="[SERVICEPASSWORD]" Type="ownProcess" Start="auto" ErrorControl="normal" Description="Provides Precision Time Protocol (PTP) IEEE 1588 local clock synchronization services." />
         <ServiceControl Id="PTPSyncServiceControl" Name="PTPSync" Stop="both" Remove="uninstall" />
       </Component>
       <Component Id="PTPSyncConfig" Permanent="yes">

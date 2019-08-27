@@ -18,8 +18,6 @@
 ::  -----------------------------------------------------------------------------------------------------
 ::  02/26/2011 - Pinal C. Patel
 ::       Generated original version of source code.
-::  08/26/2013 - J. Ritchie Carroll
-::       Updated to roll-down schema files from Grid Solutions Framework.
 ::
 ::*******************************************************************************************************
 
@@ -42,8 +40,6 @@ SET sttplibrary=%sttp%\lib\sttp.gsf.dll
 SET dependencies=%target%\Source\Dependencies\GSF
 SET sourcemasterbuild=%source%\Build Scripts\MasterBuild.buildproj
 SET targetmasterbuild=%target%\Build\Scripts
-SET sourceschema=%target%\Source\Dependencies\GSF\Data
-SET targetschema=%target%\Source\Data
 SET sourcetools=%source%\Tools
 SET targettools=%target%\Source\Applications\PTPSync\PTPSyncSetup
 
@@ -88,29 +84,6 @@ COPY /Y "%sourcetools%\StatHistorianReportGenerator\StatHistorianReportGenerator
 COPY /Y "%sourcetools%\NoInetFixUtil\NoInetFixUtil.exe" "%targettools%\NoInetFixUtil.exe"
 COPY /Y "%sourcetools%\DNP3ConfigGenerator\DNP3ConfigGenerator.exe" "%targettools%\DNP3ConfigGenerator.exe"
 COPY /Y "%sourcetools%\LogFileViewer\LogFileViewer.exe" "%targettools%\LogFileViewer.exe"
-
-:UpdateDbScripts
-ECHO.
-ECHO Updating database schema defintions...
-FOR /R "%sourceschema%" %%x IN (*.db) DO DEL "%%x"
-FOR /R "%sourceschema%" %%x IN (GSFSchema.*) DO REN "%%x" "PTPSync.*"
-FOR /R "%sourceschema%" %%x IN (GSFSchema-InitialDataSet.*) DO REN "%%x" "PTPSync-InitialDataSet.*"
-FOR /R "%sourceschema%" %%x IN (GSFSchema-SampleDataSet.*) DO REN "%%x" "PTPSync-SampleDataSet.*"
-MOVE /Y "%sourceschema%\*.*" "%targetschema%\"
-MOVE /Y "%sourceschema%\MySQL\*.*" "%targetschema%\MySQL\"
-MOVE /Y "%sourceschema%\Oracle\*.*" "%targetschema%\Oracle\"
-MOVE /Y "%sourceschema%\PostgreSQL\*.*" "%targetschema%\PostgreSQL\"
-MOVE /Y "%sourceschema%\SQL Server\*.*" "%targetschema%\SQL Server\"
-MOVE /Y "%sourceschema%\SQLite\*.*" "%targetschema%\SQLite\"
-"%replace%" /r /v "%targetschema%\*.sql" GSFSchema PTPSync
-"%replace%" /r /v "%targetschema%\*.sql" "--*" "-- "
-"%replace%" /r /v "%targetschema%\*SampleDataSet.sql" 8500 8515
-"%replace%" /r /v "%targetschema%\*SampleDataSet.sql" 6165 6180
-"%replace%" /r /v "%targetschema%\*SampleDataSet.sql" "e7a5235d-cb6f-4864-a96e-a8686f36e599" "facd14d5-56b5-4f63-a8d8-56e830bf6f7c"
-"%replace%" /r /v "%targetschema%\*db-update.bat" GSFSchema PTPSync
-CD %targetschema%\SQLite
-CALL db-update.bat
-CD %target%
 
 :CommitChanges
 ECHO.

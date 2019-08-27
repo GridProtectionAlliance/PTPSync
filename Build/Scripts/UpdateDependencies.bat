@@ -72,6 +72,7 @@ GOTO UpdateDependencies
 ECHO.
 ECHO Updating dependencies...
 XCOPY "%libraries%" "%dependencies%\" /Y /E
+RMDIR /S /Q "%dependencies%\Data"
 XCOPY "%sttplibrary%" "%dependencies%\" /Y
 XCOPY "%sourcemasterbuild%" "%targetmasterbuild%\" /Y
 COPY /Y "%sourcetools%\ConfigCrypter\ConfigCrypter.exe" "%targettools%\ConfigCrypter.exe"

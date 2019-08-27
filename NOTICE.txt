@@ -16,7 +16,7 @@ Tennessee Valley Authority (http://www.tva.gov/)
 Portions of this software implemented using source code that was licensed using the BSD 2-clause license:
 https://opensource.org/licenses/BSD-2-Clause. This includes, but may not be limited to, the following:
 
-* PTPd project is based on code from by Jan Breuer targeted to compile PTPd on Windows, September 2015:
+* PTPd project is derived from code by Jan Breuer targeted to compile PTPd on Windows, September 2015:
   (https://github.com/j123b567/ptpd-old-work/tree/windows):
 		Copyright (c) 2015      Wojciech Owczarek.
 		Copyright (c) 2014      Perseus Telecom.

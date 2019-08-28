@@ -34,10 +34,10 @@
             </LinearGradientBrush>
 
             <LinearGradientBrush x:Key="MenuBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFC8C8C8" Offset="0"/>
-                <GradientStop Color="#FFE9E9E9" Offset="0.25"/>
-                <GradientStop Color="#FFE9E9E9" Offset="0.75"/>
-                <GradientStop Color="#FFC8C8C8" Offset="1"/>
+                <GradientStop Color="#FFB3C8D6" Offset="0"/>
+                <GradientStop Color="#FFE1E9EE" Offset="0.25"/>
+                <GradientStop Color="#FFE1E9EE" Offset="0.75"/>
+                <GradientStop Color="#FFB3C8D6" Offset="1"/>
             </LinearGradientBrush>
             
             <HierarchicalDataTemplate DataType="{x:Type tsf:MenuDataItem}" ItemsSource="{Binding Path=SubMenuItems}">

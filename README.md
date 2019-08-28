@@ -48,11 +48,11 @@ To configure PTPSync service, run the PTPSync Manager application, which can be 
 
 When the application is running, click the `Configure PTPd` button on the home page:
  
-![PTPSync Manager Home Screen](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/Images/PTPSyncMananger_Home.PNG)
+![PTPSync Manager Home Screen](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSyncManager_Home.PNG)
 
 On the configuration screen, make sure `PTPD!PROCESS` is selected in the adapter list at the bottom of the page, then click on the `Arguments` parameter in the `Connection String` section:
 
-![PTPSync Manager Config Screen](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/Images/PTPSyncMananger_Config.PNG)
+![PTPSync Manager Config Screen](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSyncManager_Config.PNG)
 
 These arguments define the options to use for the `ptpd.exe` application instance that actually performs the time synchronization, see [PTP Options](#ptp-options) for full set.
 
@@ -70,7 +70,7 @@ To validate that the defined `-b` option is defined correctly, find the interfac
 
 A helpful application to use while configuring the `ptpd` engine is the PTPSync Console application. Like the manager, this application can be found in the Windows start menu. Run this program now to continue with configuration steps:
 
-![PTPSync Remote Console Screen](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/Images/PTPSyncMananger_Config.PNG)
+![PTPSync Remote Console Screen](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSyncManager_Console.PNG)
 
 From the console application you can type `list /a` (or `ls /a`) to show the available adapters. For example, if the `PTPD!PROCESS` adapter has an ID of 2, you can then enter `ls 2` (or `ls PTPD!PROCESS`) to get detailed adapter status.
 
@@ -164,4 +164,4 @@ Windows socket options do not currently support [SO_TIMESTAMPING](https://www.ke
 
 This project was created with the Grid Solutions Framework Time-Series Library [Project Alpha](https://github.com/GridProtectionAlliance/projectalpha)
 
-![Project Alpha](https://raw.githubusercontent.com/GridProtectionAlliance/PTPSync/master/Source/Documentation/Images/Project-Alpha-Logo_70.png)
+[![Project Alpha](https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/Project-Alpha-Logo_70.png)](https://github.com/GridProtectionAlliance/projectalpha)

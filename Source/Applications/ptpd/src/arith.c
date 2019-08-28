@@ -37,6 +37,7 @@
  */
 
 #include "ptpd.h"
+#pragma warning(disable : 4244)
 
 void 
 integer64_to_internalTime(Integer64 bigint, TimeInternal * internal)

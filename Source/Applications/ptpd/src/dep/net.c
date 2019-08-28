@@ -37,6 +37,8 @@
  */
 
 #include "../ptpd.h"
+#pragma warning(disable : 4133)
+#pragma warning(disable : 4244)
 
 /* shut down the UDP stuff */
 Boolean 

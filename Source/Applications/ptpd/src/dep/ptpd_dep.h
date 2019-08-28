@@ -38,9 +38,14 @@ extern BOOL show_debug_messages;
 
 #ifndef PTPD_DBG
 #define PTPD_DBG
+
+#ifndef PTPD_DBGV
 #define PTPD_DBGV
+#endif
+
 #define DBG(x, ...) if (show_debug_messages) message(LOG_DEBUG, x, ##__VA_ARGS__)
 #define DBGV(x, ...) if (show_debug_messages) message(LOG_DEBUG, x, ##__VA_ARGS__)
+
 #endif
 
 //#ifdef PTPD_DBGV

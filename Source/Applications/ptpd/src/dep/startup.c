@@ -38,6 +38,7 @@
  */
 
 #include "../ptpd.h"
+#pragma warning(disable : 4244)
 
 extern PtpClock *ptpClock;
 

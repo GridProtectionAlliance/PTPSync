@@ -886,7 +886,7 @@ namespace ConfigurationSetupUtility.Screens
 
                                 if (!remoteStatusServerSettings.ContainsKey("dataPublisherPort"))
                                 {
-                                    remoteStatusServerSettings["dataPublisherPort"] = "6185";
+                                    remoteStatusServerSettings["dataPublisherPort"] = "6205";
                                     remoteStatusServer = remoteStatusServerSettings.JoinKeyValuePairs();
                                 }
 

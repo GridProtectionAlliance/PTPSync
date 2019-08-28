@@ -1,5 +1,5 @@
 INSERT INTO Node(Name, CompanyID, Description, Settings, MenuType, MenuData, Master, LoadOrder, Enabled) 
-	VALUES('Default', NULL, 'Default node', 'RemoteStatusServerConnectionString={server=localhost:8535;integratedSecurity=true};dataPublisherPort=6185', 'File', 'Menu.xml', 1, 0, 1);
+	VALUES('Default', NULL, 'Default node', 'RemoteStatusServerConnectionString={server=localhost:8535;integratedSecurity=true};dataPublisherPort=6205', 'File', 'Menu.xml', 1, 0, 1);
 
 UPDATE Node SET ID='facd14d5-56b5-4f63-a8d8-56e830bf6f7c' WHERE Name='Default';
 

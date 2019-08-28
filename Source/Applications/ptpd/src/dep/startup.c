@@ -130,11 +130,11 @@ ptpdShutdown()
     free(ptpClock);
 }
 
-ptpsShowHelp()
+ptpdShowHelp()
 {
     printf(
-        "\nUsage:  ptp.exe [OPTION]\n\n"
-        "ptp runs on UDP/IP, P2P mode by default\n"
+        "\nUsage:  ptpd.exe [OPTION]\n\n"
+        "ptpd runs on UDP/IP, P2P mode by default\n"
         "\n"
         "-?                show this page\n"
         "\n"
@@ -192,7 +192,7 @@ ptpdStartup(int argc, char **argv, Integer16 * ret, RunTimeOpts * rtOpts)
     while ((c = getopt(argc, argv, "?cf:dDPR:xM:O:ta:w:b:u:l:o:n:y:m:gv:r:Ss:p:q:i:ehVT:")) != -1) {
         switch (c) {
         case '?':
-            ptpsShowHelp();
+            ptpdShowHelp();
             *ret = 0;
             return 0;
         case 'c':

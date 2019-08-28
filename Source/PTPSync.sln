@@ -78,14 +78,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Silverlight", "Silverlight"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{B1E85C83-F93D-4C3C-BB90-905B93D7C8AD}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\Images\Data Structure Relationship Diagram.png = Documentation\Images\Data Structure Relationship Diagram.png
-		Documentation\Images\IaonAdapters.png = Documentation\Images\IaonAdapters.png
-		Documentation\Images\PTPSync Icon Baseline.pdn = Documentation\Images\PTPSync Icon Baseline.pdn
-		Documentation\Images\PTPSyncLogo_basefigure.png = Documentation\Images\PTPSyncLogo_basefigure.png
+		Documentation\Images\Project-Alpha-Logo_70.png = Documentation\Images\Project-Alpha-Logo_70.png
 		Documentation\Images\PTPSyncManager_Config.PNG = Documentation\Images\PTPSyncManager_Config.PNG
 		Documentation\Images\PTPSyncManager_Console.PNG = Documentation\Images\PTPSyncManager_Console.PNG
 		Documentation\Images\PTPSyncManager_Home.PNG = Documentation\Images\PTPSyncManager_Home.PNG
-		Documentation\Images\TVA Phasor Data Concentrator.png = Documentation\Images\TVA Phasor Data Concentrator.png
+		Documentation\Images\TSLoverview540.png = Documentation\Images\TSLoverview540.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQLite", "SQLite", "{53255BB7-2046-4606-BF76-7B5C13F49819}"

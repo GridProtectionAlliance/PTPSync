@@ -83,6 +83,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Images", "Images", "{B1E85C
 		Documentation\Images\PTPSync Icon Baseline.pdn = Documentation\Images\PTPSync Icon Baseline.pdn
 		Documentation\Images\PTPSyncLogo_basefigure.png = Documentation\Images\PTPSyncLogo_basefigure.png
 		Documentation\Images\PTPSyncManager_Config.PNG = Documentation\Images\PTPSyncManager_Config.PNG
+		Documentation\Images\PTPSyncManager_Console.PNG = Documentation\Images\PTPSyncManager_Console.PNG
 		Documentation\Images\PTPSyncManager_Home.PNG = Documentation\Images\PTPSyncManager_Home.PNG
 		Documentation\Images\TVA Phasor Data Concentrator.png = Documentation\Images\TVA Phasor Data Concentrator.png
 	EndProjectSection

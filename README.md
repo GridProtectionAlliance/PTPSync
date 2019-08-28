@@ -12,6 +12,8 @@ If the PTP provider DLL exists on your system, [see official instructions for it
  
 For all other Windows operating environments, PTPSync is a Windows service that can be used to synchronize the operating system clock to within a few microseconds of precision on most local networks (see [Windows Time Precision](#windows-time-precision)) when used with a [clock that supports PTP](#ptp-clock-vendors). 
 
+_Need help?_ Search for answers or ask a question on the [PTPSync discussions board](https://discussions.gridprotectionalliance.org/c/gpa-products/Precision-Time-Protocol-Synchronization-Service-for-Windows).
+
 ## Installation
  
 1) Download installer zip file `PTPSync.Installs.zip` from the [Releases](https://github.com/GridProtectionAlliance/PTPSync/releases) page.
@@ -76,15 +78,15 @@ From the console application you can type `list /a` (or `ls /a`) to show the ava
 
 > If the console is noisy with status information you can enter the `quiet` command followed by enter to pause feedback, note that your keyboard input is being accepted even if it is interrupted by messages scrolling by, just keep typing. To restore normal status mode use the `resume` command. Type `help` for other available commands.
 
-Making sure that console is still visible off to the side, pull the PTPSync Manager back into focus. With the `PTPD!PROCESS` adapter still selected in the adapter list below, click the `Initialize` button and confirming the initialize action by clicking `Yes`. This operation will restart the `ptpd.exe` application applying the new `-b` argument as specified in the updated the connection string.
+Making sure that console is still visible off to the side, pull the PTPSync Manager application back up and into focus. With the `PTPD!PROCESS` adapter still selected in the adapter list at the bottom of the page, click the `Initialize` button and confirm the initialize action by clicking `Yes`. This operation will restart the `ptpd.exe` application applying any updated arguments, e.g., the new `-b` argument as updated in the connection string.
 
 > Make sure any changes are saved before initializing, the initialization process reads from the database configuration. You can also reinitialize the adapter from the PTPSync Console application using the `initialize PTPD!PROCESS` command.
 
 If the PTP clock is sending broadcast messages, the local clock should now be synchronizing.
 
-You can now adjust other parameters, such as the verbosity of the feedback. The `-V` option, which is on initially, puts the `ptpd` engine in highly verbose mode which includes debug messages. This option is good for validating that things are working, but should be turned off (by removing the option) for production. If you want a quick, less verbose, check of things in production you can use the `-d` option which will report each clock synchronization - but this can be excessively noisy too.
+You can now adjust other parameters, such as the verbosity of the feedback. The `-V` option, which is on initially, puts the `ptpd` engine in highly verbose mode which includes debug messages. This option is good for validating that things are working, but should be turned off (by removing the option) for production. If you want a quick, less verbose, check of things in production you can use the `-d` option which will report each clock synchronization, however, this option can be a bit noisy too.
 
-> Note that all feedback is logged locally to the `StatusLog.txt` file which can be found in the installation folder. The file size is automatically curtailed per settings defined in the `PTPSync.exe.config` file. You can use the XML Configuration Editor in the PTPSync folder in the Windows start menu.
+> Note that all feedback is logged locally to the `StatusLog.txt` file which can be found in the installation folder. The log file size is automatically curtailed per settings defined in the `PTPSync.exe.config` file. You can use the XML Configuration Editor, found in the PTPSync folder in the Windows start menu, to adjust any needed rarely changed configuration settings.
 
 The other option that is applied by default is `-g`, this puts the `ptpd` engine in slave mode. Removing this option will put the engine in peer-to-peer mode which will allow the engine to be a peer time provider on the local network.
 
@@ -92,9 +94,9 @@ The other option that is applied by default is `-g`, this puts the `ptpd` engine
 
 The PTPSync Windows service hosts and runs the `ptpd.exe` executable application. These are the command line options for the application:
 ```
-Usage:  ptp.exe [OPTION]
+Usage:  ptpd.exe [OPTION]
 
-ptp runs on UDP/IP, P2P mode by default
+ptpd runs on UDP/IP, P2P mode by default
 
 -?                show this page
 
@@ -136,7 +138,7 @@ ptp runs on UDP/IP, P2P mode by default
 ```
 ---
 
-_The `ptpd.exe` synchronization application used in PTPSync is based on a port of [ptpd](https://github.com/ptpd/ptpd) developed by Jan Breuer that runs on Windows, see [NOTICE](NOTICE.txt). Updates to the Windows port of the project used by PTPSync can be found in the [local repository](https://github.com/GridProtectionAlliance/PTPSync/tree/master/Source/Applications/ptpd)._
+_The `ptpd.exe` synchronization application used in PTPSync is based on a port of the [ptpd](https://github.com/ptpd/ptpd) project developed by Jan Breuer that runs on Windows, see [NOTICE](NOTICE.txt). Updates to the project used by PTPSync can be found in the [local repository](https://github.com/GridProtectionAlliance/PTPSync/tree/master/Source/Applications/ptpd)._
 
 ---
 

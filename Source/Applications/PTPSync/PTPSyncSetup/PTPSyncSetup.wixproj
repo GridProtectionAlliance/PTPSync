@@ -95,7 +95,6 @@
     <Content Include="ConfigurationEditor.exe.Config" />
     <Content Include="DataMigrationUtility.exe" />
     <Content Include="DataMigrationUtility.exe.config" />
-    <Content Include="DNP3ConfigGenerator.exe" />
     <Content Include="HistorianPlaybackUtility.exe" />
     <Content Include="HistorianPlaybackUtility.exe.config" />
     <Content Include="HistorianView.exe" />
@@ -114,8 +113,6 @@
     <Content Include="README.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="StatHistorianReportGenerator.exe" />
-    <Content Include="StatHistorianReportGenerator.exe.config" />
   </ItemGroup>
   <PropertyGroup>
     <WixInstallPath>$(SolutionDir)Dependencies\NuGet Packages\WiX.3.11.1\tools\</WixInstallPath>

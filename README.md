@@ -1,4 +1,7 @@
 # PTPSync
+
+<img align="right" src="https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSync-logo.png">
+
 Precision Time Protocol Synchronization Service for Windows
 
 The [Precision Time Protocol](https://en.wikipedia.org/wiki/Precision_Time_Protocol) (PTP) defined in IEEE 1588 is a protocol used to synchronize clocks over a network.  It represents a major improvement over [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol). On a local area network, it can achieve clock synchronization in the sub-microsecond range, making it ideal for time-sensitive Windows-hosted measurement systems like the [openPDC](https://github.com/GridProtectionAlliance/openPDC) and [substationSBG](https://github.com/GridProtectionAlliance/substationSBG).

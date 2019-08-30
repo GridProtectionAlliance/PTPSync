@@ -1,6 +1,6 @@
 # PTPSync
 
-<img align="right" src="https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSync-logo.png">
+<img align="right" src="https://github.com/GridProtectionAlliance/PTPSync/raw/master/Source/Documentation/Images/PTPSync-logo.png" width="150px" height="150px" />
 
 Precision Time Protocol Synchronization Service for Windows
 

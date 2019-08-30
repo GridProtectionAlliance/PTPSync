@@ -49,7 +49,7 @@ _Need help?_ Search for answers or ask a question on the [PTPSync discussions bo
 ## Configuration
  
 To configure PTPSync service, run the PTPSync Manager application, which can be found in the Windows start menu.
-> If you are continuing directly from installation steps above, manager application will already by runing.
+> If you are continuing directly from installation steps above, manager application will already by running.
 
 When the application is running, click the `Configure PTPd` button on the home page:
  
@@ -71,7 +71,7 @@ WiFi - Realtek 8822BE Wireless LAN 802.11ac PCI-E NIC: {67C2E6EC-3795-4B89-9A69-
 ```
 To validate that the defined `-b` option is defined correctly, find the interface in this list that will receive traffic for the incoming PTP messages. At the end of the line that defines the proper interface is the network interface GUID, copy this value including the curly braces. Paste the GUID value, replacing existing one, after the `-b` option with a space in between and click the `Save` button.
 
-> Always click the `Save` button after making any changes as this updates the record in the configuration database.
+> Always click the `Save` button after making any changes as this operation updates the record in the configuration database.
 
 A helpful application to use while configuring the `ptpd` engine is the PTPSync Console application. Like the manager, this application can be found in the Windows start menu. Run this program now to continue with configuration steps:
 
@@ -161,7 +161,7 @@ _This project and its authors can neither endorse or verify the applicability of
 
 #### Windows Time Precision
  
-Windows socket options do not currently support [SO_TIMESTAMPING](https://www.kernel.org/doc/Documentation/networking/timestamping.txt) and the PTP engine compiled for PTPSync was configured so that it would not be dependent upon externally installed libraries, e.g., PCAP. Consequently this may affect the maximum possible time synchronization accuracy available when using this service. It is expected that properly configured deployments will see clock synchronization accuracy commonly within the range of a few microseconds or better, but results will vary based on a variety of environmental conditions. Regardless, an improvement in accuracy as compared to NTP is expected. You can use the [`w32tm /stripchart /computer:<other>`](https://docs.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings) command to measure time variance between the current machine and another.
+Windows socket options do not currently support [SO_TIMESTAMPING](https://www.kernel.org/doc/Documentation/networking/timestamping.txt) and the PTP engine compiled for PTPSync was configured so that it would not be dependent upon externally installed libraries, e.g., PCAP. Consequently, this may affect the maximum possible time synchronization accuracy available when using this service. It is expected that properly configured deployments will see clock synchronization accuracy within the range of a few microseconds or better, but results will vary based on a variety of environmental conditions. Regardless, an improvement in accuracy as compared to NTP is expected. You can use the [`w32tm /stripchart /computer:<other>`](https://docs.microsoft.com/en-us/windows-server/networking/windows-time-service/windows-time-service-tools-and-settings) command to measure time variance between the current machine and another.
  
 > On systems running Windows older than Windows Server 2012 R2 / Windows 8, the API calls used to retrieve local clock time may only pickup time changes every 15 milliseconds, regardless of local clock accuracy.
 

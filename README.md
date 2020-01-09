@@ -6,7 +6,7 @@ Precision Time Protocol Synchronization Service for Windows
 
 The [Precision Time Protocol](https://en.wikipedia.org/wiki/Precision_Time_Protocol) (PTP) defined in IEEE 1588 is a protocol used to synchronize clocks over a network.  It represents a major improvement over [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol). On a local area network, it can achieve clock synchronization in the sub-microsecond range, making it ideal for time-sensitive Windows-hosted measurement systems like the [openPDC](https://github.com/GridProtectionAlliance/openPDC) and [substationSBG](https://github.com/GridProtectionAlliance/substationSBG).
  
-Newer versions of Windows, specifically Windows Server 2019 and post 2018 releases of Windows 10, already support PTP. You can validate that the version of Windows you are using supports PTP by looking for the provider DLL:
+> Newer versions of Windows, specifically Windows Server 2019 and post 2018 releases of Windows 10, already support PTP. You can validate that the version of Windows you are using supports PTP by looking for the provider DLL:
 ```
 %windir%\system32\ptpprov.dll
 ```

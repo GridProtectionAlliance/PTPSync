@@ -1213,8 +1213,8 @@ issueAnnounce(RunTimeOpts *rtOpts,PtpClock *ptpClock)
 {
     msgPackAnnounce(ptpClock->msgObuf,ptpClock);
     
-    if (!netSendGeneral(ptpClock->msgObuf,ANNOUNCE_LENGTH,
-                &ptpClock->netPath)) {
+    if (netSendGeneral(ptpClock->msgObuf,ANNOUNCE_LENGTH,
+                &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("Announce message can't be sent -> FAULTY state \n");
     } else {
@@ -1234,7 +1234,7 @@ issueSync(RunTimeOpts *rtOpts,PtpClock *ptpClock)
     
     msgPackSync(ptpClock->msgObuf,&originTimestamp,ptpClock);
     
-    if (!netSendEvent(ptpClock->msgObuf,SYNC_LENGTH,&ptpClock->netPath)) {
+    if (netSendEvent(ptpClock->msgObuf,SYNC_LENGTH,&ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("Sync message can't be sent -> FAULTY state \n");
     } else {
@@ -1252,8 +1252,8 @@ issueFollowup(TimeInternal *time,RunTimeOpts *rtOpts,PtpClock *ptpClock)
     
     msgPackFollowUp(ptpClock->msgObuf,&preciseOriginTimestamp,ptpClock);
     
-    if (!netSendGeneral(ptpClock->msgObuf,FOLLOW_UP_LENGTH,
-                &ptpClock->netPath)) {
+    if (netSendGeneral(ptpClock->msgObuf,FOLLOW_UP_LENGTH,
+                &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("FollowUp message can't be sent -> FAULTY state \n");
     } else {
@@ -1272,8 +1272,8 @@ issueDelayReq(RunTimeOpts *rtOpts,PtpClock *ptpClock)
 
     msgPackDelayReq(ptpClock->msgObuf,&originTimestamp,ptpClock);
 
-    if (!netSendEvent(ptpClock->msgObuf,DELAY_REQ_LENGTH,
-              &ptpClock->netPath)) {
+    if (netSendEvent(ptpClock->msgObuf,DELAY_REQ_LENGTH,
+              &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("delayReq message can't be sent -> FAULTY state \n");
     } else {
@@ -1293,8 +1293,8 @@ issuePDelayReq(RunTimeOpts *rtOpts,PtpClock *ptpClock)
     
     msgPackPDelayReq(ptpClock->msgObuf,&originTimestamp,ptpClock);
 
-    if (!netSendPeerEvent(ptpClock->msgObuf,PDELAY_REQ_LENGTH,
-                  &ptpClock->netPath)) {
+    if (netSendPeerEvent(ptpClock->msgObuf,PDELAY_REQ_LENGTH,
+                  &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("PdelayReq message can't be sent -> FAULTY state \n");
     } else {
@@ -1313,8 +1313,8 @@ issuePDelayResp(TimeInternal *time,MsgHeader *header,RunTimeOpts *rtOpts,
     msgPackPDelayResp(ptpClock->msgObuf,header,
               &requestReceiptTimestamp,ptpClock);
 
-    if (!netSendPeerEvent(ptpClock->msgObuf,PDELAY_RESP_LENGTH,
-                  &ptpClock->netPath)) {
+    if (netSendPeerEvent(ptpClock->msgObuf,PDELAY_RESP_LENGTH,
+                  &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("PdelayResp message can't be sent -> FAULTY state \n");
     } else {
@@ -1332,8 +1332,8 @@ issueDelayResp(TimeInternal *time,MsgHeader *header,RunTimeOpts *rtOpts,
     msgPackDelayResp(ptpClock->msgObuf,header,&requestReceiptTimestamp,
              ptpClock);
 
-    if (!netSendGeneral(ptpClock->msgObuf,PDELAY_RESP_LENGTH,
-                &ptpClock->netPath)) {
+    if (netSendGeneral(ptpClock->msgObuf,PDELAY_RESP_LENGTH,
+                &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("delayResp message can't be sent -> FAULTY state \n");
     } else {
@@ -1350,9 +1350,9 @@ void issuePDelayRespFollowUp(TimeInternal *time, MsgHeader *header,
     msgPackPDelayRespFollowUp(ptpClock->msgObuf,header,
                   &responseOriginTimestamp,ptpClock);
 
-    if (!netSendPeerGeneral(ptpClock->msgObuf,
+    if (netSendPeerGeneral(ptpClock->msgObuf,
                 PDELAY_RESP_FOLLOW_UP_LENGTH,
-                &ptpClock->netPath)) {
+                &ptpClock->netPath) <= 0) {
         toState(PTP_FAULTY,rtOpts,ptpClock);
         DBGV("PdelayRespFollowUp message can't be sent -> FAULTY state \n");
     } else {

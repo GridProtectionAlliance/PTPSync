@@ -706,6 +706,11 @@
             Gets or sets the security principal used to test authentication and role membership.
             </summary>
         </member>
+        <member name="P:GSF.Windows.SecureWindow.LoadException">
+            <summary>
+            Gets or sets any <see cref="T:System.Exception"/> that was thrown during the load process.
+            </summary>
+        </member>
         <member name="M:GSF.Windows.SecureWindow.GetResourceName">
             <summary>
             Gets the name of resource being accessed.
@@ -898,16 +903,6 @@
         <member name="M:GSF.Windows.SecurityPortal.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:GSF.Windows.TokenCacheHelper">
-            <summary>
-            Defines a helper class for token cache management.
-            </summary>
-        </member>
-        <member name="P:GSF.Windows.TokenCacheHelper.CacheFilePath">
-            <summary>
-            Path to the token cache.
             </summary>
         </member>
     </members>

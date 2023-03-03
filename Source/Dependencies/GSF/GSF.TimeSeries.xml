@@ -99,6 +99,11 @@
             Represents a collection of <see cref="T:GSF.TimeSeries.Adapters.IFilterAdapter"/> implementations.
             </summary>
         </member>
+        <member name="E:GSF.TimeSeries.Adapters.FilterAdapterCollection.CollectionCountChanged">
+            <summary>
+            Provides notification of change in collection count.
+            </summary>
+        </member>
         <member name="M:GSF.TimeSeries.Adapters.FilterAdapterCollection.#ctor">
             <summary>
             Creates a new instance of the <see cref="T:GSF.TimeSeries.Adapters.FilterAdapterCollection"/>.
@@ -146,6 +151,16 @@
             Removes the element at the specified index of the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
             </summary>
             <param name="index">The zero-based index of the element to remove.</param>
+        </member>
+        <member name="M:GSF.TimeSeries.Adapters.FilterAdapterCollection.ClearItems">
+            <summary>
+            Removes all elements from the <see cref="T:System.Collections.ObjectModel.Collection`1"/>.
+            </summary>
+        </member>
+        <member name="M:GSF.TimeSeries.Adapters.FilterAdapterCollection.OnCollectionCountChanged">
+            <summary>
+            Raises <see cref="E:GSF.TimeSeries.Adapters.FilterAdapterCollection.CollectionCountChanged"/> event.
+            </summary>
         </member>
         <member name="T:GSF.TimeSeries.Adapters.IaonSession">
             <summary>
@@ -2258,6 +2273,11 @@
             Gets settings <see cref="T:System.Collections.Generic.Dictionary`2"/> parsed when <see cref="P:GSF.TimeSeries.Adapters.ActionAdapterBase.ConnectionString"/> was assigned.
             </summary>
         </member>
+        <member name="P:GSF.TimeSeries.Adapters.ActionAdapterBase.ShowConcentratorStatus">
+            <summary>
+            Gets flags that determines if <see cref="T:GSF.TimeSeries.ConcentratorBase"/> class status should be included in <see cref="T:GSF.TimeSeries.Adapters.ActionAdapterBase"/> status.
+            </summary>
+        </member>
         <member name="P:GSF.TimeSeries.Adapters.ActionAdapterBase.Status">
             <summary>
             Returns the detailed status of the action adapter.
@@ -2506,6 +2526,17 @@
             Action adapters are in the curious position of being able to both consume and produce points, as such the user needs to be able to control how their
             adapter will behave concerning routing demands when the adapter is setup to connect on demand. In the case of respecting auto-start output demands,
             as an example, this would be <c>true</c> for an action adapter that calculated measurement, but <c>false</c> for an action adapter used to archive inputs.
+            </remarks>
+        </member>
+        <member name="P:GSF.TimeSeries.Adapters.ActionAdapterCollection.ConvertReadonlyCollectionsToWritable">
+            <summary>
+            Gets or sets flag that determines if readonly collections should be converted
+            to writable so published measurement sets can be augmented by filter adapters.
+            </summary>
+            <remarks>
+            When filter adapters are detected in the <see cref="T:GSF.TimeSeries.Adapters.IaonSession"/>, collections that
+            output new measurements should convert all readonly measurement collections into
+            collections that can be modified so that measurements can be removed if needed.
             </remarks>
         </member>
         <member name="P:GSF.TimeSeries.Adapters.ActionAdapterCollection.Status">
@@ -3942,7 +3973,7 @@
         </member>
         <member name="P:GSF.TimeSeries.Adapters.FacileActionAdapterBase.FallBackOnLocalClock">
             <summary>
-            Gest or sets flag that determines whether to fall back on local clock time as real time when time is unreasonable.
+            Gets or sets flag that determines whether to fall back on local clock time as real time when time is unreasonable.
             </summary>
             <remarks>
             This property is only applicable when <see cref="P:GSF.TimeSeries.Adapters.FacileActionAdapterBase.UseLocalClockAsRealTime"/> is <c>false</c>.
@@ -4599,6 +4630,22 @@
         <member name="M:GSF.TimeSeries.Adapters.InputAdapterCollection.#ctor">
             <summary>
             Creates a new <see cref="T:GSF.TimeSeries.Adapters.InputAdapterCollection"/>.
+            </summary>
+        </member>
+        <member name="P:GSF.TimeSeries.Adapters.InputAdapterCollection.ConvertReadonlyCollectionsToWritable">
+            <summary>
+            Gets or sets flag that determines if readonly collections should be converted
+            to writable so published measurement sets can be augmented by filter adapters.
+            </summary>
+            <remarks>
+            When filter adapters are detected in the <see cref="T:GSF.TimeSeries.Adapters.IaonSession"/>, collections that
+            output new measurements should convert all readonly measurement collections into
+            collections that can be modified so that measurements can be removed if needed.
+            </remarks>
+        </member>
+        <member name="P:GSF.TimeSeries.Adapters.InputAdapterCollection.Status">
+            <summary>
+            Gets the descriptive status of this <see cref="T:GSF.TimeSeries.Adapters.ActionAdapterCollection"/>.
             </summary>
         </member>
         <member name="M:GSF.TimeSeries.Adapters.InputAdapterCollection.OnNewMeasurements(System.Collections.Generic.ICollection{GSF.TimeSeries.IMeasurement})">
@@ -5305,7 +5352,7 @@
         </member>
         <member name="F:GSF.TimeSeries.Common.DynamicAssembliesFolderName">
             <summary>
-            Folder name for dyanmically compiled assemblies.
+            Folder name for dynamically compiled assemblies.
             </summary>
         </member>
         <member name="T:GSF.TimeSeries.Configuration.ConfigurationLoaderBase">
@@ -8095,6 +8142,17 @@
             <param name="measurementToClone">Specified measurement to clone.</param>
             <param name="value">New value for cloned measurement.</param>
             <param name="timestamp">New timestamp, in ticks, for cloned measurement.</param>
+            <returns>A copy of the <see cref="T:GSF.TimeSeries.Measurement"/> object.</returns>
+        </member>
+        <member name="M:GSF.TimeSeries.Measurement.Clone(GSF.TimeSeries.IMeasurement,System.Double,GSF.Ticks,GSF.TimeSeries.MeasurementStateFlags,System.Boolean)">
+            <summary>
+            Creates a copy of the specified measurement using a new value, timestamp and state flags.
+            </summary>
+            <param name="measurementToClone">Specified measurement to clone.</param>
+            <param name="value">New value for cloned measurement.</param>
+            <param name="timestamp">New timestamp, in ticks, for cloned measurement.</param>
+            <param name="stateFlags">New state flags for cloned measurement.</param>
+            <param name="replaceFlags">Determines if <paramref name="stateFlags"/> should assigned as new (default) or be Or'd with existing flags.</param>
             <returns>A copy of the <see cref="T:GSF.TimeSeries.Measurement"/> object.</returns>
         </member>
         <member name="M:GSF.TimeSeries.Measurement.ToString(GSF.TimeSeries.IMeasurement,System.Boolean)">
@@ -13021,6 +13079,11 @@
         <member name="P:GSF.TimeSeries.ServiceHostBase.OutputAdapters">
             <summary>
             Gets reference to the <see cref="T:GSF.TimeSeries.Adapters.OutputAdapterCollection"/>.
+            </summary>
+        </member>
+        <member name="P:GSF.TimeSeries.ServiceHostBase.FilterAdapters">
+            <summary>
+            Gets reference to the <see cref="T:GSF.TimeSeries.Adapters.FilterAdapterCollection"/>.
             </summary>
         </member>
         <member name="P:GSF.TimeSeries.ServiceHostBase.NodeID">

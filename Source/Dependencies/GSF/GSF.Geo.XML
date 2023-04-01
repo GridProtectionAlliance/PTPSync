@@ -1,220 +1,228 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>GSF.Geo</name>
+        <name>Dnp3Adapters</name>
     </assembly>
     <members>
-        <member name="T:GSF.Geo.CoordinateReferenceSystem">
+        <member name="T:DNP3Adapters.DNP3InputAdapter">
             <summary>
-            Abstract class that defines coordinate reference systems for projecting
-            geographical points into pixel (screen) coordinates and back.
-            </summary>
-            <remarks>http://en.wikipedia.org/wiki/Coordinate_reference_system</remarks>
-        </member>
-        <member name="P:GSF.Geo.CoordinateReferenceSystem.Projection">
-            <summary>
-            Gets the projection used by the CRS.
+            Input adapter that reads measurements from a remote dnp3 endpoint.
             </summary>
         </member>
-        <member name="P:GSF.Geo.CoordinateReferenceSystem.Transformation">
+        <member name="M:DNP3Adapters.DNP3InputAdapter.IaonProxyLogHandler.Log(Automatak.DNP3.Interface.LogEntry)">
             <summary>
-            Gets the transformation used by the CRS.
+            Handler for log entries.
+            </summary>
+            <param name="entry"><see cref="T:Automatak.DNP3.Interface.LogEntry"/> to handle.</param>
+        </member>
+        <member name="M:DNP3Adapters.DNP3InputAdapter.#ctor">
+            <summary>
+            Creates a new instance of the <see cref="N:DNP3Adapters"/> class.
             </summary>
         </member>
-        <member name="M:GSF.Geo.CoordinateReferenceSystem.Translate(GSF.Geo.GeoCoordinate,System.Double)">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.CommsFilePath">
             <summary>
-            Translates the given geographical coordinate
-            to a cartesian point at the given zoom level.
-            </summary>
-            <param name="coordinate">The coordinate to be translated.</param>
-            <param name="zoom">The zoom level.</param>
-            <returns>The cartesian point corresponding to the given coordinate.</returns>
-        </member>
-        <member name="M:GSF.Geo.CoordinateReferenceSystem.Translate(GSF.Drawing.Point,System.Double)">
-            <summary>
-            Translates the given cartesian point to a
-            geographical coordinate at the given zoom level.
-            </summary>
-            <param name="point">The point to be translated.</param>
-            <param name="zoom">The zoom level.</param>
-            <returns>The geographical location of the point.</returns>
-        </member>
-        <member name="M:GSF.Geo.CoordinateReferenceSystem.Scale(System.Double)">
-            <summary>
-            Returns the scale used when transforming projected coordinates into
-            pixel coordinates for a particular zoom. For example, it returns
-            <c>256 * 2^zoom</c> for Mercator-based CRS.
-            </summary>
-            <param name="zoom">The zoom level.</param>
-            <returns>The scale at the given zoom level.</returns>
-        </member>
-        <member name="M:GSF.Geo.CoordinateReferenceSystem.Zoom(System.Double)">
-            <summary>
-            Returns the zoom level corresponding to the given scale factor.
-            </summary>
-            <param name="scale">The scale factor.</param>
-            <returns>The zoom level corresponding to the given scale factor.</returns>
-        </member>
-        <member name="M:GSF.Geo.CoordinateReferenceSystem.Distance(GSF.Geo.GeoCoordinate,GSF.Geo.GeoCoordinate)">
-            <summary>
-            Returns the distance between two geographical coordinates.
-            </summary>
-            <param name="coordinate1">The first geographical coordinate.</param>
-            <param name="coordinate2">The second geographical coordinate.</param>
-            <returns>The distance between two geographical coordinates.</returns>
-        </member>
-        <member name="T:GSF.Geo.Earth">
-            <summary>
-            Serves as the base for CRS that are global such that they cover the earth.
+            Gets or sets the name of the XML file from which the communication parameters will be read.
             </summary>
         </member>
-        <member name="M:GSF.Geo.Earth.Distance(GSF.Geo.GeoCoordinate,GSF.Geo.GeoCoordinate)">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.MappingFilePath">
             <summary>
-            Returns the distance, in meters, between two geographical coordinates.
-            </summary>
-            <param name="coordinate1">The first geographical coordinate.</param>
-            <param name="coordinate2">The second geographical coordinate.</param>
-            <returns>The distance between two geographical coordinates.</returns>
-        </member>
-        <member name="T:GSF.Geo.EPSG3857">
-            <summary>
-            The most common CRS for online maps.
-            Uses Spherical Mercator projection.
+            Gets or sets the name of the XML file from which the measurement mapping is read.
             </summary>
         </member>
-        <member name="M:GSF.Geo.EPSG3857.#ctor">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.PollingInterval">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.Geo.EPSG3857"/> class.
+            Gets or sets the interval, in seconds, at which the adapter will poll the DNP3 device.
             </summary>
         </member>
-        <member name="P:GSF.Geo.EPSG3857.Projection">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.TimestampDifferentiation">
             <summary>
-            Gets the projection used by the CRS.
+            Gets or sets the time interval, in milliseconds, to insert between consecutive
+            data points for a given signal that were received at the exact same time.
             </summary>
         </member>
-        <member name="P:GSF.Geo.EPSG3857.Transformation">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.SupportsTemporalProcessing">
             <summary>
-            Gets the transformation used by the CRS.
+            Gets the flag indicating if this adapter supports temporal processing.
             </summary>
         </member>
-        <member name="T:GSF.Geo.GeoCoordinate">
+        <member name="P:DNP3Adapters.DNP3InputAdapter.UseAsyncConnect">
             <summary>
-            Represents a location in the geographical coordinate system.
+            Gets flag that determines if the data input connects asynchronously.
+            </summary>
+            <remarks>
+            Derived classes should return true when data input source is connects asynchronously, otherwise return false.
+            </remarks>
+        </member>
+        <member name="M:DNP3Adapters.DNP3InputAdapter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:DNP3Adapters.DNP3InputAdapter"/> object and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:DNP3Adapters.DNP3InputAdapter.Initialize">
+            <summary>
+            Initializes <see cref="T:DNP3Adapters.DNP3InputAdapter"/>
             </summary>
         </member>
-        <member name="M:GSF.Geo.GeoCoordinate.#ctor(System.Double,System.Double)">
+        <member name="M:DNP3Adapters.DNP3InputAdapter.AttemptConnection">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.Geo.GeoCoordinate"/> class.
+            Attempts to connect to data input source.
             </summary>
-            <param name="latitude">The latitude of the geographical coordinate.</param>
-            <param name="longitude">The longitude of the geographical coordinate.</param>
+            <remarks>
+            Derived classes should attempt connection to data input source here.  Any exceptions thrown
+            by this implementation will result in restart of the connection cycle.
+            </remarks>
         </member>
-        <member name="P:GSF.Geo.GeoCoordinate.Latitude">
+        <member name="M:DNP3Adapters.DNP3InputAdapter.AttemptDisconnection">
             <summary>
-            Gets the latitude of the geographical coordinate.
+            Attempts to disconnect from data input source.
             </summary>
+            <remarks>
+            Derived classes should attempt disconnect from data input source here.  Any exceptions thrown
+            by this implementation will be reported to host via <see cref="E:GSF.TimeSeries.Adapters.AdapterBase.ProcessException"/> event.
+            </remarks>
         </member>
-        <member name="P:GSF.Geo.GeoCoordinate.Longitude">
+        <member name="M:DNP3Adapters.DNP3InputAdapter.GetShortStatus(System.Int32)">
             <summary>
-            Gets the longitude of the geographical coordinate.
+            Gets a short one-line status of this <see cref="T:DNP3Adapters.DNP3InputAdapter"/>.
             </summary>
+            <param name="maxLength">Maximum number of available characters for display.</param>
+            <returns>A short one-line summary of the current status of this <see cref="T:DNP3Adapters.DNP3InputAdapter"/>.</returns>
         </member>
-        <member name="M:GSF.Geo.GeoCoordinate.Distance(GSF.Geo.GeoCoordinate)">
+        <member name="T:DNP3Adapters.MasterConfiguration">
             <summary>
-            Calculates distance between this and another <see cref="T:GSF.Geo.GeoCoordinate"/> value.
-            Base on the <see cref="T:GSF.Geo.EPSG3857"/> reference system.
-            </summary>
-            <param name="other">Other <see cref="T:GSF.Geo.GeoCoordinate"/>.</param>
-            <returns>Distance between two <see cref="T:GSF.Geo.GeoCoordinate"/> values.</returns>
-        </member>
-        <member name="M:GSF.Geo.GeoCoordinate.Distance(GSF.Geo.GeoCoordinate,GSF.Geo.CoordinateReferenceSystem)">
-            <summary>
-            Calculates distance between this and another <see cref="T:GSF.Geo.GeoCoordinate"/> value.
-            using the specified <see cref="T:GSF.Geo.CoordinateReferenceSystem"/>
-            </summary>
-            <param name="other">Other <see cref="T:GSF.Geo.GeoCoordinate"/>.</param>
-            <param name="referenceSystem">The <see cref="T:GSF.Geo.CoordinateReferenceSystem"/> used.</param>
-            <returns>Distance between two <see cref="T:GSF.Geo.GeoCoordinate"/> values.</returns>
-        </member>
-        <member name="T:GSF.Geo.IProjection">
-            <summary>
-            Defines a map projection to translate geographical
-            coordinates to points in an xy-coordinate system.
+            Master Configuration
             </summary>
         </member>
-        <member name="M:GSF.Geo.IProjection.Project(GSF.Geo.GeoCoordinate)">
+        <member name="F:DNP3Adapters.MasterConfiguration.client">
             <summary>
-            Projects the given coordinates onto the xy-coordinate system.
-            </summary>
-            <param name="coordinate">The geographical coordinates to be projected.</param>
-            <returns>The given coordinates projected onto the xy-coordinate system.</returns>
-        </member>
-        <member name="M:GSF.Geo.IProjection.Unproject(GSF.Drawing.Point)">
-            <summary>
-            Unprojects the given point to the geographical coordinate system.
-            </summary>
-            <param name="point">The point to be unprojected.</param>
-            <returns>The geographical coordinates of the given point.</returns>
-        </member>
-        <member name="T:GSF.Geo.SphericalMercator">
-            <summary>
-            Spherical Mercator projection; the most common projection for online maps.
-            Assumes that Earth is a sphere. Used by the <c>EPSG:3857</c> CRS.
+            All of the settings for the connection
             </summary>
         </member>
-        <member name="F:GSF.Geo.SphericalMercator.R">
+        <member name="F:DNP3Adapters.MasterConfiguration.master">
             <summary>
-            Radius of the Earth (meters).
+            All of the settings for the master
             </summary>
         </member>
-        <member name="F:GSF.Geo.SphericalMercator.MaxLatitude">
+        <member name="T:DNP3Adapters.TcpClientConfig">
             <summary>
-            The maximum latitude.
+            TCP Client Configuration class.
             </summary>
         </member>
-        <member name="M:GSF.Geo.SphericalMercator.Project(GSF.Geo.GeoCoordinate)">
+        <member name="F:DNP3Adapters.TcpClientConfig.address">
             <summary>
-            Projects the given coordinates onto the xy-coordinate system.
-            </summary>
-            <param name="coordinate">The geographical coordinates to be projected.</param>
-            <returns>The given coordinates projected onto the xy-coordinate system.</returns>
-        </member>
-        <member name="M:GSF.Geo.SphericalMercator.Unproject(GSF.Drawing.Point)">
-            <summary>
-            Unprojects the given point to the geographical coordinate system.
-            </summary>
-            <param name="point">The point to be unprojected.</param>
-            <returns>The geographical coordinates of the given point.</returns>
-        </member>
-        <member name="T:GSF.Geo.Transformation">
-            <summary>
-            Represents a linear transformation over an xy-coordinate system.
+            IP address of host
             </summary>
         </member>
-        <member name="M:GSF.Geo.Transformation.#ctor(System.Double,System.Double,System.Double,System.Double)">
+        <member name="F:DNP3Adapters.TcpClientConfig.port">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.Geo.Transformation"/> class.
+            TCP port for connection
             </summary>
-            <param name="xScale">The scale to be applied to the x-value of the point.</param>
-            <param name="xOffset">The offset to be applied to the x-value of the point.</param>
-            <param name="yScale">The scale to be applied to the y-value of the point.</param>
-            <param name="yOffset">The offset to be applied to the y-value of the point.</param>
         </member>
-        <member name="M:GSF.Geo.Transformation.Transform(GSF.Drawing.Point,System.Double)">
+        <member name="F:DNP3Adapters.TcpClientConfig.minRetryMs">
             <summary>
-            Transforms the given point to another location.
+            Minimum connection retry interval in milliseconds
             </summary>
-            <param name="point">The point to be transformed.</param>
-            <param name="scale">The scale to apply after the transformation.</param>
-            <returns>The transformed point.</returns>
         </member>
-        <member name="M:GSF.Geo.Transformation.Untransform(GSF.Drawing.Point,System.Double)">
+        <member name="F:DNP3Adapters.TcpClientConfig.maxRetryMs">
             <summary>
-            Untransforms the given point to its original location.
+            Maximum connection retry interval in milliseconds
             </summary>
-            <param name="point">The transformed point.</param>
-            <param name="scale">The scale that was applied after the transformation.</param>
-            <returns>The original point.</returns>
+        </member>
+        <member name="F:DNP3Adapters.TcpClientConfig.reconnectDelayMs">
+            <summary>
+            Reconnect delay interval in milliseconds
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.TcpClientConfig.level">
+            <summary>
+            DNP3 filter level for port messages
+            </summary>
+        </member>
+        <member name="T:DNP3Adapters.MeasurementLookup">
+            <summary>
+            Helper class that converts measurements and provides a lookup capability.
+            </summary>
+        </member>
+        <member name="T:DNP3Adapters.Mapping">
+            <summary>
+            Mapping
+            </summary>
+        </member>
+        <member name="M:DNP3Adapters.Mapping.#ctor">
+            <summary>
+            Creates a new <see cref="T:DNP3Adapters.Mapping"/>.
+            </summary>
+        </member>
+        <member name="M:DNP3Adapters.Mapping.#ctor(System.UInt32,System.String,System.UInt32)">
+            <summary>
+            Creates a new <see cref="T:DNP3Adapters.Mapping"/> with the specified parameters.
+            </summary>
+            <param name="id">ID</param>
+            <param name="source">Source</param>
+            <param name="index">Index</param>
+        </member>
+        <member name="F:DNP3Adapters.Mapping.tsfId">
+            <summary>
+            TSF ID
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.Mapping.tsfSource">
+            <summary>
+            TSF Source
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.Mapping.dnpIndex">
+            <summary>
+            DNP Index
+            </summary>
+        </member>
+        <member name="T:DNP3Adapters.MeasurementMap">
+            <summary>
+            Measurement Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.binaryMap">
+            <summary>
+            Binary Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.analogMap">
+            <summary>
+            Analog Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.counterMap">
+            <summary>
+            Counter Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.frozenCounterMap">
+            <summary>
+            Frozen Counter Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.doubleBitBinaryMap">
+            <summary>
+            double bit binary map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.controlStatusMap">
+            <summary>
+            Control Status Map
+            </summary>
+        </member>
+        <member name="F:DNP3Adapters.MeasurementMap.setpointStatusMap">
+            <summary>
+            Set Point Status Map
+            </summary>
+        </member>
+        <member name="T:DNP3Adapters.TimeSeriesSOEHandler">
+            <summary>
+            This is the data adapter that converts data from the dnp3 world to the Time Series Framework.
+            </summary>
         </member>
     </members>
 </doc>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

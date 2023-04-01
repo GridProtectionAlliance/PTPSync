@@ -1,1044 +1,1048 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>GSF.COMTRADE</name>
+        <name>Microsoft.Azure.Amqp</name>
     </assembly>
     <members>
-        <member name="T:GSF.COMTRADE.AnalogChannel">
+        <member name="T:Microsoft.Azure.Amqp.AmqpCodec">
             <summary>
-            Represents an analog channel definition of the <see cref="T:GSF.COMTRADE.Schema"/>.
+            Provides a single place to encode and decode AMQP premitives
+            Encode and decode AMQP framing types.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultCurrentMagnitudeMultiplier">
+        <member name="T:Microsoft.Azure.Amqp.AmqpConnection">
             <summary>
-            Default multiplier for current magnitude values.
+            Implements the AMQP 1.0 connection.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultVoltageMagnitudeMultiplier">
+        <member name="T:Microsoft.Azure.Amqp.AmqpConnectionBase">
             <summary>
-            Default multiplier for voltage magnitude values.
+            The base class for AMQP connection. It should be version independent.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultPhaseAngleMultiplier">
+        <member name="M:Microsoft.Azure.Amqp.AmqpConnectionSettings.Clone">
+            <summary> doesn't clone - RemoteSettings: HostName/ContainerId </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpConstants">
+            <summary>
+            Constants for the protocol stack. Extended constants should be defined in
+            ClientConstants.cs
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpDebug">
+            <summary>
+            This class logs the frame activity on session and dumps them into a file
+            for debugging issues that are difficult to repro under debugger. The output
+            file is named as "session#.log" and it contains lines as follows:
+              ticks(10000)	direction	op	p1	p2
+              1653194746831	9	RECV	17	0	0
+              1653194746844	9	SEND	17	0	0
+            Refer to the calls to AmqpDebug.Log for parameter definition.
+            Enable this logging by including AMQP_DEBUG constant in the project file
+            for the desired build configuration.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Extensions">
+            <summary>
+            make it convenient to deal with nullable types
+            also set the default value if the field is null
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpLink">
+            <summary>
+            Implements the transport-layer link, including
+            link command handling and link flow control.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpMessage">
+            <summary>
+            Implements the AMQP MESSAGE FORMAT 0 message.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpMessage.AmqpBodyStreamMessage">
+            <summary>
+            Wraps a stream in the message body. The data is sent in one or more Data sections.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpMessage.AmqpOutputStreamMessage">
+            <summary>
+            The stream contains an entire AMQP message. When the stream is sent out,
+            the mutable sections are updated.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AmqpMessage.AmqpInputStreamMessage">
+            <summary>
+            Used on the receiver side. The entire message is immutable (changes are discarded).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.AmqpObject.Abort">
+            <summary>
+            Move to End state without closing
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.AmqpObject.SafeClose">
+            <summary>
+            Close with exception handling
+            </summary>
+        </member>
+        <member name="P:Microsoft.Azure.Amqp.AmqpSettings.TransportProviders">
+            <summary>
+            Providers should be added in preferred order.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.AsyncReader">
+            <summary>
+            A reader that pumps frames from the transport and hands it over to the handler
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.AsyncBufferReader">
             <summary>
-            Default multiplier for phase angle values.
+            A reader that reads specified bytes and notifies caller upon completion (pull).
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultFrequencyMultiplier">
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.FrameBufferReader">
             <summary>
-            Default multiplier for frequency values.
+            A reader that reads AMQP frame buffers. Not thread safe.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultDfDtMultiplier">
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.AsyncWriter">
             <summary>
-            Default multiplier for dF/dt values.
+            A writer that writes buffers. Buffer writes may be batched. Writer owns closing the transport.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.AnalogChannel.DefaultAnalogMultipler">
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.AsyncFrameWriter">
             <summary>
-            Default multiplier for an analog value.
+            A writer that writes complete AMQP frames. Frame writes may be batched. Writer owns closing the transport.
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.AnalogChannel.#ctor(System.Int32,System.Boolean)">
+        <member name="T:Microsoft.Azure.Amqp.AsyncIO.AsyncBufferWriter">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            A writer that writes fixed-size buffer and notify caller upon completion.
             </summary>
-            <param name="version">Target schema version.</param>
-            <param name="targetFloatingPoint">Determines if file type is targeting floating point.</param>
         </member>
-        <member name="M:GSF.COMTRADE.AnalogChannel.#ctor(System.String,System.Int32,System.Boolean,System.Boolean)">
+        <member name="T:Microsoft.Azure.Amqp.AmqpCbsLink">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.AnalogChannel"/> from an existing line image.
+            Encapsulates a pair of links to '$cbs' for managing CBS tokens
             </summary>
-            <param name="lineImage">Line image to parse.</param>
-            <param name="version">Target schema version.</param>
-            <param name="targetFloatingPoint">Determines if file type is targeting floating point.</param>
-            <param name="useRelaxedValidation">Indicates whether to relax validation on the number of line image elements.</param>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Index">
+        <member name="M:Microsoft.Azure.Amqp.AmqpCbsLink.#ctor(Microsoft.Azure.Amqp.AmqpConnection)">
             <summary>
-            Gets or sets index of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            Constructs a new instance
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Name">
+        <member name="T:Microsoft.Azure.Amqp.CbsConstants">
             <summary>
-            Gets or sets name of this <see cref="T:GSF.COMTRADE.AnalogChannel"/> formatted as station_name:channel_name.
+            Constants useful for CBS scenarios
             </summary>
-            <exception cref="T:System.FormatException">Name must be formatted as station_name:channel_name.</exception>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.StationName">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.TimeoutName">
             <summary>
-            Gets or sets station name component of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The Property name for setting timeouts
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.ChannelName">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.CbsAddress">
             <summary>
-            Gets or sets channel name component of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The address of the CBS Node ($cbs)
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.PhaseID">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.IotHubSasTokenType">
             <summary>
-            Gets or sets the 2-character phase identifier for this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The Sas token type used by IotHub (azure-devices.net:sastoken)
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.PhaseDesignation">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.ServiceBusSasTokenType">
             <summary>
-            Gets or sets phase designation of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The Sas token type used by ServiceBus (servicebus.windows.net:sastoken)
             </summary>
-            <exception cref="T:System.ArgumentException">Value is not a valid phase designation.</exception>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.PhasorType">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.Operation">
             <summary>
-            Gets or sets phasor type of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>, if applicable.
+            The operation property name
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.NominalFrequency">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.OperationValue">
             <summary>
-            Gets or sets nominal frequency of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The put-token operation property value
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.SignalKind">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.Type">
             <summary>
-            Gets or sets signal kind of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The token type property name
             </summary>
-            <exception cref="T:System.ArgumentException">Value is not a valid analog signal kind.</exception>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.CoordinateFormat">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.Audience">
             <summary>
-            Gets or sets coordinate format of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The audience property name
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.CircuitComponent">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.Expiration">
             <summary>
-            Gets or sets circuit component of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The expiration property name
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Units">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.StatusCode">
             <summary>
-            Gets or sets units of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The response status code property name
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Multiplier">
+        <member name="F:Microsoft.Azure.Amqp.CbsConstants.PutToken.StatusDescription">
             <summary>
-            Gets or sets value multiplier of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The response status description property name
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Adder">
+        <member name="T:Microsoft.Azure.Amqp.CbsToken">
             <summary>
-            Gets or sets adder of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            Encapsulates a token for use with AMQP CBS
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Skew">
+        <member name="M:Microsoft.Azure.Amqp.CbsToken.#ctor(System.Object,System.String,System.DateTime)">
             <summary>
-            Gets or sets time skew between channels of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            Constructs a new instance with the provided values.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.MinValue">
+        <member name="P:Microsoft.Azure.Amqp.CbsToken.TokenValue">
             <summary>
-            Gets or sets minimum unscaled value of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The token itself
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.MaxValue">
+        <member name="P:Microsoft.Azure.Amqp.CbsToken.TokenType">
             <summary>
-            Gets or sets maximum unscaled value of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The type of this token
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.PrimaryRatio">
+        <member name="P:Microsoft.Azure.Amqp.CbsToken.ExpiresAtUtc">
             <summary>
-            Gets or sets the channel voltage or current transformer ratio primary factor of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            The expiration time of the token
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.SecondaryRatio">
+        <member name="T:Microsoft.Azure.Amqp.ICbsTokenProvider">
             <summary>
-            Gets or sets the channel voltage or current transformer ratio secondary factor of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            ICbsTokenProvider interface
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.ScalingIdentifier">
+        <member name="M:Microsoft.Azure.Amqp.ICbsTokenProvider.GetTokenAsync(System.Uri,System.String,System.String[])">
             <summary>
-            Gets or sets the primary or secondary data scaling identifier of this <see cref="T:GSF.COMTRADE.AnalogChannel"/>.
+            Generate a Token for use with CBS.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.AngleUnit">
+        <member name="M:Microsoft.Azure.Amqp.Delivery.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.Delivery.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged resources and optionally releases managed resources.
+            </summary>
+            <param name="disposing">
+            true to release both managed and unmanaged resources;
+            false to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Encoding.AmqpEncoding">
+            <summary>
+            Encode and decode data within the AMQP type system.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Encoding.DecimalEncoding">
+            <summary>
+            Decoding from AMQP decimal to C# decimal can lose precision and 
+            can also cause OverflowException.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.FaultTolerantAmqpObject`1">
+            <summary>
+            This API supports the Azure infrastructure and is not intended to be used directly from your code.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Framing.AmqpDescribed">
+            <summary>
+            Descriptor is restricted to symbol and ulong
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Framing.DescribedList">
+            <summary>
+            Encoding of DescribedType(symbol/ulong, list) is not efficient if the
+            descriptor and the list fields are pre-defined, e.g. the performatives
+            and other types used by the protocol.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Framing.Multiple`1">
             <summary>
-            Gets <see cref="P:GSF.COMTRADE.AnalogChannel.AngleUnit"/> derived from <see cref="P:GSF.COMTRADE.AnalogChannel.Units"/>, if applicable to channel type.
+            Multiple is not an AMQP data type. It is a property of a list field
+            that affects the encoding of the associated data type.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.AnalogChannel.Version">
+        <member name="T:Microsoft.Azure.Amqp.HandleTable`1">
             <summary>
-            Gets target schema version.
+            Designed for session channel and link handle lookup. 
+            Not for general purpose uses.
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.AnalogChannel.ToString">
+        <member name="T:Microsoft.Azure.Amqp.HandleTable`1.SafeEnumerator">
             <summary>
-            Converts <see cref="T:GSF.COMTRADE.AnalogChannel"/> to its string format.
+            Use this only if the enumeration is best effort only
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.ChannelMetadata">
+        <member name="T:Microsoft.Azure.Amqp.ReceivingAmqpLink.SizeBasedFlowQueue">
             <summary>
-            Defines a minimal set of channel metadata for a COMTRADE config file.
+            The different this class from the normal Queue is that
+            if we specify a size then we will perform Amqp Flow based on 
+            the size, where:
+            - When en-queuing (cache message from service) we will keep sending credit flow as long as size is not over the cache limit.
+            - When de-queuing (return message to user) we will issue flow as soon as the size is below the threshold (70%).
+            - When issuing credit we always issue in increment of boundedTotalLinkCredit
+            - boundedTotalLinkCredit is based on [total cache size] / [max message size]
+            - [total cache size] has a 90% cap to try to prevent overflow - but does not enforce it.
+            - we keep updating [max message size] as we receive message in flow.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadata.Name">
+        <member name="M:Microsoft.Azure.Amqp.ReceivingAmqpLink.SizeBasedFlowQueue.UpdateCreditToIssue(Microsoft.Azure.Amqp.AmqpMessage)">
             <summary>
-            Channel name.
+            This method updates the credit that we will send to service to fetch more
+            data based on the current average message size. Only call this method if
+            we already check and cache credit is within range (&gt; 0%, &lt; 90%).
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadata.SignalType">
+        <member name="T:Microsoft.Azure.Amqp.Amqp.Resources">
             <summary>
-            Channel signal type.
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadata.IsDigital">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.ResourceManager">
             <summary>
-            Determines if channel is a digital.
+              Returns the cached ResourceManager instance used by this class.
             </summary>
-            <remarks>
-            Channel is assumed to be an analog if field is <c>false</c>.
-            </remarks>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadata.Units">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.Culture">
             <summary>
-            Defines units to use for channel.
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
-            <remarks>
-            Leave <c>null</c> for defaults.
-            </remarks>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadata.CircuitComponent">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpApplicationProperties">
             <summary>
-            Defines circuit component channel.
+              Looks up a localized string similar to Type {0} is not currently supported in AMQP application properties..
             </summary>
-            <remarks>
-            Leave <c>null</c> for none.
-            </remarks>
         </member>
-        <member name="T:GSF.COMTRADE.ChannelMetadataSorter">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpBufferAlreadyReclaimed">
             <summary>
-            Defines a comparison class to property sort metadata.
+              Looks up a localized string similar to The buffer has already been reclaimed..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.ChannelMetadataSorter.Compare(GSF.COMTRADE.ChannelMetadata,GSF.COMTRADE.ChannelMetadata)">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpCannotCloneSentMessage">
             <summary>
-            Compares one metadata record to another.
+              Looks up a localized string similar to A message cannot be cloned after it has been sent..
             </summary>
-            <param name="left">Left metadata record to compare.</param>
-            <param name="right">Right metadata record to compare.</param>
-            <returns>Comparison sort order of metadata record.</returns>
         </member>
-        <member name="F:GSF.COMTRADE.ChannelMetadataSorter.Default">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpCannotResendMessage">
             <summary>
-            Default instance of the metadata record sorter.
+              Looks up a localized string similar to A message cannot be sent because it is either received from a link or is already sent over a link..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.DigitalChannel">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpCbsLinkAlreadyOpen">
             <summary>
-            Represents a digital channel definition of the <see cref="T:GSF.COMTRADE.Schema"/>.
+              Looks up a localized string similar to A link to connection &apos;{0}&apos; $cbs node has already been opened..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.DigitalChannel.#ctor(System.Int32)">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpChannelNotFound">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to The session channel &apos;{0}&apos; cannot be found in connection &apos;{1}&apos;..
             </summary>
-            <param name="version">Target schema version.</param>
         </member>
-        <member name="M:GSF.COMTRADE.DigitalChannel.#ctor(System.String,System.Int32,System.Boolean)">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpConnectionInactive">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.DigitalChannel"/> from an existing line image.
+              Looks up a localized string similar to The connection was inactive for more than the allowed {0} milliseconds and is closed by container '{1}'..
             </summary>
-            <param name="lineImage">Line image to parse.</param>
-            <param name="version">Target schema version.</param>
-            <param name="useRelaxedValidation">Indicates whether to relax validation on the number of line image elements.</param>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.Index">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpDeliveryIDInUse">
             <summary>
-            Gets or sets index of this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to The delivery id is already used (id:{0}, next-id:{1}, ulw:{2}, index:{3})..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.Name">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpDuplicateMemberOrder">
             <summary>
-            Gets or sets name of this <see cref="T:GSF.COMTRADE.DigitalChannel"/> formatted as station_name:channel_name.
+              Looks up a localized string similar to The order {0} is defined more than once for type {1}. Please specify the Order property of AmqpMemberAttribute explicitly to avoid this error..
             </summary>
-            <exception cref="T:System.FormatException">Name must be formatted as station_name:channel_name.</exception>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.StationName">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpDynamicTerminusNotSupported">
             <summary>
-            Gets or sets station name component of this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to Dynamic terminus is not currently supported..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.ChannelName">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpEmptyMessageNotAllowed">
             <summary>
-            Gets or sets channel name component of this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to Sending an emtpy message is not allowed. At least one message section must be initialized..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.PhaseID">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpEncodingTypeMismatch">
             <summary>
-            Gets or sets the 2-character phase identifier for this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to The Encoding value of type ({0}:{1}) is different from that of its base type ({2}:{3})..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.CircuitComponent">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpErrorOccurred">
             <summary>
-            Gets or sets circuit component of this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to An AMQP error occurred (condition=&apos;{0}&apos;)..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.NormalState">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpFieldSessionId">
             <summary>
-            Gets or sets normal state of this <see cref="T:GSF.COMTRADE.DigitalChannel"/>.
+              Looks up a localized string similar to No session-id was specified for a session receiver..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.DigitalChannel.Version">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpFramingError">
             <summary>
-            Gets target schema version.
+              Looks up a localized string similar to A valid frame header cannot be formed from the incoming byte stream..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.DigitalChannel.ToString">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpGlobalOpaqueAddressesNotSupported">
             <summary>
-            Converts <see cref="T:GSF.COMTRADE.DigitalChannel"/> to its string format.
+              Looks up a localized string similar to Global opaque (non-DNS) addresses are not supported (&apos;{0}&apos;).
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.Parser">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpHandleExceeded">
             <summary>
-            COMTRADE data file(s) parser.
+              Looks up a localized string similar to Cannot allocate more handles. The maximum number of handles is {0}..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.Finalize">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpHandleInUse">
             <summary>
-            Releases the unmanaged resources before the <see cref="T:GSF.COMTRADE.Parser"/> object is reclaimed by <see cref="T:System.GC"/>.
+              Looks up a localized string similar to The handle &apos;{0}&apos; is already associated with object &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.Schema">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpHandleNotFound">
             <summary>
-            Gets or sets associated COMTRADE schema for this <see cref="T:GSF.COMTRADE.Parser"/>.
+              Looks up a localized string similar to The link handle &apos;{0}&apos; cannot be found in session &apos;{1}&apos;..
             </summary>
-            <remarks>
-            Upon assignment, any <see cref="P:GSF.COMTRADE.Schema.FileName"/> value will be used to
-            initialize the parser's initial <see cref="P:GSF.COMTRADE.Parser.FileName"/> property when an associated
-            data file that ends with ".cff", ".dat" or ".d00" is found to exist.
-            </remarks>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.FileName">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpIdleTimeoutNotSupported">
             <summary>
-            Gets or sets COMTRADE data filename. If there are more than one data files in a set, this should be set to first file name in the set, e.g., DATA123.D00.
+              Looks up a localized string similar to Idle timeout value specified in connection OPEN (&apos;{0} ms&apos;) is not supported. Minimum idle timeout is &apos;{1}&apos; ms..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.IsCombinedFileFormat">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpIllegalOperationState">
             <summary>
-            Gets flag that determines if <see cref="P:GSF.COMTRADE.Parser.FileName"/> is a Combined File Format (.cff) file.
+              Looks up a localized string similar to operation: {0}, state: {1}.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.BinaryByteCount">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInsufficientBufferSize">
             <summary>
-            Gets the byte count as parsed from a Combined File Format (.cff) file targeted with binary format.
+              Looks up a localized string similar to The requested data size &apos;{0}&apos; is greater than the length of the remaining buffer &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.InferTimeFromSampleRates">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidCommand">
             <summary>
-            Gets or sets flag that determines if time should be inferred from sample rates.
+              Looks up a localized string similar to Invalid command..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.Timestamp">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidFormatCode">
             <summary>
-            Gets timestamp of current record.
+              Looks up a localized string similar to The format code &apos;{0}&apos; at frame buffer offset &apos;{1}&apos; is invalid or unexpected..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.Values">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidLinkAttachAddress">
             <summary>
-            Gets values of current record.
+              Looks up a localized string similar to The hostname within the Target or Source address URL in the ATTACH frame (&apos;{0}&apos;) is different than the hostname passed in the connection OPEN (&apos;{1}&apos;)..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.PrimaryValues">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidLinkAttachScheme">
             <summary>
-            Gets values of current record with secondary analog channels scaled to primary values.
+              Looks up a localized string similar to The scheme of the Target or Source address URL in the ATTACH frame (&apos;{0}&apos;) is invalid. Only &apos;amqp&apos; and &apos;amqps&apos; schemes are supported..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.SecondaryValues">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidMessageBodyType">
             <summary>
-            Gets values of current record with primary analog channels scaled to secondary values.
+              Looks up a localized string similar to The message body type is invalid..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.AdjustToUTC">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidMessageSectionCode">
             <summary>
-            Gets or sets flag that determines if schemas that include a time code for a UTC offset
-            should apply the adjustment so that timestamps are parsed as UTC.
+              Looks up a localized string similar to The format code &apos;{0}&apos; is not a valid message section code..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Parser.TargetAngleUnit">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidPerformativeCode">
             <summary>
-            Gets or sets target angle unit for any analog channels that are angles.
+              Looks up a localized string similar to The descriptor code of the performative &apos;{0}&apos; cannot be processed by the link..
             </summary>
-            <remarks>
-            When assigned, any encountered angles will be converted to the specified unit while parsing.
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.Dispose">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidPropertyType">
             <summary>
-            Releases all the resources used by the <see cref="T:GSF.COMTRADE.Parser"/> object.
+              Looks up a localized string similar to Invalid type for property &apos;{0}&apos; in the &apos;{1}&apos; section..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.Dispose(System.Boolean)">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidPropertyValue">
             <summary>
-            Releases the unmanaged resources used by the <see cref="T:GSF.COMTRADE.Parser"/> object and optionally releases the managed resources.
+              Looks up a localized string similar to Invalid value for property &apos;{0}&apos; in the &apos;{1}&apos; section..
             </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.OpenFiles">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidPublisherOperationForMessagingSku">
             <summary>
-            Opens all COMTRADE data file streams.
+              Looks up a localized string similar to The operation cannot be performed against publisher &apos;{0}&apos; because the targeted namespace &apos;{1}&apos; is of {2} tier..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.CloseFiles">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidRemoteIp">
             <summary>
-            Closes all COMTRADE data file streams.
+              Looks up a localized string similar to Unable to get valid source IP address for connection..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Parser.ReadNext">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidReOpenOperation">
             <summary>
-            Reads next COMTRADE record.
+              Looks up a localized string similar to Open was already called for the object &apos;{0}&apos; (state={1})..
             </summary>
-            <returns><c>true</c> if read succeeded; otherwise, <c>false</c> if end of data set was reached.</returns>
         </member>
-        <member name="T:GSF.COMTRADE.SampleRate">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidSequenceNumberComparison">
             <summary>
-            Represents a sample rate with associated ending sample using the COMTRADE file standard, IEEE Std C37.111-1999.
+              Looks up a localized string similar to Comparison of {0} and {1} is invalid because the result is undefined..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.SampleRate.Rate">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpInvalidType">
             <summary>
-            Sample rate in Hertz (Hz).
+              Looks up a localized string similar to The field {0} is either not set or not a supported type..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.SampleRate.EndSample">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpLinkNameInUse">
             <summary>
-            Last sample number at sample rate.
+              Looks up a localized string similar to A link with name &apos;{0}&apos; is already attached in session {1}..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.SampleRate.#ctor(System.String,System.Boolean)">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpManagementLinkAlreadyOpen">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.SampleRate"/> from an existing line image.
+              Looks up a localized string similar to A link to connection &apos;{0}&apos; $management node has already been opened..
             </summary>
-            <param name="lineImage">Line image to parse.</param>
-            <param name="useRelaxedValidation">Indicates whether to relax validation on the number of line image elements.</param>
         </member>
-        <member name="M:GSF.COMTRADE.SampleRate.ToString">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpManagementOperationFailed">
             <summary>
-            Converts <see cref="T:GSF.COMTRADE.SampleRate"/> to its string format.
+              Looks up a localized string similar to Management operation failed. status-code: {0}, status-description: {1}..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.FileType">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpMessageSizeExceeded">
             <summary>
-            <see cref="T:GSF.COMTRADE.Schema"/> file type enumeration.
+              Looks up a localized string similar to The received message (delivery-id:{0}, size:{1} bytes) exceeds the limit ({2} bytes) currently allowed on the link..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.FileType.Ascii">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpMissingOrInvalidProperty">
             <summary>
-            ASCII file type.
+              Looks up a localized string similar to Property &apos;{0}&apos; in the &apos;{1}&apos; section is either missing, has the wrong type, or has an unexpected value..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.FileType.Binary">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpMissingProperty">
             <summary>
-            Binary file type, analog channel size = uint16.
+              Looks up a localized string similar to Missing property &apos;{0}&apos; in the &apos;{1}&apos; section..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.FileType.Binary32">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpNotSupportMechanism">
             <summary>
-            Binary file type, analog channel size = uint32.
+              Looks up a localized string similar to None of the server sasl-mechanisms ({0}) are supported by the client ({1})..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.FileType.Float32">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpNoValidAddressForHost">
             <summary>
-            Binary file type, analog channel size = float32.
+              Looks up a localized string similar to No valid IP addresses were found for host {0}..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.TimeQualityIndicatorCode">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpObjectAborted">
             <summary>
-            <see cref="T:GSF.COMTRADE.Schema"/> time quality indicator code.
+              Looks up a localized string similar to The AMQP object {0} is aborted..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.Locked">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpOperationNotSupported">
             <summary>
-            Clock locked, Normal operation.
+              Looks up a localized string similar to {0} is not supported over AMQP..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.Failure">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpProtocolVersionNotSet">
             <summary>
-            Clock fault, time not reliable.
+              Looks up a localized string similar to At least one protocol version must be set for {0}..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.Unlocked10Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpProtocolVersionNotSupported">
             <summary>
-            Clock unlocked, time within 10^1s.
+              Looks up a localized string similar to The requested protocol version &apos;{0}&apos; is not supported. The supported version is &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.Unlocked1Second">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpPutTokenAudienceMismatch">
             <summary>
-            Clock unlocked, time within 10^0s.
+              Looks up a localized string similar to &apos;put-token&apos; operation: the &apos;name&apos; application property value &apos;{0}&apos; should match the token audience value. Expected: &apos;{1}&apos; .
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint1Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpPutTokenFailed">
             <summary>
-            Clock unlocked, time within 10^-1s.
+              Looks up a localized string similar to Put token failed. status-code: {0}, status-description: {1}..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint01Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpRequiredFieldNotSet">
             <summary>
-            Clock unlocked, time within 10^-2s.
+              Looks up a localized string similar to The required field &apos;{0}&apos; is not set in &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpTimeout">
             <summary>
-            Clock unlocked, time within 10^-3s.
+              Looks up a localized string similar to The operation did not complete within the allocated time {0} for object {1}..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint0001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpTransferLimitExceeded">
             <summary>
-            Clock unlocked, time within 10^-4s.
+              Looks up a localized string similar to There is no link credit to accept the delivery (id={0})..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint00001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpTransportNotSecure">
             <summary>
-            Clock unlocked, time within 10^-5s.
+              Looks up a localized string similar to The current transport is not secure. Establish a secure transport by setting AmqpTransportSettings.UseSslStreamSecurity to true..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint000001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpTransportUpgradeNotAllowed">
             <summary>
-            Clock unlocked, time within 10^-6s.
+              Looks up a localized string similar to Cannot upgrade transport from type &apos;{0}&apos; to &apos;{1}&apos;..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint0000001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpUnknownDescriptor">
             <summary>
-            Clock unlocked, time within 10^-7s.
+              Looks up a localized string similar to The descriptor {0} is unknown while deserializing {1}. This usually happens if a wrong type is given to the ReadObject method or KnownTypesAttribute is not defined..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint00000001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpUnopenObject">
             <summary>
-            Clock unlocked, time within 10^-8s.
+              Looks up a localized string similar to The object is not open..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.TimeQualityIndicatorCode.UnlockedPoint000000001Seconds">
+        <member name="P:Microsoft.Azure.Amqp.Amqp.Resources.AmqpUnsupportedTokenType">
             <summary>
-            Clock unlocked, time within 10^-9s.
+              Looks up a localized string similar to The token type is not supported by this client implementation..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.LeapSecondIndicator">
+        <member name="M:Microsoft.Azure.Amqp.Sasl.SaslNegotiator.OnSaslServerMechanisms(Microsoft.Azure.Amqp.Sasl.SaslMechanisms)">
             <summary>
-            <see cref="T:GSF.COMTRADE.Schema"/> leap second indicator.
+            Client receives the announced server mechanisms.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.LeapSecondIndicator.NoLeapSecondAdjustment">
+        <member name="M:Microsoft.Azure.Amqp.Sasl.SaslNegotiator.OnSaslInit(Microsoft.Azure.Amqp.Sasl.SaslInit)">
             <summary>
-            No leap second adjustment was added during recorded data set.
+            Server receives the client init that may contain the initial response message.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.LeapSecondIndicator.LeapSecondWasAdded">
+        <member name="M:Microsoft.Azure.Amqp.Sasl.SaslNegotiator.OnSaslOutcome(Microsoft.Azure.Amqp.Sasl.SaslOutcome)">
             <summary>
-            Leap second adjustment was added during recorded data set.
+            Client receives the sasl outcome from the server.
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.LeapSecondIndicator.LeapSecondWasSubtracted">
+        <member name="T:Microsoft.Azure.Amqp.SequenceNumber">
             <summary>
-            Leap second adjustment was subtracted during recorded data set.
+            RFC1982: http://tools.ietf.org/html/rfc1982
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.LeapSecondIndicator.NoLeapSecondCapacity">
+        <member name="T:Microsoft.Azure.Amqp.Serialization.EncodingType">
+            <summary>Enumerates the encoding type associated with the serialization.</summary>
+        </member>
+        <member name="F:Microsoft.Azure.Amqp.Serialization.EncodingType.List">
+            <summary>The List encoding type.</summary>
+        </member>
+        <member name="F:Microsoft.Azure.Amqp.Serialization.EncodingType.Map">
+            <summary>The Map encoding type.</summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.SerializedBatchableWorker`1">
+            <summary>
+            Work is serialized but all pending work is batched
+            </summary>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.SerializedWorker`1">
+            <summary>
+            Work is serialized. Each work is retried until it is completed
+            </summary>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.Transport.AmqpTransportInitiator.#ctor(Microsoft.Azure.Amqp.AmqpSettings,Microsoft.Azure.Amqp.Transport.TransportSettings)">
             <summary>
-            Leap second adjustment not capable for recording device.
+            This initiator establishes a base transport using the transport settings
+            Then it iterates through the security provider list in the settings to upgrade
+            the transport (e.g. tcp -> tls -> sasl).
             </summary>
+            <param name="settings"></param>
+            <param name="transportSettings"></param>
         </member>
-        <member name="T:GSF.COMTRADE.Schema">
+        <member name="T:Microsoft.Azure.Amqp.Transport.AmqpTransportListener">
             <summary>
-            Represents the schema for a configuration file in the COMTRADE file standard, IEEE Std C37.111-1999/2013.
+            This listener supports protocol upgrade (e.g. tcp -> tls -> sasl)
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Schema.#ctor">
+        <member name="M:Microsoft.Azure.Amqp.Transport.TlsTransport.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:Microsoft.Azure.Amqp.Transport.TlsTransportInitiator">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.Schema"/>.
+            This initiator establishes an SSL connection (no AMQP security upgrade)
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Schema.#ctor(System.String)">
+        <member name="T:Microsoft.Azure.Amqp.Transport.TlsTransportListener">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.Schema"/> from an existing configuration file name.
+            This listener accepts SSL transport directly (no AMQP security upgrade)
             </summary>
-            <param name="fileName">File name of configuration file to parse.</param>
         </member>
-        <member name="M:GSF.COMTRADE.Schema.#ctor(System.String,System.Boolean)">
+        <member name="M:Microsoft.Azure.Amqp.Transport.TransportInitiator.ConnectAsync(System.TimeSpan,Microsoft.Azure.Amqp.Transport.TransportAsyncCallbackArgs)">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.Schema"/> from an existing configuration file name.
+            Returns true if connect is pending, the callback is invoked upon completion.
+            Returns false if connect is completed synchronously, the callback is not invoked.
             </summary>
-            <param name="fileName">File name of configuration file to parse.</param>
-            <param name="useRelaxedValidation">Indicates whether to relax validation on the number of line image elements.</param>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.FileName">
+        <member name="P:Microsoft.Azure.Amqp.Transport.TransportProvider.Versions">
             <summary>
-            Gets the file name used to generate this schema when constructed with one; otherwise, <c>null</c>.
+            Supported versions in preferred order.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.IsCombinedFileFormat">
+        <member name="T:Microsoft.Azure.Amqp.X509.X509CertificateIdentity">
             <summary>
-            Gets flag that determines if <see cref="P:GSF.COMTRADE.Schema.FileName"/> is a Combined File Format (.cff) file.
+            Represents an X509 certificate as a security identity
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.StationName">
+        <member name="M:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2,System.Boolean)">
             <summary>
-            Gets or sets free-form station name for this <see cref="T:GSF.COMTRADE.Schema"/>.
+            ctor which takes a X509 certificate
             </summary>
+            <param name="certificate"></param>
+            <param name="isAuthenticated"></param>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.DeviceID">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.Name">
             <summary>
-            Gets or sets free-form device ID for this <see cref="T:GSF.COMTRADE.Schema"/>.
+            Name accessor
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.Version">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.AuthenticationType">
             <summary>
-            Gets or sets version number of the IEEE Std C37.111 used by this <see cref="T:GSF.COMTRADE.Schema"/>.
+             Authentication type accessor
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalChannels">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.IsAuthenticated">
             <summary>
-            Gets total number of analog and digital channels of this <see cref="T:GSF.COMTRADE.Schema"/>.
+             IsAuthenticated accessor
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalAnalogChannels">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509CertificateIdentity.Certificate">
             <summary>
-            Gets total number of analog channels of this <see cref="T:GSF.COMTRADE.Schema"/>.
+             Actual X509 Certificate
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalDigitalChannels">
+        <member name="T:Microsoft.Azure.Amqp.X509.X509Principal">
             <summary>
-            Gets total number of digital channels of this <see cref="T:GSF.COMTRADE.Schema"/>.
+            Used to report a X509 certificate used as a security credential 
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.AnalogChannels">
+        <member name="M:Microsoft.Azure.Amqp.X509.X509Principal.#ctor(Microsoft.Azure.Amqp.X509.X509CertificateIdentity)">
             <summary>
-            Gets or sets analog channels of this <see cref="T:GSF.COMTRADE.Schema"/>.
+            Ctor which takes identity as input
             </summary>
+            <param name="identity"></param>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.DigitalChannels">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509Principal.Identity">
             <summary>
-            Gets or sets digital channels of this <see cref="T:GSF.COMTRADE.Schema"/>.
+            Get Accessor
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.NominalFrequency">
+        <member name="P:Microsoft.Azure.Amqp.X509.X509Principal.CertificateIdentity">
             <summary>
-            Gets or sets nominal frequency of this <see cref="T:GSF.COMTRADE.Schema"/>.
+             Type specific get accessor
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.SampleRates">
+        <member name="M:Microsoft.Azure.Amqp.X509.X509Principal.IsInRole(System.String)">
             <summary>
-            Gets or sets sampling rates of this <see cref="T:GSF.COMTRADE.Schema"/>. A file of phasor data will normally be made using a single sampling rate, so this will usually be 1.
+             Method not implemented
             </summary>
+            <param name="role"></param>
+            <returns></returns>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalSampleRates">
+        <member name="M:Microsoft.Azure.Amqp.InternalBufferManager.PreallocatedBufferManager.ReturnBuffer(System.Byte[])">
             <summary>
-            Gets total number of sample rates of this <see cref="T:GSF.COMTRADE.Schema"/>.
+            Returned buffer must have been acquired via a call to TakeBuffer
             </summary>
+            <param name="buffer"></param>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalSamples">
+        <member name="F:Microsoft.Azure.Amqp.IteratorAsyncResult`1.ExceptionPolicy.Transfer">
             <summary>
-            Gets total number of samples, i.e., rows per timestamp, as reported by the sample rates.
+            ExceptionPolicy.Transfer is used if you want the async result to be completed with
+            the exception when the step throws.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TotalChannelValues">
+        <member name="F:Microsoft.Azure.Amqp.IteratorAsyncResult`1.ExceptionPolicy.Continue">
             <summary>
-            Gets total number of channels values, i.e., <c>TotalChannels * TotalSamples</c>.
+            ExceptionPolicy.Continue is used if you want to ignore
+            the exception and continue next steps. The last exception ignored can be accessed with
+            LastAsyncException property.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.StartTime">
+        <member name="T:Microsoft.Azure.Amqp.ResourcesGeneric">
             <summary>
-            Gets or sets start timestamp of this <see cref="T:GSF.COMTRADE.Schema"/>.
+              A strongly-typed resource class, for looking up localized strings, etc.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TriggerTime">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ResourceManager">
             <summary>
-            Gets or sets trigger timestamp of this <see cref="T:GSF.COMTRADE.Schema"/>.
+              Returns the cached ResourceManager instance used by this class.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.FileType">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.Culture">
             <summary>
-            Gets or sets file type of this <see cref="T:GSF.COMTRADE.Schema"/>.
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TimeFactor">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ActionItemIsAlreadyScheduled">
             <summary>
-            Gets or sets the multiplication factor for the time differential (timestamp) field in this <see cref="T:GSF.COMTRADE.Schema"/>.
+              Looks up a localized string similar to The ActionItem was scheduled for execution but has not completed yet..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TimeCode">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ArgumentNullOrEmpty">
             <summary>
-            Gets or sets UTC offset for channel timestamps - format HhMM.
+              Looks up a localized string similar to The argument {0} is null or empty..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.LocalCode">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ArgumentNullOrWhiteSpace">
             <summary>
-            Gets or sets UTC offset for timezone of recording device, or "x" for not applicable - format HhMM.
+              Looks up a localized string similar to The argument {0} is null or white space..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.TimeQualityIndicatorCode">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ArgumentOutOfRange">
             <summary>
-            Gets or sets the time quality indicator code for the recorded data set.
+              Looks up a localized string similar to The value supplied must be between {0} and {1}..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.LeapSecondIndicator">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.AsyncCallbackThrewException">
             <summary>
-            Gets or sets the leap second indicator for the recorded data set.
+              Looks up a localized string similar to An AsyncCallback threw an exception..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.DigitalWords">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.AsyncResultAlreadyEnded">
             <summary>
-            Gets the total digital words for given number of digital values when the file type is binary.
+              Looks up a localized string similar to End cannot be called twice on the same AsyncResult..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.BinaryRecordLength">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.AsyncResultCompletedTwice">
             <summary>
-            Calculates the size of a record, in bytes, when the file type is binary.
+              Looks up a localized string similar to The IAsyncResult implementation &apos;{0}&apos; tried to complete a single operation multiple times. This could be caused by an incorrect application of IAsyncResult implementation or other extensibility code, such as an IAsyncResult that returns incorrect CompletedSynchronously values, or invokes the AsyncCallback multiple times..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.Binary32RecordLength">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.AsyncTransactionException">
             <summary>
-            Calculates the size of a record, in bytes, when the file type is binary32.
+              Looks up a localized string similar to An exception was thrown from a TransactionScope used to flow a transaction into an asynchronous operation..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.Float32RecordLength">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.BufferAllocationFailed">
             <summary>
-            Calculates the size of a record, in bytes, when the file type is float32.
+              Looks up a localized string similar to Failed to allocate a managed memory buffer of {0} bytes. The amount of available memory may be low..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.Schema.FileImage">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.BufferAlreadyReclaimed">
             <summary>
-            Gets the file image of this <see cref="T:GSF.COMTRADE.Schema"/>.
+              Looks up a localized string similar to The buffer has already been reclaimed..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.TimeOffset">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.BufferIsNotRightSizeForBufferManager">
             <summary>
-            Represents a UTC time offset for COMTRADE - format HhMM.
+              Looks up a localized string similar to This buffer cannot be returned to the buffer manager because it is the wrong size..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.TimeOffset.#ctor">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.CreateSessionOnClosingConnection">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.TimeOffset"/>
+              Looks up a localized string similar to Can&apos;t create session when the connection is closing..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.TimeOffset.#ctor(System.String)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.CreditListenerAlreadyRegistered">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.TimeOffset"/>
+              Looks up a localized string similar to Credit listener is already registered..
             </summary>
-            <param name="lineImage">Line image to parse.</param>
         </member>
-        <member name="P:GSF.COMTRADE.TimeOffset.Hours">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.DispositionListenerAlreadyRegistered">
             <summary>
-            Gets or sets UTC time offset hours.
+              Looks up a localized string similar to Disposition listener is already registered..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.TimeOffset.Minutes">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.DispositionListenerSetNotSupported">
             <summary>
-            Gets or sets UTC time offset minutes.
+              Looks up a localized string similar to Not supported when the disposition listener is set..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.TimeOffset.NotApplicable">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ErrorConvertingToChar">
             <summary>
-            Gets or sets value that determines if offset is not applicable.
+              Looks up a localized string similar to Failed to convert to a char..
             </summary>
         </member>
-        <member name="P:GSF.COMTRADE.TimeOffset.TickOffset">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.FailFastMessage">
             <summary>
-            Gets the total <see cref="T:GSF.COMTRADE.TimeOffset"/> value in ticks.
+              Looks up a localized string similar to An unrecoverable error occurred. For diagnostic purposes, this English message is associated with the failure: &apos;{0}&apos;..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.TimeOffset.ToString">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidAsyncResult">
             <summary>
-            Converts <see cref="T:GSF.COMTRADE.TimeOffset"/> to its string format.
+              Looks up a localized string similar to The AsyncResult object used to end this operation was not the object that was returned when the operation was initiated..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.Timestamp">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidAsyncResultImplementation">
             <summary>
-            Represents a timestamp in the COMTRADE file standard format, IEEE Std C37.111-1999..
+              Looks up a localized string similar to An incorrect implementation of the IAsyncResult interface may be returning incorrect values from the CompletedSynchronously property or calling the AsyncCallback more than once. The type {0} could be the incorrect implementation..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.Timestamp.Value">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidAsyncResultImplementationGeneric">
             <summary>
-            Timestamp in ticks.
+              Looks up a localized string similar to An incorrect implementation of the IAsyncResult interface may be returning incorrect values from the CompletedSynchronously property or calling the AsyncCallback more than once..
             </summary>
         </member>
-        <member name="M:GSF.COMTRADE.Timestamp.#ctor(System.String)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidBufferSize">
             <summary>
-            Creates a new instance of the <see cref="T:GSF.COMTRADE.Timestamp"/> from an existing line image.
+              Looks up a localized string similar to The buffer size is invalid..
             </summary>
-            <param name="lineImage">Line image to parse.</param>
         </member>
-        <member name="M:GSF.COMTRADE.Timestamp.ToString">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidFrameSize">
             <summary>
-            Converts <see cref="T:GSF.COMTRADE.Timestamp"/> to its string format.
+              Looks up a localized string similar to Invalid frame size:{0}, maximum frame size:{1}..
             </summary>
         </member>
-        <member name="T:GSF.COMTRADE.Writer">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidNullAsyncResult">
             <summary>
-            COMTRADE data and config file writer.
+              Looks up a localized string similar to A null value was returned from an asynchronous &apos;Begin&apos; method or passed to an AsyncCallback. Asynchronous &apos;Begin&apos; implementations must return a non-null IAsyncResult and pass the same IAsyncResult object as the parameter to the AsyncCallback..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.Writer.MaxFileSize">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.InvalidSemaphoreExit">
             <summary>
-            Defines the maximum file size for this COMTRADE implementation.
+              Looks up a localized string similar to Object synchronization method was called from an unsynchronized block of code..
             </summary>
-            <remarks>
-            Value represents 256TB, arbitrarily chosen extreme maximum file size.
-            </remarks>
         </member>
-        <member name="F:GSF.COMTRADE.Writer.MaxEndSample">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.IOThreadTimerCannotAcceptMaxTimeSpan">
             <summary>
-            Defines the maximum COMTRADE end sample number.
+              Looks up a localized string similar to IOThreadTimer cannot accept Timespan.MaxValue..
             </summary>
         </member>
-        <member name="F:GSF.COMTRADE.Writer.CRLF">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.MessageListenerAlreadyRegistered">
             <summary>
-            Defines a carriage return and line feed constant, i.e., <c>"\r\n"</c>.
+              Looks up a localized string similar to Message listener is already registered..
             </summary>
-            <remarks>
-            The standard .NET <see cref="P:System.Environment.NewLine"/> constant can just be a line feed, <c>"\n"</c>,
-            on some operating systems, e.g., Linux, however the COMTRADE standard requires that end of line
-            markers be both a carriage return and line feed, <c>"\r\n"</c>.
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.CreateSchema(System.Collections.Generic.IEnumerable{GSF.COMTRADE.ChannelMetadata},System.String,System.String,GSF.Ticks,System.Int64,System.Int32,GSF.COMTRADE.FileType,System.Double,System.Double,System.Double,System.Boolean)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.NotSupportFrameCode">
             <summary>
-            Creates a new COMTRADE configuration <see cref="T:GSF.COMTRADE.Schema"/>.
+              Looks up a localized string similar to Unsupported type {0} for array..
             </summary>
-            <param name="metadata">Schema <see cref="T:GSF.COMTRADE.ChannelMetadata"/> records.</param>
-            <param name="stationName">Station name for the schema.</param>
-            <param name="deviceID">Device ID for the schema.</param>
-            <param name="dataStartTime">Data start time.</param>
-            <param name="sampleCount">Total data samples (i.e., total number of rows).</param>
-            <param name="version">Target schema version - defaults to 1999.</param>
-            <param name="fileType">Determines the data file type for the schema.</param>
-            <param name="timeFactor">Time factor to use in schema - defaults to 1000.</param>
-            <param name="samplingRate">Desired sampling rate - defaults to 33.3333Hz.</param>
-            <param name="nominalFrequency">Nominal frequency - defaults to 60Hz.</param>
-            <param name="includeFracSecDefinition">Determines if the FRACSEC word digital definitions should be included - defaults to <c>true</c>.</param>
-            <returns>New COMTRADE configuration <see cref="T:GSF.COMTRADE.Schema"/>.</returns>
-            <remarks>
-            <para>
-            This function is primarily intended to create a configuration based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually create a schema object for other COMTRADE needs. You can call
-            the <see cref="P:GSF.COMTRADE.Schema.FileImage"/> property to return a string that can be written to a file
-            that will be the contents of the configuration file.
-            </para>
-            <para>
-            Linear scaling factors for analog channels, i.e., adders and multipliers, will be set to reasonable
-            values based on the channel type. These should be adjusted as needed based on actual channel value
-            ranges. Note that for <see cref="F:GSF.COMTRADE.FileType.Float32"/> the multiplier will be <c>1.0</c> and the adder
-            will be <c>0.0</c> for all analog values.
-            </para>
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.CreateCFFStream(System.String,GSF.COMTRADE.Schema,System.String[],System.String[],System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ObjectIsReadOnly">
             <summary>
-            Creates a new Combined File Format (.cff) COMTRADE file stream.
+              Looks up a localized string similar to This object is read-only and cannot be modified..
             </summary>
-            <param name="fileName">Target file name. Must have ".cff" extension.</param>
-            <param name="schema">Schema of file stream.</param>
-            <param name="infLines">Lines of "INF" section to write to stream, if any.</param>
-            <param name="hdrLines">Lines of "HDR" section to write to stream, if any.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
-            <returns>New file stream for Combined File Format (.cff) COMTRADE file, ready to write at data section.</returns>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.CreateCFFStreamAscii(System.String,GSF.COMTRADE.Schema,System.String[],System.String[],System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.OperationTimedOut">
             <summary>
-            Creates a new Combined File Format (.cff) COMTRADE file stream targeted for ASCII.
+              Looks up a localized string similar to The operation timed out..
             </summary>
-            <param name="fileName">Target file name. Must have ".cff" extension.</param>
-            <param name="schema">Schema of file stream.</param>
-            <param name="infLines">Lines of "INF" section to write to stream, if any.</param>
-            <param name="hdrLines">Lines of "HDR" section to write to stream, if any.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
-            <returns>New stream writer for Combined File Format (.cff) COMTRADE file, ready to write at data section.</returns>
-            <remarks>
-            For COMTRADE versions greater than 2001, any use of the term ASCII also inherently implies Unicode UTF-8.
-            When then <paramref name="encoding"/> parameter is <c>null</c>, the default, UTF-8 encoding will be used
-            for text writes. If ASCII encoding needs to be enforced for backwards compatibility reasons, then the
-            <paramref name="encoding"/> parameter will need to be set to <see cref="P:System.Text.Encoding.ASCII"/>.
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.CreateCFFStream(System.IO.Stream,GSF.COMTRADE.Schema,System.String[],System.String[],System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ServerCertificateNotSet">
             <summary>
-            Creates a new Combined File Format (.cff) COMTRADE file stream.
+              Looks up a localized string similar to Service certificate must be set..
             </summary>
-            <param name="stream">Target stream.</param>
-            <param name="schema">Schema of file stream.</param>
-            <param name="infLines">Lines of "INF" section to write to stream, if any.</param>
-            <param name="hdrLines">Lines of "HDR" section to write to stream, if any.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.CreateCFFStreamAscii(System.IO.Stream,GSF.COMTRADE.Schema,System.String[],System.String[],System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ShipAssertExceptionMessage">
             <summary>
-            Creates a new Combined File Format (.cff) COMTRADE file stream targeted for ASCII.
+              Looks up a localized string similar to An unexpected failure occurred. Applications should not attempt to handle this error. For diagnostic purposes, this English message is associated with the failure: {0}..
             </summary>
-            <param name="stream">Target stream.</param>
-            <param name="schema">Schema of file stream.</param>
-            <param name="infLines">Lines of "INF" section to write to stream, if any.</param>
-            <param name="hdrLines">Lines of "HDR" section to write to stream, if any.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
-            <returns>New stream writer for Combined File Format (.cff) COMTRADE file, ready to write at data section.</returns>
-            <remarks>
-            For COMTRADE versions greater than 2001, any use of the term ASCII also inherently implies Unicode UTF-8.
-            When then <paramref name="encoding"/> parameter is <c>null</c>, the default, UTF-8 encoding will be used
-            for text writes. If ASCII encoding needs to be enforced for backwards compatibility reasons, then the
-            <paramref name="encoding"/> parameter will need to be set to <see cref="P:System.Text.Encoding.ASCII"/>.
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.UpdateCFFEndSample(System.IO.Stream,System.Int64,System.Int32,System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.StringIsNotBase64">
             <summary>
-            Updates a Combined File Format (.cff) COMTRADE file stream with a final end sample number.
+              Looks up a localized string similar to &apos;{0}&apos; is not a valid Base64 encoded string..
             </summary>
-            <param name="stream">Destination stream.</param>
-            <param name="endSample">End sample value.</param>
-            <param name="rateIndex">Zero-based rate index to update.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.UpdateCFFStreamBinaryByteCount(System.IO.Stream,System.Int64,System.Text.Encoding)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.TargetHostNotSet">
             <summary>
-            Updates a Combined File Format (.cff) COMTRADE file stream with a final binary byte count.
+              Looks up a localized string similar to TargetHost must be set..
             </summary>
-            <param name="stream">Destination stream.</param>
-            <param name="byteCount">Binary byte count.</param>
-            <param name="encoding">Target encoding; <c>null</c> value will default to UTF-8 (no BOM).</param>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordAscii(System.IO.StreamWriter,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.TimeoutMustBeNonNegative">
             <summary>
-            Writes next COMTRADE record in ASCII format.
+              Looks up a localized string similar to Argument {0} must be a non-negative timeout value. The provided value was {1}..
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="values">Values to write - 16-bit digitals should exist as a word in an individual double value, method will write out bits.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>true</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE ASCII data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordBinary(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.TimeoutMustBePositive">
             <summary>
-            Writes next COMTRADE record in binary format.
+              Looks up a localized string similar to Argument {0} must be a positive timeout value. The provided value was {1}..
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="values">Values to write - 16-bit digitals should exist as a word in an individual double value.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>true</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE binary data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordBinary32(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.UnspecifiedError">
             <summary>
-            Writes next COMTRADE record in binary32 format.
+              Looks up a localized string similar to An error occurred..
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="values">Values to write - 16-bit digitals should exist as a word in an individual double value.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>true</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE binary32 data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordFloat32(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.UserErrorFormat">
             <summary>
-            Writes next COMTRADE record in float32 format.
+              Looks up a localized string similar to {0} If you contact a support representative please include this correlation identifier: {1}, timestamp: {2:u}, errorcode: DG{3}..
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="values">Values to write - 16-bit digitals should exist as a word in an individual double value.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>true</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE float32 data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordAscii(System.IO.StreamWriter,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.Boolean[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="P:Microsoft.Azure.Amqp.ResourcesGeneric.ValueMustBeNonNegative">
             <summary>
-            Writes next COMTRADE record in ASCII format.
+              Looks up a localized string similar to The value of this argument must be non-negative..
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="analogValues">Values to write for analog channels.</param>
-            <param name="digitalValues">Values to write for digital channels.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>false</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE ASCII data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordBinary(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.Boolean[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="T:Microsoft.Azure.Amqp.Singleton`1">
             <summary>
-            Writes next COMTRADE record in binary format.
+            This API supports the Azure infrastructure and is not intended to be used directly from your code.
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="analogValues">Values to write for analog channels.</param>
-            <param name="digitalValues">Values to write for digital channels.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>false</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE binary data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
+        </member>
+        <member name="M:Microsoft.Azure.Amqp.Singleton`1.Dispose">
+            <inheritdoc />
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordBinary32(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.Boolean[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="M:Microsoft.Azure.Amqp.Singleton`1.Dispose(System.Boolean)">
             <summary>
-            Writes next COMTRADE record in binary32 format.
+            Releases unmanaged resources and optionally releases managed resources.
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="analogValues">Values to write for analog channels.</param>
-            <param name="digitalValues">Values to write for digital channels.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>false</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE binary32 data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
+            <param name="disposing">
+            true to release both managed and unmanaged resources;
+            false to release only unmanaged resources.
+            </param>
         </member>
-        <member name="M:GSF.COMTRADE.Writer.WriteNextRecordFloat32(System.IO.Stream,GSF.COMTRADE.Schema,GSF.Ticks,System.Double[],System.Boolean[],System.UInt32,System.Boolean,System.UInt16)">
+        <member name="M:Microsoft.Azure.Amqp.TaskHelpers.CreateTask(System.Func{System.AsyncCallback,System.Object,System.IAsyncResult},System.Action{System.IAsyncResult},System.Object)">
             <summary>
-            Writes next COMTRADE record in float32 format.
+            Create a Task based on Begin/End IAsyncResult pattern.
             </summary>
-            <param name="output">Destination stream.</param>
-            <param name="schema">Source schema.</param>
-            <param name="timestamp">Record timestamp (implicitly castable as <see cref="T:System.DateTime"/>).</param>
-            <param name="analogValues">Values to write for analog channels.</param>
-            <param name="digitalValues">Values to write for digital channels.</param>
-            <param name="sample">User incremented sample index.</param>
-            <param name="injectFracSecValue">Determines if FRACSEC value should be automatically injected into stream as first digital - defaults to <c>false</c>.</param>
-            <param name="fracSecValue">FRACSEC value to inject into output stream - defaults to 0x0000.</param>
-            <remarks>
-            This function is primarily intended to write COMTRADE float32 data records based on synchrophasor data
-            (see Annex H: Schema for Phasor Data 2150 Using the COMTRADE File Standard in IEEE C37.111-2010),
-            it may be necessary to manually write records for other COMTRADE needs (e.g., non 16-bit digitals).
-            </remarks>
+            <param name="begin"></param>
+            <param name="end"></param>
+            <param name="state"> 
+            This parameter helps reduce allocations by passing state to the Funcs. e.g.:
+             await TaskHelpers.CreateTask(
+                 (c, s) => ((Transaction)s).BeginCommit(c, s),
+                 (a) => ((Transaction)a.AsyncState).EndCommit(a),
+                 transaction);
+            </param>
+        </member>
+        <member name="T:System.Collections.Generic.KeyedByTypeCollection`1">
+            <summary>Provides a collection whose items are types that serve as keys.</summary>
+            <typeparam name="TItem">The item types contained in the collection that also serve as the keys for the collection.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.#ctor">
+            <summary>Initializes a new instance of the <see cref="T:System.Collections.Generic.KeyedByTypeCollection`1" /> class.  </summary>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>Initializes a new instance of the <see cref="T:System.Collections.Generic.KeyedByTypeCollection`1" /> class for a specified enumeration of objects.</summary>
+            <param name="items">The <see cref="T:System.Collections.Generic.IEnumerable`1" /> of generic type <see cref="T:System.Object" /> used to initialize the collection.</param>
+            <exception cref="T:System.ArgumentNullException">
+              <paramref name="items" /> is null.</exception>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.Find``1">
+            <summary>Returns the first item in the collection of a specified type.</summary>
+            <returns>The object of type <paramref name="T" /> if it is a reference type and the value of type <paramref name="T" /> if it is a value type. The default value of the type is returned if no object of type <paramref name="T" /> is contained in the collection: null if it is a reference type and 0 if it is a value type.</returns>
+            <typeparam name="T">The type of item in the collection to find.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.Remove``1">
+            <summary>Removes an object of a specified type from the collection.</summary>
+            <returns>The object removed from the collection.</returns>
+            <typeparam name="T">The type of item in the collection to remove.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.FindAll``1">
+            <summary>Returns a collection of objects of type <paramref name="T" /> that are contained in the <see cref="T:System.Collections.Generic.KeyedByTypeCollection`1" />.</summary>
+            <returns>A <see cref="T:System.Collections.ObjectModel.Collection`1" /> of type <paramref name="T" /> that contains the objects of type <paramref name="T" /> from the original collection.</returns>
+            <typeparam name="T">The type of item in the collection to find.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.RemoveAll``1">
+            <summary>Removes all of the elements of a specified type from the collection.</summary>
+            <returns>The <see cref="T:System.Collections.ObjectModel.Collection`1" /> that contains the objects of type <paramref name="T" /> from the original collection.</returns>
+            <typeparam name="T">The type of item in the collection to remove.</typeparam>
+        </member>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.GetKeyForItem(`0)">
+            <summary>Gets the type of an item contained in the collection.</summary>
+            <returns>The type of the specified <paramref name="item" /> in the collection.</returns>
+            <param name="item">The item in the collection whose type is to be retrieved.</param>
+            <exception cref="T:System.ArgumentNullException">
+              <paramref name="item" /> is null.</exception>
         </member>
-    </members>
-</doc>
+        <member name="M:System.Collections.Generic.KeyedByTypeCollection`1.InsertItem(System.Int32,`0)">
+            <summary>Inserts an element into the collection at a specific location.</summary>
+            <param name="index">The zero-based index at which <paramref name="item" /> should be inserted. </param>
+            <param name="item">The object to insert into the collection.</param>
+            <exception cref="T:System.ArgumentNullException

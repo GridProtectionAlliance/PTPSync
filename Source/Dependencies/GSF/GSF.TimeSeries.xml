@@ -13673,34 +13673,4 @@
             Constructs a new <see cref="T:GSF.TimeSeries.TrackingFrame"/> given the specified parameters.
             </summary>
             <param name="sourceFrame">Source <see cref="T:GSF.TimeSeries.IFrame"/> to track.</param>
-            <param name="downsamplingMethod"><see cref="T:GSF.TimeSeries.DownsamplingMethod"/> to apply.</param>
-        </member>
-        <member name="P:GSF.TimeSeries.TrackingFrame.SourceFrame">
-            <summary>
-            Gets instance of <see cref="T:GSF.TimeSeries.IFrame"/> being tracked.
-            </summary>
-        </member>
-        <member name="P:GSF.TimeSeries.TrackingFrame.Timestamp">
-            <summary>
-            Gets timestamp of <see cref="T:GSF.TimeSeries.IFrame"/> being tracked.
-            </summary>
-        </member>
-        <member name="P:GSF.TimeSeries.TrackingFrame.DownsampledMeasurements">
-            <summary>
-            Total number of measurements down-sampled by <see cref="T:GSF.TimeSeries.TrackingFrame"/>.
-            </summary>
-        </member>
-        <member name="P:GSF.TimeSeries.TrackingFrame.Lock">
-            <summary>
-            Gets the <see cref="T:GSF.TimeSeries.TrackingFrame"/> locking primitive.
-            </summary>
-        </member>
-        <member name="M:GSF.TimeSeries.TrackingFrame.DeriveMeasurementValue(GSF.TimeSeries.IMeasurement)">
-            <summary>
-            Derives measurement value, down-sampling if needed.
-            </summary>
-            <param name="measurement">New <see cref="T:GSF.TimeSeries.IMeasurement"/> value.</param>
-            <returns>New derived <see cref="T:GSF.TimeSeries.IMeasurement"/> value, or null if value should not be assigned to <see cref="T:GSF.TimeSeries.IFrame"/>.</returns>
-        </member>
-    </members>
-</doc>
+            <param name="downsamplingMethod"><see cref="T:GSF.TimeSeries.DownsamplingMetho

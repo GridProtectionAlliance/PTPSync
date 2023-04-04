@@ -1,821 +1,909 @@
-y>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.Dispose(System.Boolean)">
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GSF.Windows</name>
+    </assembly>
+    <members>
+        <member name="T:GSF.Windows.ErrorManagement.ErrorDialog">
             <summary>
-            Releases the unmanaged resources used by the <see cref="T:PhasorProtocolAdapters.PhasorMeasurementMapper"/> object and optionally releases the managed resources.
+            Represents a dialog box that can be used to display detailed exception information.
             </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+            <seealso cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.Initialize">
+        <member name="M:GSF.Windows.ErrorManagement.ErrorDialog.#ctor">
             <summary>
-            Initializes <see cref="T:PhasorProtocolAdapters.PhasorMeasurementMapper"/>.
-            </summary>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ToggleBadData">
-            <summary>
-            Toggles the flag that determines whether to inject the bad data state flag into the stream.
-            </summary>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.SendCommand(GSF.PhasorProtocols.DeviceCommand)">
-            <summary>
-            Sends the specified <see cref="T:GSF.PhasorProtocols.DeviceCommand"/> to the current device connection.
-            </summary>
-            <param name="command"><see cref="T:GSF.PhasorProtocols.DeviceCommand"/> to send to connected device.</param>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ResetStatistics">
-            <summary>
-            Resets the statistics of all devices associated with this connection.
+            Initializes a new instance of the <see cref="T:GSF.Windows.ErrorManagement.ErrorDialog"/> class.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ResetDeviceStatistics(System.UInt16)">
+        <member name="F:GSF.Windows.ErrorManagement.ErrorDialog.components">
             <summary>
-            Resets the statistics of the specified device associated with this connection.
-            </summary>
-            <param name="idCode">Integer ID code of device on which to reset statistics.</param>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ResetLifetimeCounters">
-            <summary>
-            Resets the counters for the lifetime statistics without interrupting the adapter's operations.
+            Required designer variable.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ResetLatencyCounters">
+        <member name="M:GSF.Windows.ErrorManagement.ErrorDialog.Dispose(System.Boolean)">
             <summary>
-            Resets counters related to latency calculations.
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.DeleteCachedConfiguration">
+        <member name="T:GSF.Windows.ErrorManagement.ErrorLogger">
+             <summary>
+             Represents a logger that can be used for logging handled as well as unhandled exceptions across multiple 
+             application types (Windows Application, Console Application, Windows Service, Web Application, Web Service).
+             </summary>
+             <example>
+             This example shows how to use the <see cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/> component to log handled and unhandled exceptions:
+             <code>
+             using System;
+             using System.IO;
+             using GSF.Windows.ErrorManagement;
+            
+             class Program
+             {
+                 static ErrorLogger s_logger;
+            
+                 static Program()
+                 {
+                     s_logger = new ErrorLogger();
+                     s_logger.LogToUI = true;                    // Show exception info on the UI.
+                     s_logger.LogToFile = true;                  // Log exception info to a file.
+                     s_logger.LogToEmail = true;                 // Send exception info in an e-mail.
+                     s_logger.LogToEventLog = true;              // Log exception info to the event log.
+                     s_logger.LogToScreenshot = true;            // Take a screenshot of desktop on exception.
+                     s_logger.ContactEmail = "dev@email.com";    // Provide an e-mail address.
+                     s_logger.HandleUnhandledException = true;   // Configure to handle unhandled exceptions.
+                     s_logger.PersistSettings = true;            // Save settings to the config file.
+                     s_logger.Initialize();                      // Initialize ErrorLogger component for use.
+                 }
+            
+                 static void Main(string[] args)
+                 {
+                     try
+                     {
+                         // This may cause a handled FileNotFoundException if the file doesn't exist.
+                         string data = File.ReadAllText(@"c:\NonExistentFile.txt");
+                     }
+                     catch (Exception ex)
+                     {
+                         // When logging handled exceptions we want to disable loggers (UI logger and E-mail logger) that
+                         // may require interaction either directly or indirectly as it can be annoying. All the loggers
+                         // are enabled automatically after the handled exception has been logged.
+                         s_logger.SuppressInteractiveLogging();
+                         s_logger.Log(ex);
+                     }
+            
+                     int numerator = 1;
+                     int denominator = 0;
+                     int result = numerator / denominator;   // This will cause an unhandled DivideByZeroException.
+            
+                     Console.ReadLine();
+                 }
+             }
+             </code>
+             </example>
+             <seealso cref="T:GSF.ErrorManagement.ErrorModule"/>
+        </member>
+        <member name="F:GSF.Windows.ErrorManagement.ErrorLogger.DefaultLogToScreenshot">
             <summary>
-            Attempts to delete the last known good (i.e., cached) configuration.
+            Specifies the default value for the <see cref="P:GSF.Windows.ErrorManagement.ErrorLogger.LogToScreenshot"/> property.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.RequestCurrentConfiguration">
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.#ctor">
             <summary>
-            Returns the current configuration frame to the caller.
-            </summary>
-            <returns>A <see cref="T:GSF.PhasorProtocols.IConfigurationFrame"/> if successful, -or- <c>null</c> if request failed.</returns>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.LoadCachedConfiguration">
-            <summary>
-            Attempts to load the last known good (i.e., cached) configuration.
+            Initializes a new instance of the <see cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/> class.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.LoadConfiguration(System.String)">
+        <member name="P:GSF.Windows.ErrorManagement.ErrorLogger.LogToScreenshot">
             <summary>
-            Attempts to load the specified configuration.
-            </summary>
-            <param name="configurationFileName">Path and file name containing serialized configuration.</param>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.GetShortStatus(System.Int32)">
-            <summary>
-            Gets a short one-line status of this <see cref="T:PhasorProtocolAdapters.PhasorMeasurementMapper"/>.
-            </summary>
-            <param name="maxLength">Maximum number of available characters for display.</param>
-            <returns>A short one-line summary of the current status of this <see cref="T:PhasorProtocolAdapters.PhasorMeasurementMapper"/>.</returns>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.AttemptConnection">
-            <summary>
-            Attempts to connect to data input source.
-            </summary>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.AttemptDisconnection">
-            <summary>
-            Attempts to disconnect from data input source.
-            </summary>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.MapMeasurementAttributes(System.Collections.Generic.List{GSF.TimeSeries.IMeasurement},GSF.TimeSeries.MeasurementMetadata,GSF.TimeSeries.IMeasurement)">
-            <summary>
-            Map parsed measurement value to defined measurement attributes (i.e., assign meta-data to parsed measured value).
-            </summary>
-            <param name="mappedMeasurements">Destination collection for the mapped measurement values.</param>
-            <param name="metadata">The metadata to assign</param>
-            <param name="parsedMeasurement">The parsed <see cref="T:GSF.TimeSeries.IMeasurement"/> value.</param>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.ExtractFrameMeasurements(GSF.PhasorProtocols.IDataFrame)">
-            <summary>
-            Extract frame measurements and add expose them via the <see cref="E:GSF.TimeSeries.Adapters.IInputAdapter.NewMeasurements"/> event.
-            </summary>
-            <param name="frame">Phasor data frame to extract measurements from.</param>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.GetSignalReference(GSF.Units.EE.SignalKind)">
-            <summary>
-            Get signal reference for specified <see cref="T:GSF.Units.EE.SignalKind"/>.
-            </summary>
-            <param name="type"><see cref="T:GSF.Units.EE.SignalKind"/> to request signal reference for.</param>
-            <returns>Signal reference of given <see cref="T:GSF.Units.EE.SignalKind"/>.</returns>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.GetSignalReference(GSF.Units.EE.SignalKind,System.Int32,System.Int32)">
-            <summary>
-            Get signal reference for specified <see cref="T:GSF.Units.EE.SignalKind"/> and <paramref name="index"/>.
-            </summary>
-            <param name="type"><see cref="T:GSF.Units.EE.SignalKind"/> to request signal reference for.</param>
-            <param name="index">Index <see cref="T:GSF.Units.EE.SignalKind"/> to request signal reference for.</param>
-            <param name="count">Number of signals defined for this <see cref="T:GSF.Units.EE.SignalKind"/>.</param>
-            <returns>Signal reference of given <see cref="T:GSF.Units.EE.SignalKind"/> and <paramref name="index"/>.</returns>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.GetConnectionID(GSF.Communication.IServer,System.Guid)">
-            <summary>
-            Gets connection ID (i.e., IP:Port) for specified <paramref name="clientID"/>.
-            </summary>
-            <param name="server">Server connection of associated <paramref name="clientID"/>.</param>
-            <param name="clientID">Guid of client for ID lookup.</param>
-            <returns>Connection ID (i.e., IP:Port) for specified <paramref name="clientID"/>.</returns>
-        </member>
-        <member name="M:PhasorProtocolAdapters.PhasorMeasurementMapper.DeviceCommandHandler(System.Guid,System.String,System.Byte[],System.Int32)">
-            <summary>
-            Handles incoming commands from devices connected over the command channel. This is used by data-forwarding feature,
-            </summary>
-            <param name="clientID">Guid of client that sent the command.</param>
-            <param name="connectionID">Remote client connection identification (i.e., IP:Port).</param>
-            <param name="commandBuffer">Data buffer received from connected client device.</param>
-            <param name="length">Valid length of data within the buffer.</param>
-        </member>
-        <member name="T:PhasorProtocolAdapters.SignalReferenceMeasurement">
-            <summary>
-            Represents an <see cref="T:GSF.TimeSeries.IMeasurement"/> wrapper that is associated with a <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.SignalReference"/>.
-            </summary>
-        </member>
-        <member name="M:PhasorProtocolAdapters.SignalReferenceMeasurement.#ctor(GSF.TimeSeries.IMeasurement,GSF.Units.EE.SignalReference)">
-            <summary>
-            Constructs a new <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> from the specified parameters.
-            </summary>
-            <param name="measurement">Source <see cref="T:GSF.TimeSeries.IMeasurement"/> value.</param>
-            <param name="signalReference">Associated <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.SignalReference"/>.</param>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.SignalReference">
-            <summary>
-            Gets the <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.SignalReference"/> associated with this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
-            </summary>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Key">
-            <summary>
-            Gets the primary key (a <see cref="T:GSF.TimeSeries.MeasurementKey"/>, of this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
-            </summary>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.ID">
-            <summary>
-            Gets or sets the <see cref="T:System.Guid"/> based signal ID of this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>, if available.
-            </summary>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.StateFlags">
-            <summary>
-            Gets or sets <see cref="T:GSF.TimeSeries.MeasurementStateFlags"/> associated with this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
-            </summary>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.TagName">
-            <summary>
-            Gets the text based tag name of this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
-            </summary>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Value">
-            <summary>
-            Gets or sets the raw measurement value that is not offset by <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/> and <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/>.
-            </summary>
-            <returns>Raw value of this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> (i.e., value that is not offset by <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/> and <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/>).</returns>
-        </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.AdjustedValue">
-            <summary>
-            Gets the adjusted numeric value of this measurement, taking into account the specified <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/> and <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/> offsets.
+            Gets or sets a boolean value that indicates whether a screenshot of the user's desktop is to be taken
+            when an <see cref="T:System.Exception"/> is logged.
             </summary>
             <remarks>
-            Note that returned value will be offset by <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/> and <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/>.
+            This setting is ignored in Web Application and Web Service application types.
             </remarks>
-            <returns><see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Value"/> offset by <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/> and <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/> (i.e., <c><see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Value"/> * <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier"/> + <see cref="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder"/></c>).</returns>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Adder">
+        <member name="P:GSF.Windows.ErrorManagement.ErrorLogger.Status">
             <summary>
-            Gets an offset to add to the measurement value. This defaults to 0.0.
+            Gets the descriptive status of the <see cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/> object.
             </summary>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Multiplier">
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.SaveSettings">
             <summary>
-            Gets a multiplicative offset to apply to the measurement value. This defaults to 1.0.
+            Saves settings for the <see cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/> object to the config file if the <see cref="P:GSF.ErrorManagement.ErrorLogger.PersistSettings"/> 
+            property is set to true.
+            </summary>
+            <exception cref="T:System.Configuration.ConfigurationErrorsException"><see cref="P:GSF.ErrorManagement.ErrorLogger.SettingsCategory"/> has a value of null or empty string.</exception>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.LoadSettings">
+            <summary>
+            Loads saved settings for the <see cref="T:GSF.Windows.ErrorManagement.ErrorLogger"/> object from the config file if the <see cref="P:GSF.ErrorManagement.ErrorLogger.PersistSettings"/> 
+            property is set to true.
+            </summary>
+            <exception cref="T:System.Configuration.ConfigurationErrorsException"><see cref="P:GSF.ErrorManagement.ErrorLogger.SettingsCategory"/> has a value of null or empty string.</exception>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.Register">
+            <summary>
+            Registers the <see cref="T:GSF.ErrorManagement.ErrorLogger"/> object to handle unhandled <see cref="T:System.Exception"/> if the 
+            <see cref="P:GSF.ErrorManagement.ErrorLogger.HandleUnhandledException"/> property is set to true.
+            </summary>
+            <returns><c>true</c> if handlers were registered; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.Unregister">
+            <summary>
+            Unregister the <see cref="T:GSF.ErrorManagement.ErrorLogger"/> object from handling unhandled <see cref="T:System.Exception"/>.
+            </summary>
+            <returns><c>true</c> if handlers were unregistered; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.ExceptionToWindowsGui">
+            <summary>
+            Shows <see cref="T:System.Exception"/> information in a Windows Application.
             </summary>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Timestamp">
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.ExceptionToScreenshot(System.Exception)">
             <summary>
-            Gets or sets exact timestamp, in ticks, of the data represented by this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
+            Takes a screenshot of the user's desktop when the <see cref="T:System.Exception"/> is encountered.
             </summary>
+            <param name="exception"><see cref="T:System.Exception"/> that was encountered.</param>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.GetEmailAttachments">
+            <summary>
+            Gets or sets the comma-separated or semicolon-separated list of file names to be attached to the <see cref="T:GSF.Net.Smtp.Mail"/> message.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.ErrorManagement.ErrorLogger.GetExtendedMoreInfoText(System.String)">
+            <summary>
+            Allows other loggers to extend "more info text".
+            </summary>
+            <param name="bullet">Type of bullet to use for extended info text.</param>
+        </member>
+        <member name="T:GSF.Windows.Forms.AboutDialog">
+            <summary>
+            Represents a common about dialog box.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GSF.Windows.Forms.AboutDialog"/> class.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.HideDisclaimerTab">
+            <summary>
+            Conceals the tab where disclaimer text is displayed.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.HideApplicationTab">
+            <summary>
+            Conceals the tab where application information is displayed.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.HideAssembliesTab">
+            <summary>
+            Conceals the tab where assemblies and their information is displayed.
+            </summary>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.SetCompanyUrl(System.String)">
+            <summary>
+            Sets the URL that will be opened when the logo is clicked.
+            </summary>
+            <param name="url">URL of the company's home page.</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.SetCompanyLogo(System.String)">
+            <summary>
+            Sets the logo that is to be displayed in the About Dialog.
+            </summary>
+            <param name="logoFile">Location of the logo file.</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.SetCompanyLogo(System.IO.Stream)">
+            <summary>
+            Sets the logo that is to be displayed in the About Dialog.
+            </summary>
+            <param name="logoStream">System.IO.Stream of the logo.</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.SetCompanyDisclaimer(System.String)">
+            <summary>
+            Sets the disclaimer text that is to be displayed in the About Dialog.
+            </summary>
+            <param name="disclaimerFile">Location of the file that contains the disclaimer text.</param>
+            <remarks></remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.SetCompanyDisclaimer(System.IO.Stream)">
+            <summary>
+            Sets the disclaimer text that is to be displayed in the About Dialog.
+            </summary>
+            <param name="disclaimerStream">System.IO.Stream of the disclaimer text.</param>
+            <remarks></remarks>
+        </member>
+        <member name="F:GSF.Windows.Forms.AboutDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GSF.Windows.Forms.AboutDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:GSF.Windows.Forms.ChartExtensions">
+            <summary>
+            Defines extension methods for <see cref="T:System.Windows.Forms.DataVisualization.Charting.Chart"/>s.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.ChartExtensions.SetChartSize(System.Windows.Forms.DataVisualization.Charting.Chart,System.Int32,System.Int32,System.Double,System.Double)">
+            <summary>
+            Sets the size of the chart while also setting the font size of the
+            axes and legend as well as the border width of each of the series.
+            </summary>
+            <param name="chart">The chart to be resized.</param>
+            <param name="width">The new width of the chart.</param>
+            <param name="height">The new height of the chart.</param>
+            <param name="fontRatio">The ratio of chart height to font size.</param>
+            <param name="borderRatio">The ratio of chart height to border width.</param>
+        </member>
+        <member name="M:GSF.Windows.Forms.ChartExtensions.ConvertToImageStream(System.Windows.Forms.DataVisualization.Charting.Chart,System.Windows.Forms.DataVisualization.Charting.ChartImageFormat)">
+            <summary>
+            Saves the chart to a memory stream using the given image
+            <paramref name="format"/> and returns the stream, ready for reading.
+            </summary>
+            <param name="chart">The chart to be saved to the stream.</param>
+            <param name="format">The format to used to save the image.</param>
+            <returns>The stream containing the chart as an image.</returns>
+        </member>
+        <member name="T:GSF.Windows.Forms.FormExtensions">
+            <summary>Extensions applied to all System.Windows.Forms.Form objects.</summary>
+        </member>
+        <member name="F:GSF.Windows.Forms.FormExtensions.LastWindowSizeSettingsCategory">
+            <summary>
+            Config file category under which the window size information will be saved.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.Forms.FormExtensions.LastWindowLocationSettingsCategory">
+            <summary>
+            Config file category under which the window location information will be saved.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.SaveLayout(System.Windows.Forms.Form)">
+            <summary>
+            Saves the size and location information of the specified windowsForm to the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size and location information is to be saved.</param>
+            <remarks>This function simply calls the SaveWindowSize and SaveWindowLocation functions using the default settings categories</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.RestoreLayout(System.Windows.Forms.Form)">
+            <summary>
+            Restores the size and location of the specified windowsForm from the size and location information saved in the
+            application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size and location is to be restored.</param>
+            <remarks>This function simply calls the RestoreWindowSize and RestoreWindowLocation functions using the default settings categories</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.SaveSize(System.Windows.Forms.Form)">
+            <summary>
+            Saves the size information of the specified windowsForm to the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size information is to be saved.</param>
+            <remarks>This function uses the default settings category "LastWindowSize"</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.SaveSize(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Saves the size information of the specified windowsForm to the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size information is to be saved.</param>
+            <param name="settingsCategory">Settings category used to persist form size information</param>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.SaveLocation(System.Windows.Forms.Form)">
+            <summary>
+            Saves the location information of the specified windowsForm to the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose location information is to be saved.</param>
+            <remarks>This function uses the default settings category "LastWindowLocation"</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.SaveLocation(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Saves the location information of the specified windowsForm to the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose location information is to be saved.</param>
+            <param name="settingsCategory">Settings category used to persist form location information</param>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.RestoreSize(System.Windows.Forms.Form)">
+            <summary>
+            Restores the size of the specified windowsForm from the size information saved in the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size is to be restored.</param>
+            <remarks>This function uses the default settings category "LastWindowSize"</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.RestoreSize(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Restores the size of the specified windowsForm from the size information saved in the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose size is to be restored.</param>
+            <param name="settingsCategory">Settings category used to persist form size information</param>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.RestoreLocation(System.Windows.Forms.Form)">
+            <summary>
+            Restores the location of the specified windowsForm from the location information saved in the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose location is to be restored.</param>
+            <remarks>This function uses the default settings category "LastWindowLocation"</remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.FormExtensions.RestoreLocation(System.Windows.Forms.Form,System.String)">
+            <summary>
+            Restores the location of the specified windowsForm from the location information saved in the application configuration file.
+            </summary>
+            <param name="windowsForm">The Form whose location is to be restored.</param>
+            <param name="settingsCategory">Settings category used to persist form location information</param>
+        </member>
+        <member name="T:GSF.Windows.Forms.NamespaceDoc">
+            <summary>
+            Contains classes, extension functions and forms used to simplify and standardize usage of basic Windows forms.
+            </summary>
+        </member>
+        <member name="T:GSF.Windows.Forms.PropertyGridExtensions">
+            <summary>
+            Defines extension functions for the <see cref="T:System.Windows.Forms.PropertyGrid"/> control.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.Forms.PropertyGridExtensions.AdjustLabelRatio(System.Windows.Forms.PropertyGrid,System.Double)">
+            <summary>
+            Adjusts a property grid's label ratio
+            </summary>
+            <param name="grid">Property grid to adjust</param>
+            <param name="ratio">Ratio to use use for label column</param>
             <remarks>
-            The value of this property represents the number of 100-nanosecond intervals that have elapsed since 12:00:00 midnight, January 1, 0001.
+            <para>Smaller ratios (e.g., 1.75) produce a wider label column.</para>
+            <para>
+            This function only has an effect on property grids when their Visible property is set to True.  To use
+            this on an initially hidden property grid - set the property grid's Visible property to True at design
+            time, call this function during form load, then set the Visible property to False.
+            </para>
+            <para>
+            This function was written to work with the .NET 2.0 PropertyGrid control.  Note that reflection is used
+            to set private properties of the property grid and as a result this function may not work with future
+            versions of the .NET property grid.
+            </para>
             </remarks>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Lifespan">
+        <member name="M:GSF.Windows.Forms.PropertyGridExtensions.AdjustCommentAreaHeight(System.Windows.Forms.PropertyGrid,System.Int32)">
             <summary>
-            Gets the life-span of this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> since its creation.
+            Adjusts a property grid's comment area height
+            </summary>
+            <param name="grid">Property grid to adjust</param>
+            <param name="lines">Number of lines to display in comment area</param>
+            <remarks>
+            <para>
+            This function only has an effect on property grids when their Visible property is set to True.  To use
+            this on an initially hidden property grid - set the property grid's Visible property to True at design
+            time, call this function during form load, then set the Visible property to False.
+            </para>
+            <para>
+            This function was written to work with the .NET 2.0 PropertyGrid control.  Note that reflection is used
+            to set private properties of the property grid and as a result this function may not work with future
+            versions of the .NET property grid.
+            </para>
+            </remarks>
+        </member>
+        <member name="T:GSF.Windows.Forms.ScreenArea">
+            <summary>Returns screen area statistics and capture functionality for all connected screens.</summary>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.LeftMostBound">
+            <summary>
+            Gets the least "x" coordinate of all screens on the system
+            </summary>
+            <returns>The smallest visible "x" screen coordinate</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.RightMostBound">
+            <summary>
+            Gets the greatest "x" coordinate of all screens on the system
+            </summary>
+            <returns>The largest visible "x" screen coordinate</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.TopMostBound">
+            <summary>
+            Gets the least "y" coordinate of all screens on the system
+            </summary>
+            <returns>The smallest visible "y" screen coordinate</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.BottomMostBound">
+            <summary>
+            Gets the greatest "y" coordinate of all screens on the system
+            </summary>
+            <returns>The largest visible "y" screen coordinate</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.MaximumWidth">
+            <summary>
+            Gets the width of the screen with the highest resolution.
+            </summary>
+            <returns>The width of the screen with the highest resolution.</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.MinimumWidth">
+            <summary>
+            Gets the width of the screen with the lowest resolution.
+            </summary>
+            <returns>The width of the screen with the lowest resolution.</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.MaximumHeight">
+            <summary>
+            Gets the height of the screen with the highest resolution.
+            </summary>
+            <returns>The height of the screen with the highest resolution.</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.MinimumHeight">
+            <summary>
+            Gets the height of the screen with the lowest resolution.
+            </summary>
+            <returns>The height of the screen with the lowest resolution.</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.TotalWidth">
+            <summary>
+            Gets the total width of all the screens relative to their arrangement.
+            </summary>
+            <returns>The total width of all the screens relative to their arrangement.</returns>
+        </member>
+        <member name="P:GSF.Windows.Forms.ScreenArea.TotalHeight">
+            <summary>
+            Gets the total height of all the screens relative to their arrangement.
+            </summary>
+            <returns>The total height of all the screens relative to their arrangement.</returns>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture">
+            <summary>
+            Performs screen capture over all monitors.
+            </summary>
+            <returns>Captured screen image over all monitors.</returns>
+            <remarks>
+            Size captured will be for total width and height of all screens relative to their arrangement.
+            An image square will be created large enough to cover all screens for the capture.
+            </remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture(System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Performs screen capture over all monitors.
+            </summary>
+            <param name="imageFormat">Desired <see cref="T:System.Drawing.Imaging.ImageFormat"/> for captured <see cref="T:System.Drawing.Bitmap"/>.</param>
+            <returns>Captured screen image over all monitors.</returns>
+            <remarks>
+            Size captured will be for total width and height of all screens relative to their arrangement.
+            An image square will be created large enough to cover all screens for the capture.
+            </remarks>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture(System.Windows.Forms.Screen)">
+            <summary>
+            Performs screen capture for given <see cref="T:System.Windows.Forms.Screen"/>.
+            </summary>
+            <param name="captureScreen">A <see cref="T:System.Windows.Forms.Screen"/> object to capture.</param>
+            <returns>Captured screen image for given <see cref="T:System.Windows.Forms.Screen"/>.</returns>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture(System.Windows.Forms.Screen,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Performs screen capture for given <see cref="T:System.Windows.Forms.Screen"/> and <see cref="T:System.Drawing.Imaging.ImageFormat"/>.
+            </summary>
+            <param name="captureScreen">Desired <see cref="T:System.Windows.Forms.Screen"/> to capture</param>
+            <param name="imageFormat">Desired <see cref="T:System.Drawing.Imaging.ImageFormat"/> for captured <see cref="T:System.Drawing.Bitmap"/>.</param>
+            <returns>Captured screen image for given <see cref="T:System.Windows.Forms.Screen"/>.</returns>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture(System.Drawing.Rectangle)">
+            <summary>
+            Performs a screen capture the given <see cref="T:System.Drawing.Rectangle"/>.
+            </summary>
+            <param name="captureArea">Screen area <see cref="T:System.Drawing.Rectangle"/> to capture.</param>
+            <returns>Captured screen image for given area.</returns>
+        </member>
+        <member name="M:GSF.Windows.Forms.ScreenArea.Capture(System.Drawing.Rectangle,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Performs a screen capture the given <see cref="T:System.Drawing.Rectangle"/> and <see cref="T:System.Drawing.Imaging.ImageFormat"/>.
+            </summary>
+            <param name="captureArea">Screen area <see cref="T:System.Drawing.Rectangle"/> to capture.</param>
+            <param name="imageFormat">Desired <see cref="T:System.Drawing.Imaging.ImageFormat"/> for captured <see cref="T:System.Drawing.Bitmap"/>.</param>
+            <returns>Captured screen image for given area.</returns>
+        </member>
+        <member name="T:GSF.Windows.Forms.SecureForm">
+            <summary>
+            Represents a windows form secured using role-based security.
+            </summary>
+            <example>
+            Required config file entries:
+            <code>
+            <![CDATA[
+            <?xml version="1.0"?>
+            <configuration>
+              <configSections>
+                <section name="categorizedSettings" type="GSF.Configuration.CategorizedSettingsSection, GSF.Core" />
+              </configSections>
+              <categorizedSettings>
+                <securityProvider>
+                  <add name="ApplicationName" value="" description="Name of the application being secured as defined in the backend security datastore."
+                    encrypted="false" />
+                  <add name="ConnectionString" value="" description="Connection string to be used for connection to the backend security datastore."
+                    encrypted="false" />
+                  <add name="ProviderType" value="GSF.Security.LdapSecurityProvider, GSF.Security"
+                    description="The type to be used for enforcing security." encrypted="false" />
+                  <add name="IncludedResources" value="*Form*=*" description="Semicolon delimited list of resources to be secured along with role names."
+                    encrypted="false" />
+                  <add name="ExcludedResources" value="" description="Semicolon delimited list of resources to be excluded from being secured."
+                    encrypted="false" />
+                  <add name="NotificationSmtpServer" value="localhost" description="SMTP server to be used for sending out email notification messages."
+                    encrypted="false" />
+                  <add name="NotificationSenderEmail" value="sender@company.com" description="Email address of the sender of email notification messages." 
+                    encrypted="false" />
+                </securityProvider>
+                <activeDirectory>
+                  <add name="PrivilegedDomain" value="" description="Domain of privileged domain user account."
+                    encrypted="false" />
+                  <add name="PrivilegedUserName" value="" description="Username of privileged domain user account."
+                    encrypted="false" />
+                  <add name="PrivilegedPassword" value="" description="Password of privileged domain user account."
+                    encrypted="true" />
+                </activeDirectory>
+              </categorizedSettings>
+            </configuration>
+            ]]>
+            </code>
+            </example>
+            <seealso cref="T:GSF.Security.ISecurityProvider"/>
+        </member>
+        <member name="M:GSF.Windows.Forms.SecureForm.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GSF.Windows.Forms.SecureForm"/> class.
             </summary>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.CreatedTimestamp">
+        <member name="P:GSF.Windows.Forms.SecureForm.SecurityPrincipal">
             <summary>
-            Gets timestamp, in ticks, of when this <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> was created.
+            Gets current security principal for secure form.
             </summary>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.MeasurementValueFilter">
+        <member name="P:GSF.Windows.Forms.SecureForm.ExceptionHandler">
             <summary>
-            Gets function used to apply a down-sampling filter over a sequence of <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> values.
+            Gets or sets exception handler for secure form.
             </summary>
         </member>
-        <member name="P:PhasorProtocolAdapters.SignalReferenceMeasurement.Metadata">
+        <member name="M:GSF.Windows.Forms.SecureForm.GetResourceName">
             <summary>
-            Gets or sets associated metadata values for the <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> .
+            Gets the name of resource being accessed.
+            </summary>
+            <returns>Name of the resource being accessed.</returns>
+        </member>
+        <member name="F:GSF.Windows.Forms.SecureForm.components">
+            <summary>
+            Required designer variable.
             </summary>
         </member>
-        <member name="M:PhasorProtocolAdapters.SignalReferenceMeasurement.Equals(GSF.TimeSeries.ITimeSeriesValue)">
+        <member name="M:GSF.Windows.Forms.SecureForm.Dispose(System.Boolean)">
             <summary>
-            Determines whether the specified <see cref="T:GSF.TimeSeries.ITimeSeriesValue"/> is equal to the current <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.
+            Clean up any resources being used.
             </summary>
-            <param name="other">The <see cref="T:GSF.TimeSeries.ITimeSeriesValue"/> to compare with the current <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.</param>
-            <returns>
-            true if the specified <see cref="T:GSF.TimeSeries.ITimeSeriesValue"/> is equal to the current <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>;
-            otherwise, false.
-            </returns>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         </member>
-        <member name="M:PhasorProtocolAdapters.SignalReferenceMeasurement.CompareTo(System.Object)">
+        <member name="M:GSF.Windows.Forms.SecureForm.InitializeComponent">
             <summary>
-            Compares the <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> with the specified <see cref="T:System.Object"/>.
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
             </summary>
-            <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.</param>
-            <returns>A 32-bit signed integer that indicates the relative order of the objects being compared.</returns>
-            <exception cref="T:System.ArgumentException"><paramref name="obj"/> is not an <see cref="T:GSF.TimeSeries.IMeasurement"/>.</exception>
-            <remarks>Measurement implementations should compare by hash code.</remarks>
         </member>
-        <member name="M:PhasorProtocolAdapters.SignalReferenceMeasurement.CompareTo(GSF.TimeSeries.ITimeSeriesValue)">
+        <member name="T:GSF.Windows.NamespaceDoc">
             <summary>
-            Compares the <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/> with an <see cref="T:GSF.TimeSeries.ITimeSeriesValue"/>.
+            Contains classes and extension functions related to .NET Windows-based platforms such as Windows Forms and WPF.
             </summary>
-            <param name="other">The <see cref="T:GSF.TimeSeries.ITimeSeriesValue"/> to compare with the current <see cref="T:PhasorProtocolAdapters.SignalReferenceMeasurement"/>.</param>
-            <returns>A 32-bit signed integer that indicates the relative order of the objects being compared.</returns>
-            <remarks>Measurement implementations should compare by hash code.</remarks>
+        </member>
+        <member name="T:GSF.Windows.ResourceAccessiblityMode">
+            <summary>
+            Defines an enumeration of secure resource accessibility modes.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.ResourceAccessiblityMode.Configurable">
+            <summary>
+            Resource security is controlled via configuration.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.ResourceAccessiblityMode.AlwaysIncluded">
+            <summary>
+            Resource is always secured.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.ResourceAccessiblityMode.AlwaysExcluded">
+            <summary>
+            Resource is never secured.
+            </summary>
+        </member>
+        <member name="T:GSF.Windows.SecureWindow">
+            <summary>
+            Represents a WPF window secured using role-based security.
+            </summary>
+            <example>
+            Required config file entries:
+            <code>
+            <![CDATA[
+            <?xml version="1.0"?>
+            <configuration>
+              <configSections>
+                <section name="categorizedSettings" type="GSF.Configuration.CategorizedSettingsSection, GSF.Core" />
+              </configSections>
+              <categorizedSettings>
+                <securityProvider>
+                  <add name="ApplicationName" value="" description="Name of the application being secured as defined in the backend security datastore."
+                    encrypted="false" />
+                  <add name="ConnectionString" value="" description="Connection string to be used for connection to the backend security datastore."
+                    encrypted="false" />
+                  <add name="ProviderType" value="GSF.Security.LdapSecurityProvider, GSF.Security"
+                    description="The type to be used for enforcing security." encrypted="false" />
+                  <add name="IncludedResources" value="*Window*=*" description="Semicolon delimited list of resources to be secured along with role names."
+                    encrypted="false" />
+                  <add name="ExcludedResources" value="" description="Semicolon delimited list of resources to be excluded from being secured."
+                    encrypted="false" />
+                  <add name="NotificationSmtpServer" value="localhost" description="SMTP server to be used for sending out email notification messages."
+                    encrypted="false" />
+                  <add name="NotificationSenderEmail" value="sender@company.com" description="Email address of the sender of email notification messages." 
+                    encrypted="false" />
+                </securityProvider>
+                <activeDirectory>
+                  <add name="PrivilegedDomain" value="" description="Domain of privileged domain user account."
+                    encrypted="false" />
+                  <add name="PrivilegedUserName" value="" description="Username of privileged domain user account."
+                    encrypted="false" />
+                  <add name="PrivilegedPassword" value="" description="Password of privileged domain user account."
+                    encrypted="true" />
+                </activeDirectory>
+              </categorizedSettings>
+            </configuration>
+            ]]>
+            </code>
+            XAML to be used for the WPF window that inherits from <see cref="T:GSF.Windows.SecureWindow"/>:
+            <code>
+            <![CDATA[
+            <src:SecureWindow x:Class="SecureWpfApplication.Window1"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                xmlns:src="clr-namespace:GSF.Windows;assembly=GSF.Windows"
+                Title="Window1" Height="300" Width="300">
+                <Grid>
+            
+                </Grid>
+            </src:SecureWindow>
+            ]]>
+            </code>
+            </example>
+            <seealso cref="T:GSF.Security.ISecurityProvider"/>
+        </member>
+        <member name="M:GSF.Windows.SecureWindow.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:GSF.Windows.SecureWindow"/> class.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecureWindow.ForceLoginDisplay">
+            <summary>
+            Gets or sets flags to force login display.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecureWindow.ResourceAccessiblity">
+            <summary>
+            Gets or sets window's secure <see cref="T:GSF.Windows.ResourceAccessiblityMode"/>.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecureWindow.IncludedRoles">
+            <summary>
+            Gets or sets applicable roles when <see cref="P:GSF.Windows.SecureWindow.ResourceAccessiblity"/> == <see cref="F:GSF.Windows.ResourceAccessiblityMode.AlwaysIncluded"/>.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecureWindow.SecurityPrincipal">
+            <summary>
+            Gets or sets the security principal used to test authentication and role membership.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecureWindow.LoadException">
+            <summary>
+            Gets or sets any <see cref="T:System.Exception"/> that was thrown during the load process.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.SecureWindow.GetResourceName">
+            <summary>
+            Gets the name of resource being accessed.
+            </summary>
+            <returns>Name of the resource being accessed.</returns>
+        </member>
+        <member name="F:GSF.Windows.SecureWindow.ForceLoginDisplayProperty">
+            <summary>
+            Identifies the <see cref="P:GSF.Windows.SecureWindow.ForceLoginDisplay"/> dependency property.
+            </summary>
+            <returns>identifier for the <see cref="P:GSF.Windows.SecureWindow.ForceLoginDisplay"/> dependency property.</returns>
+        </member>
+        <member name="F:GSF.Windows.SecureWindow.ResourceAccessiblityProperty">
+            <summary>
+            Identifies the <see cref="P:GSF.Windows.SecureWindow.ResourceAccessiblity"/> dependency property.
+            </summary>
+            <returns>identifier for the <see cref="P:GSF.Windows.SecureWindow.ResourceAccessiblity"/> dependency property.</returns>
+        </member>
+        <member name="F:GSF.Windows.SecureWindow.IncludedRolesProperty">
+            <summary>
+            Identifies the <see cref="P:GSF.Windows.SecureWindow.IncludedRoles"/> dependency property.
+            </summary>
+            <returns>identifier for the <see cref="P:GSF.Windows.SecureWindow.IncludedRoles"/> dependency property.</returns>
+        </member>
+        <member name="F:GSF.Windows.SecureWindow.SecurityPrincipalProperty">
+            <summary>
+            Identifies the <see cref="P:GSF.Windows.SecureWindow.SecurityPrincipal"/> dependency property.
+            </summary>
+            <returns>identifier for the <see cref="P:GSF.Windows.SecureWindow.SecurityPrincipal"/> dependency property.</returns>
+        </member>
+        <member name="T:GSF.Windows.DisplayType">
+            <summary>
+            Enumerable list of portlets to be displayed on the screen.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.DisplayType.Login">
+            <summary>
+            Login screen.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.DisplayType.AccessDenied">
+            <summary>
+            Access Denied screen.
+            </summary>
+        </member>
+        <member name="F:GSF.Windows.DisplayType.ChangePassword">
+            <summary>
+            Change Password screen.
+            </summary>
+        </member>
+        <member name="T:GSF.Windows.SecurityPortal">
+            <summary>
+            Represents a WPF window used to request user credentials and other security related information.
+            </summary>
+            <summary>
+            SecurityPortal
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.#ctor(GSF.Windows.SecureWindow,GSF.Windows.DisplayType)">
+            <summary>
+            Initializes a new WPF window.
+            </summary>
+            <param name="parent">Parent secure window reference.</param>
+            <param name="displayType">Type of the message received from security API which is used to decide controls to be displayed on the screen.</param>
+        </member>
+        <member name="P:GSF.Windows.SecurityPortal.SecurityPrincipal">
+            <summary>
+            Gets the security principal used for role-based authorization.
+            </summary>
+        </member>
+        <member name="P:GSF.Windows.SecurityPortal.ProviderFailure">
+            <summary>
+            Gets or sets flag that indicates if there was a failure during provider initialization.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ManageScreenVisualization">
+            <summary>
+            Displays requested screen section based on received request.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.DisplayStatusMessage(System.String)">
+            <summary>
+            Displays status message.
+            </summary>
+            <param name="message">Error message to display.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.DisplayErrorMessage(System.String,System.Windows.Media.Brush)">
+            <summary>
+            Displays error message.
+            </summary>
+            <param name="message">Error message to display.</param>
+            <param name="color">Target color for error messages.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ClearErrorMessage">
+            <summary>
+            Clears error message.
+            </summary>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.Window_Closed(System.Object,System.EventArgs)">
+            <summary>
+            Handles window closed.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.Window_MouseDown(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles mouse down event anywhere on the screen so user can click and drag this window around.
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonLogin_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Logins the user.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonAzAuth_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Attempts to logins user with Azure authentication.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonChange_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Attempts to change user's password.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonExit_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Exits window.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonOK_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Closes window.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonForgotPasswordLink_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Displays help for the user on how to reset password.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonChangePasswordLink_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Navigates users to Change Password screen.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.ButtonLoginLink_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Navigates users back to Login screen.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.TextBox_TextChanged(System.Object,System.Windows.Controls.TextChangedEventArgs)">
+            <summary>
+            Keeps the user names on the separate sections synchronized and clears error messages when text changes.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.PasswordBox_PasswordChanged(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Clears error messages when text changes.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.TextBox_GotFocus(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            We make sure all text boxes "select-all" when they receive focus.
+            </summary>
+            <param name="sender">Source of this event.</param>
+            <param name="e">Arguments of this event.</param>
+        </member>
+        <member name="M:GSF.Windows.SecurityPortal.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
         </member>
     </members>
 </doc>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <?xml version="1.0"?>
-<doc>
-    <assembly>
-        <name>PIAdapters</name>
-    </assembly>
-    <members>
-        <member name="T:PIAdapters.PIConnection">
-            <summary>
-            Represents a connection to a PI server that handles open, close and executes operations.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.PIConnection.DefaultConnectTimeout">
-            <summary>
-            Default value for <see cref="P:PIAdapters.PIConnection.ConnectTimeout"/>.
-            </summary>
-        </member>
-        <member name="E:PIAdapters.PIConnection.Disconnected">
-            <summary>
-            Raised when <see cref="T:PIAdapters.PIConnection"/> has been disconnected from server.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnection.#ctor">
-            <summary>
-            Creates a new OSI-PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.Server">
-            <summary>
-            Gets PI server object for this PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.ServerName">
-            <summary>
-            Gets or sets the name of the PI server for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.UserName">
-            <summary>
-            Gets or sets the name of the PI user ID for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.Password">
-            <summary>
-            Gets or sets the password used for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.ConnectTimeout">
-            <summary>
-            Gets or sets the timeout interval (in milliseconds) for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnection.Connected">
-            <summary>
-            Gets flag that determines if <see cref="T:PIAdapters.PIConnection"/> is currently connected to <see cref="P:PIAdapters.PIConnection.ServerName"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnection.Dispose">
-            <summary>
-            Releases all the resources used by the <see cref="T:PIAdapters.PIConnection"/> object.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnection.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the <see cref="T:PIAdapters.PIConnection"/> object and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        </member>
-        <member name="M:PIAdapters.PIConnection.Open">
-            <summary>
-            Attempts to open <see cref="T:PIAdapters.PIConnection"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnection.Close">
-            <summary>
-            Closes <see cref="T:PIAdapters.PIConnection"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnection.CompareTo(PIAdapters.PIConnection)">
-            <summary>
-            Compares the current object with another object of the same type.
-            </summary>
-            <returns>
-            A value that indicates the relative order of the objects being compared. The return value has the following meanings: 
-            Value Meaning Less than zero This object is less than the <paramref name="other"/> parameter.
-            Zero This object is equal to <paramref name="other"/>.
-            Greater than zero This object is greater than <paramref name="other"/>. 
-            </returns>
-            <param name="other">An object to compare with this object.</param>
-        </member>
-        <member name="T:PIAdapters.PIConnectionPool">
-            <summary>
-            Represents a pool of <see cref="T:PIAdapters.PIConnection"/> instances.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.PIConnectionPool.DefaultAccessCountPerConnection">
-            <summary>
-            Default value for <see cref="P:PIAdapters.PIConnectionPool.AccessCountPerConnection"/>.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.PIConnectionPool.DefaultMinimumPoolSize">
-            <summary>
-            Default value for <see cref="P:PIAdapters.PIConnectionPool.MinimumPoolSize"/>.
-            </summary>
-        </member>
-        <member name="E:PIAdapters.PIConnectionPool.Disconnected">
-            <summary>
-            Raised when a <see cref="T:PIAdapters.PIConnection"/> has been disconnected from server.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.#ctor">
-            <summary>
-            Creates a new <see cref="T:PIAdapters.PIConnectionPool"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.#ctor(System.Int32)">
-            <summary>
-            Creates a new <see cref="T:PIAdapters.PIConnectionPool"/>.
-            </summary>
-            <param name="minimumPoolSize">Minimum pool size to maintain.</param>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.Finalize">
-            <summary>
-            Releases the unmanaged resources before the <see cref="T:PIAdapters.PIConnectionPool"/> object is reclaimed by <see cref="T:System.GC"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnectionPool.MinimumPoolSize">
-            <summary>
-            Gets minimum pool size for the <see cref="T:PIAdapters.PIConnectionPool"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnectionPool.AccessCountPerConnection">
-            <summary>
-            Gets or sets maximum accessibility count for each <see cref="T:PIAdapters.PIConnection"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIConnectionPool.Size">
-            <summary>
-            Gets current size of connection pool.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.Dispose">
-            <summary>
-            Releases all the resources used by the <see cref="T:PIAdapters.PIConnectionPool"/> object.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the <see cref="T:PIAdapters.PIConnectionPool"/> object and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.GetPooledConnection(System.String,System.String,System.String,System.Int32)">
-            <summary>
-            Gets a connection from the pool or creates a new one if all current connections are being used at peak access.
-            </summary>
-            <param name="serverName">Name of the PI server for the adapter's PI connection.</param>
-            <param name="userName">Name of the PI user ID for the adapter's PI connection.</param>
-            <param name="password">Password used for the adapter's PI connection.</param>
-            <param name="connectTimeout">Timeout interval (in milliseconds) for the adapter's connection.</param>
-            <returns>A <see cref="T:PIAdapters.PIConnection"/> from the pool.</returns>
-            <exception cref="T:System.InvalidOperationException">Failed to get a pooled PI connection.</exception>
-        </member>
-        <member name="M:PIAdapters.PIConnectionPool.ReturnPooledConnection(PIAdapters.PIConnection)">
-            <summary>
-            Returns <see cref="T:PIAdapters.PIConnection"/> to the pool.
-            </summary>
-            <param name="connection"><see cref="T:PIAdapters.PIConnection"/> to return to the pool.</param>
-            <exception cref="T:System.InvalidOperationException">Provided PIConnection does not belong to this connection pool.</exception>
-        </member>
-        <member name="T:PIAdapters.TagRemovalOperation">
-            <summary>
-            Enumeration that defines the available operations for PI tag removal during metadata synchronization.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.TagRemovalOperation.DoNotRemove">
-            <summary>
-            Do not remove any existing PI tags. This is the default operation.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.TagRemovalOperation.LocalOnly">
-            <summary>
-            Remove any PI tags where the PI point source matches the setting defined in the PI output adapter and
-            the PI tag no longer exists in the local metadata. The is the recommended option when it is desirable
-            that any locally defined tags that get removed also get removed from PI.
-            </summary>
-            <remarks>
-            This is the least aggressive tag removal synchronization operation. Only PI tags that have a matching
-            point source name will be considered for removal. After point source match, then any PI tags where
-            existing measurement signal ID is not found in any extended descriptors will be removed. Note that
-            removal of any point tags in PI metadata will cause history for removed tags to be inaccessible.
-            </remarks>
-        </member>
-        <member name="F:PIAdapters.TagRemovalOperation.FullClone">
-            <summary>
-            Remove any PI tags where existing measurement signal ID is not found in any extended descriptors.
-            Use with caution as metadata in PI will be updated to exactly match local metadata.
-            </summary>
-            <remarks>
-            WARNING: Do not use this option if target PI instance is used for storage of any data other than this
-            local PI adapter. This is the most aggressive tag removal synchronization operation. Any PI tags that
-            do not exist in local metadata will be removed from PI. This option ensures that PI metadata will
-            exactly match local metadata. Note that removal of any point tags in PI metadata will cause history
-            for removed tags to be inaccessible.
-            </remarks>
-        </member>
-        <member name="T:PIAdapters.PIOutputAdapter">
-            <summary>
-            Exports measurements to PI if the point tag or alternate tag corresponds to a PI point's tag name.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.#ctor">
-            <summary>
-            Creates a new <see cref="T:PIAdapters.PIOutputAdapter"/>
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.OutputIsForArchive">
-            <summary>
-            Returns true to indicate that this <see cref="T:PIAdapters.PIOutputAdapter"/> is sending measurements to a historian, OSIsoft PI.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.UseAsyncConnect">
-            <summary>
-            Returns false to indicate that this <see cref="T:PIAdapters.PIOutputAdapter"/> will connect synchronously
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.ServerName">
-            <summary>
-            Gets or sets the name of the PI server for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.UserName">
-            <summary>
-            Gets or sets the name of the PI user ID for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.Password">
-            <summary>
-            Gets or sets the password used for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.ConnectTimeout">
-            <summary>
-            Gets or sets the timeout interval (in milliseconds) for the adapter's connection
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.RunMetadataSync">
-            <summary>
-            Gets or sets whether or not this adapter should automatically manage metadata for PI points.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.AutoCreateTags">
-            <summary>
-            Gets or sets whether or not this adapter should automatically create new tags when managing metadata for PI points.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.AutoUpdateTags">
-            <summary>
-            Gets or sets whether or not this adapter should automatically update existing tags when managing metadata for PI points.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.AutoRemoveTags">
-            <summary>
-            Gets or sets whether or not this adapter should automatically remove PI tags that no longer exist locally in metadata.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.SyncAlternateTagOnly">
-            <summary>
-            Gets or sets flag that determines if tag synchronization should only use alternate tag fields.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.SkipDigitalAlternateTagSync">
-            <summary>
-            Gets or sets flag that determines if tag synchronization should skip digitals when alternate tag field is being used.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.TagNamePrefixRemoveCount">
-            <summary>
-            Gets or sets the number of tag name prefixes, e.g., "SOURCE!", applied by subscriptions to remove from PI tag names.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.PIPointSource">
-            <summary>
-            Gets or sets the point source string used when automatically creating new PI points during the metadata update
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.PIPointClass">
-            <summary>
-            Gets or sets the point class string used when automatically creating new PI points during the metadata update. On the PI server, this class should inherit from classic.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.UseCompression">
-            <summary>
-            Gets or sets flag that determines if defined point compression will be used during archiving.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.UpdateExistingTagCompressionState">
-            <summary>
-            Gets or sets the flag that determines if the compression enabled state, per UseCompression flag, should be adjusted for existing tags.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.ArchiveOnChangeDataTypes">
-            <summary>
-            Gets or sets the data types to only archive on change. Empty string value means all values archived, <c>*</c> means archive all values on change, <c>DIGI</c> means only archive digital values on change. Separate multiple values with a comma, for example: <c>DIGI,VPHM,FREQ</c>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.TagMapCacheFileName">
-            <summary>
-            Gets or sets the filename to be used for tag map cache.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.MaximumPointResolution">
-            <summary>
-            Gets or sets the maximum time resolution, in seconds, for data points being archived, e.g., a value 1.0 would mean that data would be archived no more than once per second. A zero value indicates that all data should be archived.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.EnableTimeReasonabilityCheck">
-            <summary>
-            Gets or sets flag that indicates if incoming timestamps to the historian should be validated for reasonability.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.PastTimeReasonabilityLimit">
-            <summary>
-            Gets or sets the maximum number of seconds that a past timestamp, as compared to local clock, will be considered valid.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.FutureTimeReasonabilityLimit">
-            <summary>
-            Gets or sets the maximum number of seconds that a future timestamp, as compared to local clock, will be considered valid.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIOutputAdapter.Status">
-            <summary>
-            Returns the detailed status of the data output source.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the <see cref="T:PIAdapters.PIOutputAdapter"/> object and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.GetArchiveQueueStatus">
-            <summary>
-            Gets full archive queue status.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.GetShortStatus(System.Int32)">
-            <summary>
-            Returns a brief status of this <see cref="T:PIAdapters.PIOutputAdapter"/>
-            </summary>
-            <param name="maxLength">Maximum number of characters in the status string</param>
-            <returns>Status</returns>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.Initialize">
-            <summary>
-            Initializes this <see cref="T:PIAdapters.PIOutputAdapter"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.AttemptConnection">
-            <summary>
-            Connects to the configured PI server.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.AttemptDisconnection">
-            <summary>
-            Closes this <see cref="T:PIAdapters.PIOutputAdapter"/> connections to the PI server.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.QueueMeasurementsForProcessing(System.Collections.Generic.IEnumerable{GSF.TimeSeries.IMeasurement})">
-            <summary>
-            Queues a collection of measurements for processing. Measurements are automatically filtered to the defined <see cref="P:GSF.TimeSeries.Adapters.IAdapter.InputMeasurementKeys"/>.
-            </summary>
-            <param name="measurements">Measurements to queue for processing.</param>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.ProcessMeasurements(GSF.TimeSeries.IMeasurement[])">
-            <summary>
-            Sorts measurements and sends them to the configured PI server in batches
-            </summary>
-            <param name="measurements">Measurements to queue</param>
-        </member>
-        <member name="M:PIAdapters.PIOutputAdapter.ExecuteMetadataRefresh">
-            <summary>
-            Sends updated metadata to PI.
-            </summary>
-        </member>
-        <member name="F:PIAdapters.PIOutputAdapter.Instances">
-            <summary>
-            Accesses local output adapter instances (normally only one).
-            </summary>
-        </member>
-        <member name="T:PIAdapters.PIPBInputAdapter">
-            <summary>
-            Retrieves historical OSI-PI data using AF-SDK.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.#ctor">
-            <summary>
-            Creates a new instance of the <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.InstanceName">
-            <summary>
-            Gets or sets instance name defined for this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.ServerName">
-            <summary>
-            Gets or sets the name of the PI server for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.UserName">
-            <summary>
-            Gets or sets the name of the PI user ID for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.Password">
-            <summary>
-            Gets or sets the password used for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.ConnectTimeout">
-            <summary>
-            Gets or sets the timeout interval (in milliseconds) for the adapter's connection
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.PublicationInterval">
-            <summary>
-            Gets or sets the publication interval for this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.StartTimeConstraint">
-            <summary>
-            Gets the start time for reading data.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.StopTimeConstraint">
-            <summary>
-            Gets the stop time for reading data.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.SimulateTimestamp">
-            <summary>
-            Gets or sets a value that determines whether timestamps are
-            simulated for the purposes of real-time concentration.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.PageFactor">
-            <summary>
-            Gets or sets value paging factor to read more data per page from PI.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.AutoRepeat">
-            <summary>
-            Gets or sets value that determines if the input data should be replayed repeatedly.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.TagNamePrefixRemoveCount">
-            <summary>
-            Gets or sets the number of tag name prefixes, e.g., "SOURCE!", applied by subscriptions to remove from PI tag names.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.SupportsTemporalProcessing">
-            <summary>
-            Gets the flag indicating if this adapter supports temporal processing.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.ProcessingInterval">
-            <summary>
-            Gets or sets the desired processing interval, in milliseconds, for the adapter.
-            </summary>
-            <remarks>
-            With the exception of the values of -1 and 0, this value specifies the desired processing interval for data, i.e.,
-            basically a delay, or timer interval, over which to process data. A value of -1 means to use the default processing
-            interval while a value of 0 means to process data as fast as possible.
-            </remarks>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.UseAsyncConnect">
-            <summary>
-            Gets flag that determines if this <see cref="T:PIAdapters.PIPBInputAdapter"/> uses an asynchronous connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIPBInputAdapter.Status">
-            <summary>
-            Returns the detailed status of the data input source.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the <see cref="T:PIAdapters.PIPBInputAdapter"/> object and optionally releases the managed resources.
-            </summary>
-            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.Initialize">
-            <summary>
-            Initializes this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-            <exception cref="T:System.ArgumentException"><b>HistorianID</b>, <b>Server</b>, <b>Port</b>, <b>Protocol</b>, or <b>InitiateConnection</b> is missing from the <see cref="P:GSF.TimeSeries.Adapters.AdapterBase.Settings"/>.</exception>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.GetShortStatus(System.Int32)">
-            <summary>
-            Gets a short one-line status of this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-            <param name="maxLength">Maximum length of the status message.</param>
-            <returns>Text of the status message.</returns>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.AttemptConnection">
-            <summary>
-            Attempts to connect to this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIPBInputAdapter.AttemptDisconnection">
-            <summary>
-            Attempts to disconnect from this <see cref="T:PIAdapters.PIPBInputAdapter"/>.
-            </summary>
-        </member>
-        <member name="T:PIAdapters.PIRTInputAdapter">
-            <summary>
-            Uses PI event pipes to deliver real-time PI data to GSF host
-            </summary>
-        </member>
-        <member name="M:PIAdapters.PIRTInputAdapter.#ctor">
-            <summary>
-            Receives real-time updates from PI
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.UseAsyncConnect">
-            <summary>
-            Returns false to indicate that this <see cref="T:PIAdapters.PIRTInputAdapter"/> does NOT connect asynchronously
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.SupportsTemporalProcessing">
-            <summary>
-            Returns false to indicate that this <see cref="T:PIAdapters.PIRTInputAdapter"/> does NOT support temporal processing. 
-            Temporal processing is supported in a separate adapter that is not driven by event pipes.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.RequestedOutputMeasurementKeys">
-            <summary>
-            Gets or sets the measurements that this <see cref="T:PIAdapters.PIRTInputAdapter"/> has been requested to provide
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.ServerName">
-            <summary>
-            Gets or sets the name of the PI server for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.UserName">
-            <summary>
-            Gets or sets the name of the PI user ID for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.Password">
-            <summary>
-            Gets or sets the password used for the adapter's PI connection.
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.ConnectTimeout">
-            <summary>
-            Gets or sets the timeout interval (in milliseconds) for the adapter's connection
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.LastReceivedTimestamp">
-            <summary>
-            Last timestamp received from PI
-            </summary>
-        </member>
-        <member name="P:PIAdapters.PIRTInputAdapter.Status">
-            <summary>
-            Returns the status of the adapter
-            </summary>
-    

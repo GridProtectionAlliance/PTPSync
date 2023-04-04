@@ -1,618 +1,516 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>eDNAAdapters</name>
+        <name>HistorianAdapters</name>
     </assembly>
     <members>
-        <member name="T:eDNAAdapters.Metadata">
+        <member name="T:HistorianAdapters.LocalInputAdapter">
             <summary>
-            Defines a class used to query eDNA meta-data.
+            Represents an output adapter that publishes measurements to openHistorian for archival.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ChannelNumber">
+        <member name="M:HistorianAdapters.LocalInputAdapter.#ctor">
             <summary>
-            Channel number field.
+            Creates a new instance of the <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.Site">
+        <member name="P:HistorianAdapters.LocalInputAdapter.InstanceName">
             <summary>
-            Site field.
+            Gets or sets instance name defined for this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.Service">
+        <member name="P:HistorianAdapters.LocalInputAdapter.ArchiveLocation">
             <summary>
-            Service field.
+            Gets or sets archive path for this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ShortID">
+        <member name="P:HistorianAdapters.LocalInputAdapter.ConnectionInfo">
             <summary>
-            Short ID (a.k.a. Point ID) field.
+            Gets connection info for adapter, if any.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.LongID">
+        <member name="P:HistorianAdapters.LocalInputAdapter.ArchiveOffloadLocation">
             <summary>
-            Long ID field.
+            Gets or sets archive offload path for this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ExtendedID">
+        <member name="P:HistorianAdapters.LocalInputAdapter.PublicationInterval">
             <summary>
-            Extended ID field.
+            Gets or sets the publication interval for this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.Description">
+        <member name="P:HistorianAdapters.LocalInputAdapter.StartTimeConstraint">
             <summary>
-            Description field.
+            Gets the start time for reading data.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ExtendedDescription">
+        <member name="P:HistorianAdapters.LocalInputAdapter.StopTimeConstraint">
             <summary>
-            Extended description field.
+            Gets the stop time for reading data.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.PointType">
+        <member name="P:HistorianAdapters.LocalInputAdapter.SimulateTimestamp">
             <summary>
-            Point type field, "AI" or "DI".
+            Gets or sets a value that determines whether timestamps are
+            simulated for the purposes of real-time concentration.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.Units">
+        <member name="P:HistorianAdapters.LocalInputAdapter.AutoRepeat">
             <summary>
-            Units field.
+            Gets or sets value that determines if the input data should be replayed repeatedly.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField01">
+        <member name="P:HistorianAdapters.LocalInputAdapter.SupportsTemporalProcessing">
             <summary>
-            Reference field 1.
+            Gets the flag indicating if this adapter supports temporal processing.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField02">
+        <member name="P:HistorianAdapters.LocalInputAdapter.ProcessingInterval">
             <summary>
-            Reference field 2.
+            Gets or sets the desired processing interval, in milliseconds, for the adapter.
             </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField03">
-            <summary>
-            Reference field 3.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField04">
-            <summary>
-            Reference field 4.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField05">
-            <summary>
-            Reference field 5.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField06">
-            <summary>
-            Reference field 6.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField07">
-            <summary>
-            Reference field 7.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField08">
-            <summary>
-            Reference field 8.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField09">
-            <summary>
-            Reference field 9.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.Metadata.ReferenceField10">
-            <summary>
-            Reference field 10.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.Metadata.DataType">
-            <summary>
-            Gets derived data type based on <see cref="F:eDNAAdapters.Metadata.PointType"/>.
-            </summary>
-        </member>
-        <member name="M:eDNAAdapters.Metadata.Query(eDNAAdapters.Metadata,System.Func{eDNAAdapters.Metadata,System.Boolean})">
-            <summary>
-            Queries eDNA meta-data for values defined in <paramref name="search"/> values.
-            </summary>
-            <param name="search"><see cref="T:eDNAAdapters.Metadata"/> values to search.</param>
-            <param name="match">Optional predicate delegate that defines the valid conditions of the elements being searched.</param>
-            <returns>Values that match search criteria.</returns>
             <remarks>
-            <para>
-            Searches on reference fields require use of <paramref name="match"/> predicate function since the eDNA
-            function to search meta-data, i.e., Configuration.EzSimpleFindPoints, ignores reference field values.
-            </para>
-            <para>
-            Since meta-data lookups on non-key fields are a linear O(n) operation, consider a strategy that will scan
-            and cache the full meta-data when use case demands multiple search operations or complete meta-data set.
-            </para>
+            With the exception of the values of -1 and 0, this value specifies the desired processing interval for data, i.e.,
+            basically a delay, or timer interval, over which to process data. A value of -1 means to use the default processing
+            interval while a value of 0 means to process data as fast as possible.
             </remarks>
         </member>
-        <member name="M:eDNAAdapters.Metadata.Count(System.String,System.String)">
+        <member name="P:HistorianAdapters.LocalInputAdapter.UseAsyncConnect">
             <summary>
-            Gets total meta-data records.
-            </summary>
-            <param name="site">Site.</param>
-            <param name="service">Service.</param>
-            <returns>Total meta-data records.</returns>
-        </member>
-        <member name="T:eDNAAdapters.OutputAdapter">
-            <summary>
-            Exports measurements to eDNA if the point tag or alternate tag corresponds to a eDNA point's tag name.
+            Gets flag that determines if this <see cref="T:HistorianAdapters.LocalInputAdapter"/> uses an asynchronous connection.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.OutputAdapter.Point.ID">
+        <member name="P:HistorianAdapters.LocalInputAdapter.Status">
             <summary>
-            Base-36 encoded string of point ID value.
+            Returns the detailed status of the data input source.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.OutputAdapter.Point.Type">
+        <member name="M:HistorianAdapters.LocalInputAdapter.Dispose(System.Boolean)">
             <summary>
-            Point data type, i.e., analog or digital.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.Point.IDValue">
-            <summary>
-            Point ID integer value decoded from base-36 string.
-            </summary>
-        </member>
-        <member name="M:eDNAAdapters.OutputAdapter.#ctor">
-            <summary>
-            Creates a new <see cref="T:eDNAAdapters.OutputAdapter"/>
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.OutputIsForArchive">
-            <summary>
-            Returns true to indicate that this <see cref="T:eDNAAdapters.OutputAdapter"/> is sending measurements to a historian, i.e., eDNA.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.UseAsyncConnect">
-            <summary>
-            Returns false to indicate that this <see cref="T:eDNAAdapters.OutputAdapter"/> will connect synchronously based on eDNA API operation.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.PrimaryServer">
-            <summary>
-            Gets or sets the name of the eDNA primary server for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.PrimaryPort">
-            <summary>
-            Gets or sets the eDNA primary port for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.SecondaryServer">
-            <summary>
-            Gets or sets the name of the eDNA secondary server for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.SecondaryPort">
-            <summary>
-            Gets or sets the eDNA secondary port for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.Site">
-            <summary>
-            Gets or sets the eDNA site for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.Service">
-            <summary>
-            Gets or sets the eDNA service for the adapter's connection.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.AcknowledgeDataPackets">
-            <summary>
-            Gets or sets flag that determines if eDNA client API should acknowledge all process errors or protocol errors.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.EnableQueuing">
-            <summary>
-            Gets or sets flag that determines if eDNA client API should enable its memory queue.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.EnableCaching">
-            <summary>
-            Gets or sets flag that determines if eDNA client API should enable use of a local file system cache.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.LocalCacheFileName">
-            <summary>
-            Gets or sets the filename to be used for point map cache.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.ClearCacheOnStartup">
-            <summary>
-            Gets or sets flag that determines if eDNA client API cache should be cleared on startup.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.RunMetadataSync">
-            <summary>
-            Gets or sets whether or not this adapter should automatically manage meta-data for eDNA points.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.AutoCreateTags">
-            <summary>
-            Gets or sets whether or not this adapter should automatically manage meta-data for eDNA points.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.AutoUpdateTags">
-            <summary>
-            Gets or sets whether or not this adapter should automatically manage meta-data for eDNA points.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.TagNamePrefixRemoveCount">
-            <summary>
-            Gets or sets the number of tag name prefixes, e.g., "SOURCE!", applied by subscriptions to remove from eDNA tag names.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.PointMapCacheFileName">
-            <summary>
-            Gets or sets the filename to be used for point map cache.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.DigitalSetString">
-            <summary>
-            Gets or sets the default string to represent the digital set state.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.DigitalClearedString">
-            <summary>
-            Gets or sets the default string to represent the digital cleared state.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.ValidateINIFileExists">
-            <summary>
-            Gets or sets flag that determines if eDNA client API INI configuration file should be validated to exist before starting adapter. When set to True, adapter will fail to start when INI file does not exist.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.MaximumPointResolution">
-            <summary>
-            Gets or sets the maximum time resolution, in seconds, for data points being archived, e.g., a value 1.0 would mean that data would be archived no more than once per second. A zero value indicates that all data should be archived.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.ConnectionMonitoringInterval">
-            <summary>
-            Gets or sets the interval, in milliseconds, to monitor eDNA connection. A zero value will disable the monitor.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.WriteTimeout">
-            <summary>
-            Gets or sets the timeout, in milliseconds, for writing data to eDNA connection. A value of -1 will wait indefinitely.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.ExpandDigitalWordBits">
-            <summary>
-            Gets or sets flag that determines if each bit of digital words are expanded to individual points. Set to False to treat words as analog values.
-            </summary>
-        </member>
-        <member name="P:eDNAAdapters.OutputAdapter.Status">
-            <summary>
-            Gets the detailed status of the eDNA output adapter.
-            </summary>
-        </member>
-        <member name="M:eDNAAdapters.OutputAdapter.Dispose(System.Boolean)">
-            <summary>
-            Releases the unmanaged resources used by the <see cref="T:eDNAAdapters.OutputAdapter"/> object and optionally releases the managed resources.
+            Releases the unmanaged resources used by the <see cref="T:HistorianAdapters.LocalInputAdapter"/> object and optionally releases the managed resources.
             </summary>
             <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.GetShortStatus(System.Int32)">
+        <member name="M:HistorianAdapters.LocalInputAdapter.Initialize">
             <summary>
-            Returns a brief status of this <see cref="T:eDNAAdapters.OutputAdapter"/>
+            Initializes this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
-            <param name="maxLength">Maximum number of characters in the status string</param>
-            <returns>Status</returns>
+            <exception cref="T:System.ArgumentException"><b>HistorianID</b>, <b>Server</b>, <b>Port</b>, <b>Protocol</b>, or <b>InitiateConnection</b> is missing from the <see cref="P:GSF.TimeSeries.Adapters.AdapterBase.Settings"/>.</exception>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.Initialize">
+        <member name="M:HistorianAdapters.LocalInputAdapter.GetShortStatus(System.Int32)">
             <summary>
-            Initializes this <see cref="T:eDNAAdapters.OutputAdapter"/>.
+            Gets a short one-line status of this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
+            <param name="maxLength">Maximum length of the status message.</param>
+            <returns>Text of the status message.</returns>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.AttemptConnection">
+        <member name="M:HistorianAdapters.LocalInputAdapter.AttemptConnection">
             <summary>
-            Connects to the configured eDNA server.
+            Attempts to connect to this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
             </summary>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.OnConnected">
+        <member name="M:HistorianAdapters.LocalInputAdapter.AttemptDisconnection">
+            <summary>
+            Attempts to disconnect from this <see cref="T:HistorianAdapters.LocalInputAdapter"/>.
+            </summary>
+        </member>
+        <member name="T:HistorianAdapters.RemoteInputAdapter">
+            <summary>
+            Represents an input adapters that listens for time-series data from a remote Historian.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HistorianAdapters.RemoteInputAdapter"/> class.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.Server">
+            <summary>
+            Gets or sets the host name or IP address of the openHistorian.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.Port">
+            <summary>
+            Gets or sets the port on which the openHistorian is broadcasting data.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.Protocol">
+            <summary>
+            Gets or sets the type of connection used to connect to the openHistorian.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.InitiateConnection">
+            <summary>
+            Gets or sets a value that indicates whether the listener will initiate the connection to the openHistorian.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.Status">
+            <summary>
+            Returns the detailed status of the data input source.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.UseAsyncConnect">
+            <summary>
+            Gets flag that determines if this <see cref="T:HistorianAdapters.RemoteInputAdapter"/> uses an asynchronous connection.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.RemoteInputAdapter.SupportsTemporalProcessing">
+            <summary>
+            Gets the flag indicating if this adapter supports temporal processing.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.Initialize">
+            <summary>
+            Initializes this <see cref="T:HistorianAdapters.RemoteInputAdapter"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException"><b>HistorianID</b>, <b>Server</b>, <b>Port</b>, <b>Protocol</b>, or <b>InitiateConnection</b> is missing from the <see cref="P:GSF.TimeSeries.Adapters.AdapterBase.Settings"/>.</exception>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.GetShortStatus(System.Int32)">
+            <summary>
+            Gets a short one-line status of this <see cref="T:HistorianAdapters.RemoteInputAdapter"/>.
+            </summary>
+            <param name="maxLength">Maximum length of the status message.</param>
+            <returns>Text of the status message.</returns>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by this <see cref="T:HistorianAdapters.RemoteInputAdapter"/> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.AttemptConnection">
+            <summary>
+            Attempts to connect to this <see cref="T:HistorianAdapters.RemoteInputAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.RemoteInputAdapter.AttemptDisconnection">
+            <summary>
+            Attempts to disconnect from this <see cref="T:HistorianAdapters.RemoteInputAdapter"/>.
+            </summary>
+        </member>
+        <member name="T:HistorianAdapters.LocalOutputAdapter">
+            <summary>
+            Represents an output adapter that archives measurements to a local archive.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HistorianAdapters.LocalOutputAdapter"/> class.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.InstanceName">
+            <summary>
+            Gets or sets instance name defined for this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.AutoRefreshMetadata">
+            <summary>
+            Gets or sets a boolean indicating whether or not metadata is
+            refreshed when the adapter attempts to connect to the archive.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.InputMeasurementKeys">
+            <summary>
+            Gets or sets primary keys of input measurements the <see cref="T:GSF.TimeSeries.Adapters.AdapterBase"/> expects, if any.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.ArchivePath">
+            <summary>
+            Gets or sets the path to the archive.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.ConnectionInfo">
+            <summary>
+            Gets connection info for adapter, if any.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.OutputIsForArchive">
+            <summary>
+            Returns a flag that determines if measurements sent to this <see cref="T:HistorianAdapters.LocalOutputAdapter"/> are destined for archival.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.UseAsyncConnect">
+            <summary>
+            Gets flag that determines if this <see cref="T:HistorianAdapters.LocalOutputAdapter"/> uses an asynchronous connection.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.DataSource">
+            <summary>
+            Gets or sets <see cref="T:System.Data.DataSet"/> based data source available to this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
+            </summary>
+        </member>
+        <member name="P:HistorianAdapters.LocalOutputAdapter.Status">
+            <summary>
+            Returns the detailed status of the data output source.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.ExecuteMetadataRefresh">
+            <summary>
+            Refreshes metadata using all available and enabled providers.
+            </summary>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.Initialize">
+            <summary>
+            Initializes this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException"><b>InstanceName</b> is missing from the <see cref="P:GSF.TimeSeries.Adapters.AdapterBase.Settings"/>.</exception>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.GetShortStatus(System.Int32)">
+            <summary>
+            Gets a short one-line status of this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
+            </summary>
+            <param name="maxLength">Maximum length of the status message.</param>
+            <returns>Text of the status message.</returns>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by this <see cref="T:HistorianAdapters.LocalOutputAdapter"/> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:HistorianAdapters.LocalOutputAdapter.OnConnected">
             <summary>
             Called when data output source connection is established.
             </summary>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.AttemptDisconnection">
+        <member name="M:HistorianAdapters.LocalOutputAdapter.AttemptConnection">
             <summary>
-            Closes this <see cref="T:eDNAAdapters.OutputAdapter"/> connections to the eDNA server.
+            Attempts to connect to this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
             </summary>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.ProcessMeasurements(GSF.TimeSeries.IMeasurement[])">
+        <member name="M:HistorianAdapters.LocalOutputAdapter.AttemptDisconnection">
             <summary>
-            Sorts measurements and sends them to the configured eDNA server in batches
-            </summary>
-            <param name="measurements">Measurements to queue</param>
-        </member>
-        <member name="M:eDNAAdapters.OutputAdapter.ExecuteMetadataRefresh">
-            <summary>
-            Sends updated meta-data to eDNA.
+            Attempts to disconnect from this <see cref="T:HistorianAdapters.LocalOutputAdapter"/>.
             </summary>
         </member>
-        <member name="M:eDNAAdapters.OutputAdapter.QueryMetaDataForInputs(GSF.TimeSeries.MeasurementKey[],System.Data.DataTable)">
+        <member name="M:HistorianAdapters.LocalOutputAdapter.ProcessMeasurements(GSF.TimeSeries.IMeasurement[])">
             <summary>
-            Scan eDNA meta-data intersecting defined time-series meta-data filtering for inputs defined for this adapter.
+            Archives <paramref name="measurements"/> locally.
             </summary>
-            <param name="inputMeasurements">Input measurements keys defined for this output adapter.</param>
-            <param name="measurements">Available time-series meta-data table.</param>
-            <returns>Matching eDNA meta-data map keyed by time-series signal ID.</returns>
+            <param name="measurements">Measurements to be archived.</param>
+            <exception cref="T:System.InvalidOperationException">Local archive is closed.</exception>
         </member>
-        <member name="T:eDNAAdapters.DataType">
+        <member name="F:HistorianAdapters.LocalOutputAdapter.Instances">
             <summary>
-            Defines eDNA data types.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.DataType.Analog">
-            <summary>
-            Analog data type.
+            Accesses local output adapter instances.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.DataType.Digital">
+        <member name="T:HistorianAdapters.RemoteOutputAdapter">
             <summary>
-            Digital data type.
+            Represents an output adapter that publishes measurements to openHistorian for archival.
             </summary>
         </member>
-        <member name="T:eDNAAdapters.StatusFlags">
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.#ctor">
             <summary>
-            eDNA point status flags.
+            Initializes a new instance of the <see cref="T:HistorianAdapters.RemoteOutputAdapter"/> class.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.EVAL">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.Server">
             <summary>
-            Evaluate status.
+            Gets or sets the host name for the server hosting the remote historian.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_UNUSED">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.Port">
             <summary>
-            Not yet initialized.
+            Gets or sets the port on which the remote historian is listening.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_INITED">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.PayloadAware">
             <summary>
-            Has been initialized.
+            Gets or sets a boolean value indicating whether the payload
+            boundaries are to be preserved during transmission.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_UPDATED">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.ConserveBandwidth">
             <summary>
-            Has been updated.
+            Gets or sets a boolean value that determines the packet
+            type to be used when sending data to the server.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_UNRELIABLE">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.OutputIsForArchive">
             <summary>
-            Data is bad.
+            Returns a flag that determines if measurements sent to this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/> are destined for archival.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_OOR">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.ThrottleTransmission">
             <summary>
-            Sensor bad.
+            Gets or sets a boolean value that determines whether to wait for
+            acknowledgment from the historian that the last set of points have
+            been received before attempting to send the next set of points.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_LL_ALARM">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.SamplesPerTransmission">
             <summary>
-            Low-low alarm.
+            Gets or sets an integer that indicates the maximum number
+            of points to be published to the historian at once.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_L_ALARM">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.UseAsyncConnect">
             <summary>
-            Low alarm.
+            Gets flag that determines if this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/> uses an asynchronous connection.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_H_ALARM">
+        <member name="P:HistorianAdapters.RemoteOutputAdapter.Status">
             <summary>
-            High alarm.
+            Returns the detailed status of the data output source.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_HH_ALARM">
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.Initialize">
             <summary>
-            High-high alarm.
+            Initializes this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/>.
+            </summary>
+            <exception cref="T:System.ArgumentException"><b>Server</b> is missing from the <see cref="P:GSF.TimeSeries.Adapters.AdapterBase.Settings"/>.</exception>
+        </member>
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.GetShortStatus(System.Int32)">
+            <summary>
+            Gets a short one-line status of this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/>.
+            </summary>
+            <param name="maxLength">Maximum length of the status message.</param>
+            <returns>Text of the status message.</returns>
+        </member>
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.AttemptConnection">
+            <summary>
+            Attempts to connect to this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_MANUAL">
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.AttemptDisconnection">
             <summary>
-            Manual input.
+            Attempts to disconnect from this <see cref="T:HistorianAdapters.RemoteOutputAdapter"/>.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_UNACKRST">
+        <member name="M:HistorianAdapters.RemoteOutputAdapter.ProcessMeasurements(GSF.TimeSeries.IMeasurement[])">
             <summary>
-            Reset not acknowledged.
+            Publishes <paramref name="measurements"/> for archival.
+            </summary>
+            <param name="measurements">Measurements to be archived.</param>
+            <exception cref="T:System.OperationCanceledException">Acknowledgment is not received from historian for published data.</exception>
+        </member>
+        <member name="T:HistorianAdapters.StatisticsReader">
+            <summary>
+            Reads certain device and input stream statistics from the statistics archive.
+            The statistics that are read are the total frame count, the missing frame count,
+            connectivity, average latency, the actual data rate, data quality errors, and
+            time quality errors.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_UNACKAL">
+        <member name="M:HistorianAdapters.StatisticsReader.#ctor">
             <summary>
-            Alarm not acknowledged.
+            Creates a new instance of the <see cref="T:HistorianAdapters.StatisticsReader"/> class.
+            All parameters--<see cref="P:HistorianAdapters.StatisticsReader.ArchiveFilePath"/>, <see cref="P:HistorianAdapters.StatisticsReader.StateFilePath"/>,
+            <see cref="P:HistorianAdapters.StatisticsReader.IntercomFilePath"/>, <see cref="P:HistorianAdapters.StatisticsReader.MetadataFilePath"/>,
+            <see cref="P:HistorianAdapters.StatisticsReader.StartTime"/>, and <see cref="P:HistorianAdapters.StatisticsReader.EndTime"/>--must be set manually
+            before attempting to read statistics from the archive.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_REPEAT">
+        <member name="M:HistorianAdapters.StatisticsReader.#ctor(System.String)">
             <summary>
-            Tickle flags for history repeat.
+            Creates a new instance of the <see cref="T:HistorianAdapters.StatisticsReader"/> class.
+            The configuration file specified in the parameter must contain the statistics
+            historian records in order to automatically locate the archive files.
+            Otherwise, the other constructor should be used. The <see cref="P:HistorianAdapters.StatisticsReader.StartTime"/> and
+            <see cref="P:HistorianAdapters.StatisticsReader.EndTime"/> parameters are not set when using this constructor and must
+            be set manually before attempting to read statistics from the archive.
+            </summary>
+            <param name="sourceConfigPath">Path to the source configuration file.</param>
+        </member>
+        <member name="P:HistorianAdapters.StatisticsReader.ArchiveFilePath">
+            <summary>
+            Path to the archive file (*_archive.d).
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_DIGITAL_IN">
+        <member name="P:HistorianAdapters.StatisticsReader.StateFilePath">
             <summary>
-            Digital point type.
+            Path to the state file (*_startup.dat).
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_ANALOG_OUT">
+        <member name="P:HistorianAdapters.StatisticsReader.IntercomFilePath">
             <summary>
-            Analog point type.
+            Path to the intercom file (scratch.dat).
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.RTSTAT_DIGITAL_OUT">
+        <member name="P:HistorianAdapters.StatisticsReader.MetadataFilePath">
             <summary>
-            Digital point type.
+            Path to the metadata file (*_dbase.dat).
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_OK">
+        <member name="P:HistorianAdapters.StatisticsReader.StartTime">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality.
+            The timestamp at which to start gathering statistics from the archive.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_UNRELIABLE">
+        <member name="P:HistorianAdapters.StatisticsReader.EndTime">
             <summary>
-            Analog Point Initialized, Received Value, Unreliable Quality,
+            The timestamp at which to stop gathering statistics from the archive.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_WARNING">
+        <member name="P:HistorianAdapters.StatisticsReader.TotalFrames">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Warning Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on the total number of frames.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_ALARM">
+        <member name="P:HistorianAdapters.StatisticsReader.MissingFrames">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Alarm Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on missing frames.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_OUT_OF_RANGE">
+        <member name="P:HistorianAdapters.StatisticsReader.ConnectedStats">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Out of Range Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on input stream connectivity.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_WARNING">
+        <member name="P:HistorianAdapters.StatisticsReader.AverageLatency">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Warning Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on the average latency.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_ALARM">
+        <member name="P:HistorianAdapters.StatisticsReader.ActualDataRate">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Alarm Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on the actual data rate.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_OUT_OF_RANGE">
+        <member name="P:HistorianAdapters.StatisticsReader.DataQualityErrors">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Out of Range Threshold.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on data quality errors.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_OK_MANUAL">
+        <member name="P:HistorianAdapters.StatisticsReader.TimeQualityErrors">
             <summary>
-            Analog Point Initialized, Received Value, Manually Input into eDNA, Reliable Quality.
+            After the <see cref="T:HistorianAdapters.StatisticsReader"/> has read statistics from the archive file,
+            this will contain the statistics on time quality errors.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_UNRELIABLE_MANUAL">
+        <member name="M:HistorianAdapters.StatisticsReader.Open">
             <summary>
-            Analog Point Initialized, Received Value, Manually Input into eDNA, Unreliable Quality.
+            Causes the <see cref="T:HistorianAdapters.StatisticsReader"/> to open the archive file and retrieve the statistics.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_OK_UNACK_ALARM">
+        <member name="M:HistorianAdapters.StatisticsReader.Close">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Reset Unacknowledged Alarm.
+            Closes the archive file once the statistics are no longer needed.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_WARNING_UNACK_ALARM">
+        <member name="M:HistorianAdapters.StatisticsReader.Dispose">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Warning Threshold, Unacknowledged Alarm.
+            Releases all the resources used by the <see cref="T:HistorianAdapters.StatisticsReader"/> object.
             </summary>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_ALARM_UNACK_ALARM">
+        <member name="M:HistorianAdapters.StatisticsReader.Dispose(System.Boolean)">
             <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Alarm Threshold, Unacknowledged Alarm.
+            Releases the unmanaged resources used by the <see cref="T:HistorianAdapters.StatisticsReader"/> object and optionally releases the managed resources.
             </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_LOW_OUT_OF_RANGE_UNACK_ALARM">
-            <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes below Low Out of Range Threshold, Unacknowledged Alarm.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_WARNING_UNACK_ALARM">
-            <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Warning Threshold, Unacknowledged Alarm.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_ALARM_UNACK_ALARM">
-            <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Alarm Threshold, Unacknowledged Alarm.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_HIGH_OUT_OF_RANGE_UNACK_ALARM">
-            <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Value goes above High Out of Range Threshold, Unacknowledged Alarm.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.ANALOG_OK_FORCED">
-            <summary>
-            Analog Point Initialized, Received Value, Reliable Quality, Repeat History Value (Forced).
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_NOT_UPDATED">
-            <summary>
-            Digital Point Initialized, not received a value.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_OK_NOT_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 0.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_OK_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 1.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_UNRELIABLE_NOT_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Unreliable Quality, Value = 0.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_UNRELIABLE_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Unreliable Quality, Value = 1.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_OK_NOT_SET_FORCED">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 0, Repeat History Value (Forced).
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_OK_SET_FORCED">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 1, Repeat History Value (Forced).
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_WARNING_NOT_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 0, Warning Flag Set.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_WARNING_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 1, Warning Flag Set.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_CHATTERING_NOT_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 0, Chattering Flag Set.
-            </summary>
-        </member>
-        <member name="F:eDNAAdapters.StatusFlags.DIGITAL_CHATTERING_SET">
-            <summary>
-            Digital Point Initialized, Received Value, Reliable Quality, Value = 1, Chattering Flag Set.
-            </summary>
-        </member>
-        <member name="T:eDNAAdapters.MeasurementStateMappingExtensions">
-            <summary>
-            Defines static methods for mapping between eDNA status flags and full measurement states.
-            </summary>
-        </member>
-        <member name="M:eDNAAdapters.MeasurementStateMappingExtensions.MapToStatus(GSF.TimeSeries.MeasurementStateFlags,eDNAAdapters.DataType,System.Boolean)">
-            <summary>
-            Maps <see cref="T:GSF.TimeSeries.MeasurementStateFlags"/> to eDNA status (short value).
-            </summary>
-            <param name="stateFlags">Flags to map.</param>
-            <param name="type">Data type of measurement.</param>
-            <param name="digitalSet">Flag that determines if digital value is set.</param>
-            <returns>eDNA status mapped from <see cref="T:GSF.TimeSeries.MeasurementStateFlags"/>.</returns>
-        </member>
-        <member name="M:eDNAAdapters.MeasurementStateMappingExtensions.MapToStatusFlags(GSF.TimeSeries.MeasurementStateFlags,eDNAAdapters.DataType,System.Boolean)">
-            <summary>
-            Maps <see cref="T:GSF.TimeSeries.MeasurementStateFlags"/> to <see cref="T:eDNAAdapters.StatusFlags"/>.
-            </summary>
-            <param name="stateFlags">Flags to map.</param>
+    </members>
+</doc>
